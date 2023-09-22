@@ -1,7 +1,7 @@
 /* TAD aluguel */
 
 /* Tipo exportado */
-typedef struct aluguel Aluguel;
+typedef struct carro Carro;
 
 /* Funções Exportadas */
 
