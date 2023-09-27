@@ -7,14 +7,16 @@
 struct cliente
 {
    char *nome;
-   long long int data_aluguel; // pode ser feito com string
-   int duracao; // pensei em fazer em dias
+   char data_aluguel;
+   char duracao;
    char *documento;
+   char *telefone;
    Carro *carro;
    Cliente *prox_cliente;
+   FILE* file;
 };
 
-Cliente *cliente_cadastra(Cliente* cli, char *nome, char *documento, long long int data, int duracao)
+Cliente *cliente_cadastra(Cliente* cli, char *nome, char *documento, char *telefone)
 {
    // cria um cliente:
    Cliente *cliente = (Cliente*)malloc(sizeof(Cliente));
@@ -22,8 +24,6 @@ Cliente *cliente_cadastra(Cliente* cli, char *nome, char *documento, long long i
 
    // cadastra os dados do cliente:
    strcpy(cliente->nome, nome);
-   cliente->data_aluguel= data;
-   cliente->duracao = duracao;
    strcpy(cliente->documento, documento);
    Carro *carro = carro_aluga(void, void);
 
@@ -37,9 +37,27 @@ Cliente *cliente_exclui()
 
 }
 
-Cliente *cliente_busca()
+Cliente *cliente_busca(Cliente *cli, char* dado_busca, int tipo)
 {
-
+   Cliente *C;
+   if (tipo == 0)
+   {
+      for (C = cli; C != NULL; C = C->prox_cliente)
+      {
+         if (strcmp(C->nome, dado_busca) == 0)
+            return C;
+      }
+      return NULL;
+   }
+   else 
+   {
+      for (C = cli; C != NULL; C = C->prox_cliente)
+      {
+         if (strcmp(C->nome, dado_busca) == 0)
+            return C;
+      }
+      return NULL;
+   }
 }
 
 void cliente_edita()
