@@ -1,4 +1,4 @@
-#include "../cliente/cliente.c"
+// #include "../cliente/cliente.c"
 
 /* TAD carro (codigo, disponibilidade, modelo, cliente) */
 

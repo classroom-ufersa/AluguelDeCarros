@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include "carro.h"
 #include "../cliente/cliente.c"
-#include "../geral/geral.c"
+// #include "../geral/geral.h"
 
 #define TXT_red "\x1b[31m"
 #define TXT_green "\x1b[32m"
