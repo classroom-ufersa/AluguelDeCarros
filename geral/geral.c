@@ -68,6 +68,8 @@ int menu_carro(void){
 }
 
 int compara(char *nome, char *nome_busca){
-    return strncmp(nome, nome_busca, strlen(nome_busca));
+    /* Função que faz a comparação entre o nome e o nome 
+       da busca a partir do seu tamanho
+    */
+    return strncmp(nome, nome_busca, strlen(nome_busca)); 
 }
-

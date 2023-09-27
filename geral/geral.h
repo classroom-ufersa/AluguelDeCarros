@@ -21,3 +21,5 @@ int menu_carro(void);
 
 // Função que faz a comparação entre as strings
 int compara(char *nome, char *nome_busca);
+
+int teste_formato(char *num, char *nome);
