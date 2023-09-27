@@ -73,3 +73,20 @@ int compara(char *nome, char *nome_busca){
     */
     return strncmp(nome, nome_busca, strlen(nome_busca)); 
 }
+
+int teste_formato(char *num){
+    
+}
+
+int teste_input(char *resp) // editar função
+{
+    scanf(" %2[^\n]", resp);
+    fflush(stdin);
+    int len = strlen(resp);
+    if(len == 1) {
+        return toupper(resp[0]);
+    } else if(len >= 2) {
+        //printf(TXT_red"\nLimite de caracter atingido!"TXT_reset);
+    }
+    return 0;
+}
