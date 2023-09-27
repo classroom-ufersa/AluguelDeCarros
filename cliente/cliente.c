@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "cliente.h"
-#include "carro.h"
+#include "../carro/carro.c"
 
 struct cliente
 {
@@ -25,7 +25,7 @@ Cliente *cliente_cadastra(Cliente* cli, char *nome, char *documento, long long i
    cliente->data_aluguel= data;
    cliente->duracao = duracao;
    strcpy(cliente->documento, documento);
-   Carro *carro = carro_aluga();
+   Carro *carro = carro_aluga(void, void);
 
    // encadea o endereço do cliente anterior ao próximo:
    cliente->prox_cliente = cli;
