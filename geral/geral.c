@@ -5,20 +5,6 @@
 #include "carro.h"
 #include "geral.h"
 
-/*
-Menu inicial: 
-1. cliente
-2. veículo
-3. sair
-
-menu cliente: 
-Aluga: add; Listar: historico; Buscar: editar, historico;
-Consultar qtde; Remover cliente; Voltar.
-
-menu carro: 
-Add; Listar: consultar disp., consultar hist.; Consulta carro; 
-Voltar.
-*/
 
 char *clear(void){
     // Checking for windows OS with
@@ -72,7 +58,7 @@ int menu_carro(void){
     int op3;
 
     printf("1 - ADICIONAR\n"); 
-    printf("2 - LISTAR\n"); //submenu: 
+    printf("2 - LISTAR\n"); //submenu: consultar disp. e consultar historico
     printf("3 - CONSULTAR CARROS\n");
     prinft("4 - VOLTAR\n");
 
@@ -80,3 +66,8 @@ int menu_carro(void){
 
     return op3;
 }
+
+int compara(char *nome, char *nome_busca){
+    return strncmp(nome, nome_busca, strlen(nome_busca));
+}
+
