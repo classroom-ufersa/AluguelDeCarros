@@ -1,2 +1,2 @@
 # AluguelDeCarros
-Projeto de um sistema para gerenciamento de alugueis de carros.
+Projeto de um sistema para gerenciamento de aluguéis de carros.
