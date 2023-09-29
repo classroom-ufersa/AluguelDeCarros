@@ -8,7 +8,7 @@ typedef struct cliente Cliente;
 /* Função cria_cliente
 
 */
-Cliente *cliente_cadastra(Cliente* cli, char *nome, char *documento, char *telefone);
+Cliente *cliente_cadastra(Cliente *cli, char *nome, char *doc, char *tel);
 
 /* Função cliente_exclui
 
@@ -29,3 +29,11 @@ void cliente_edita();
 
 */
 int cliente_total();
+
+/* Função cliente_historico
+
+*/
+void cliente_historico(Cliente *cli);
+
+// char *mascara(char *dado, char formato[]);
+void mascara(char *dado, char formato[]);
