@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "../carro/carro.c"
 #include "cliente.h"
-#include "../carro/carro.h"
 
 struct cliente
 {
