@@ -1,9 +1,8 @@
 /* Dependência de módulo */
-#include "cliente.h"
-#include "carro.h"
+#include "../cliente/cliente.h"
+#include "../carro/carro.h"
 
 /* Funções Exportadas */
-
 
 /*
 Função que limpa o terminal de acordo com o SO do usuário

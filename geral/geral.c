@@ -1,12 +1,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 // #include "cliente.h"
 // #include "carro.h"
 #include "geral.h"
 
 
 char *clear(void){
+    
     // Checking for windows OS with
     // _WIN32 macro
     #ifdef _WIN32
@@ -26,20 +28,20 @@ char *clear(void){
 
 int menu_principal(void){
     system(clear());
-    int op1;
+    char op1[3];
 
     printf("1 - CLIENTE\n");
     printf("2 - VEICULO\n");
     printf("3 - SAIR\n");
 
-    scanf("%d", &op1);
+    printf("Escolha uma opcao: ");
     
-    return op1;
+    return teste_input(op1);
 }
 
 int menu_cliente(void){
     system(clear());
-    int op2;
+    char op2[3];
 
     printf("1 - ALUGAR\n"); // submenu: adicionar cliente            
     printf("2 - LISTAR\n"); // submenu: historico do cliente
@@ -48,23 +50,23 @@ int menu_cliente(void){
     printf("5 - REMOVER CLIENTE\n");    
     printf("6 - VOLTAR\n");    
     
-    scanf("%d", &op2);
+    printf("Escolha uma opcao: ");
 
-    return op2;
+    return teste_input(op2);
 }
 
 int menu_carro(void){
     system(clear());
-    int op3;
+    char op3[3];
 
     printf("1 - ADICIONAR\n"); 
     printf("2 - LISTAR\n"); //submenu: consultar disp. e consultar historico
     printf("3 - CONSULTAR CARROS\n");
-    prinft("4 - VOLTAR\n");
+    printf("4 - VOLTAR\n");
 
-    scanf("%d", &op3);
-
-    return op3;
+    printf("Escolha uma opcao: ");
+    
+    return teste_input(op3); 
 }
 
 int compara(char *nome, char *nome_busca){

@@ -45,7 +45,9 @@ Cliente *cliente_cadastra(Cliente *cli, char *nome, char *doc, char *tel)
 
     // encadea o endereço dos clientes:
     cliente->prox_cliente = cli;
-    cli->ant_cliente = cliente;
+    cliente->ant_cliente = NULL;
+    if (cli != NULL)
+        cli->ant_cliente = cliente;
 
     return cliente;
 }
@@ -65,6 +67,7 @@ Cliente *cliente_exclui(Cliente* cli, char *doc)
 	if (C->prox_cliente != NULL)    /* teste se é o último elemento */
         C->prox_cliente->ant_cliente = C->ant_cliente;
 
+    cliente_apaga_historico(C);
 	free(C);
 	
     return cli;
@@ -77,8 +80,10 @@ Cliente *cliente_busca(Cliente *cli, char *dado_busca, int tipo)
     {
         for (C = cli; C != NULL; C = C->prox_cliente)
         {
-            if (strncmp(C->nome, dado_busca, strlen(dado_busca)) == 0)
+            if (strncmp(C->nome, dado_busca, strlen(dado_busca)) == 0) {
+                printf("achou, %s\n", C->nome);
                 return C;
+            }
         }
         return NULL;
     }
@@ -86,8 +91,10 @@ Cliente *cliente_busca(Cliente *cli, char *dado_busca, int tipo)
     {
         for (C = cli; C != NULL; C = C->prox_cliente)
         {
-            if (strncmp(C->documento, dado_busca, strlen(dado_busca)) == 0)
+            if (strncmp(C->documento, dado_busca, strlen(dado_busca)) == 0) {
+                printf("achou, %s\n", C->documento);
                 return C;
+            }
         }
         return NULL;
     }
@@ -136,9 +143,26 @@ void cliente_historico(Cliente *cli)
 
     FILE *hist = fopen(nome_arquivo, "wt");
     if (hist == NULL) exit(1);
-    printf("oi\n");
+    // printf("oi\n");
 
     fclose(hist);
+}
+
+void cliente_apaga_historico(Cliente *cli)
+{
+    char nome_arquivo[51] = "./cliente/historico/cliente";
+
+    strcat(nome_arquivo, cli->documento);
+    strcat(nome_arquivo, ".txt");
+
+    FILE *hist = fopen(nome_arquivo, "rt");
+    if (hist != NULL) {
+        printf("deu certo abrir %s\n", nome_arquivo);
+        fclose(hist);
+        if(remove(nome_arquivo) == 0) printf("\nArquivo removido.\n");;
+        
+    }
+    else printf("\nERRO! Arquivo nao foi encontrado.\n");
 }
 
 void mascara(char *dado, char formato[])
@@ -163,3 +187,5 @@ void mascara(char *dado, char formato[])
     }
     aux[i] = '\0';
 }
+
+

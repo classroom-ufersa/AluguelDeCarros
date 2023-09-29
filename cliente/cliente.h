@@ -43,6 +43,12 @@ int cliente_total();
 */
 void cliente_historico(Cliente *cli);
 
+/* Função cliente_apaga_historico
+
+*/
+void cliente_apaga_historico(Cliente *cli);
+
+
 // char *mascara(char *dado, char formato[]);
 void mascara(char *dado, char formato[]);
 
