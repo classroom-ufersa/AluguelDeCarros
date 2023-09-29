@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "../carro/carro.c"
+#include "../carro/carro.h"
 #include "cliente.h"
 
 struct cliente
@@ -13,6 +13,7 @@ struct cliente
     char *telefone;
     Carro *carro;
     Cliente *prox_cliente;
+    Cliente *ant_cliente;
 };
 
 Cliente *cliente_cadastra(Cliente *cli, char *nome, char *doc, char *tel)
@@ -42,20 +43,37 @@ Cliente *cliente_cadastra(Cliente *cli, char *nome, char *doc, char *tel)
 
     cliente_historico(cliente);
 
-    // encadea o endereço do cliente anterior ao próximo:
+    // encadea o endereço dos clientes:
     cliente->prox_cliente = cli;
+    cli->ant_cliente = cliente;
 
     return cliente;
 }
 
-Cliente *cliente_exclui()
+Cliente *cliente_exclui(Cliente* cli, char *doc)
 {
+    Cliente *C = cliente_busca(cli, doc, 1);
+    if (C == NULL)
+        return cli; /* não achou elemento */
+    
+    /* retira elemento do encadeamento */
+    if (C == cli) /* teste se é o primeiro elemento */
+        cli = C->prox_cliente; 
+    else
+        C->ant_cliente->prox_cliente = C->prox_cliente;
+
+	if (C->prox_cliente != NULL)    /* teste se é o último elemento */
+        C->prox_cliente->ant_cliente = C->ant_cliente;
+
+	free(C);
+	
+    return cli;
 }
 
 Cliente *cliente_busca(Cliente *cli, char *dado_busca, int tipo)
 {
     Cliente *C;
-    if (tipo == 0)
+    if (tipo == 0)      // busca pelo nome do cliente
     {
         for (C = cli; C != NULL; C = C->prox_cliente)
         {
@@ -64,7 +82,7 @@ Cliente *cliente_busca(Cliente *cli, char *dado_busca, int tipo)
         }
         return NULL;
     }
-    else
+    else                // busca pelo documento do cliente
     {
         for (C = cli; C != NULL; C = C->prox_cliente)
         {
@@ -73,6 +91,11 @@ Cliente *cliente_busca(Cliente *cli, char *dado_busca, int tipo)
         }
         return NULL;
     }
+}
+
+void cliente_lista()
+{
+
 }
 
 void cliente_edita()
@@ -94,6 +117,11 @@ void cliente_libera(Cliente *cli)
         free(p->nome);
         free(p->documento);
         free(p->telefone);
+        // free(p->data_aluguel);
+        // free(p->duracao);
+        // free(p->carro);
+        // prox_cliente;
+        // ant_cliente;
         free(p);
         p = t;
     }

@@ -15,7 +15,7 @@ struct carro
     float preco;
     char *modelo;
     Cliente *cliente;
-    FILE *historico; 
+    struct carro *ant_carro;
     struct carro *prox_carro;
 };
 
@@ -46,7 +46,7 @@ void carro_disponivel()
 
 }
 
-int carro_procura(Carro **carro, int count, char *placa)
+int carro_busca(Carro **carro, int count, char *placa)
 {   
     if (count > 0) {
         int index;
@@ -58,7 +58,7 @@ int carro_procura(Carro **carro, int count, char *placa)
     return 0;
 }
 
-void ordena_carros(Carro **carro, int count)
+void carro_ordena(Carro **carro, int count)
 {
 
     int i, primeiroID, j;
@@ -83,7 +83,7 @@ void ordena_carros(Carro **carro, int count)
     }
 }
 
-int importa_carros(Carro **carro, FILE* fl, int count, int max)
+int carro_importa(Carro **carro, FILE* fl, int count, int max)
 {   
     int count_import = 0;
 

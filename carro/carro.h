@@ -2,6 +2,9 @@
 
 /* TAD carro (codigo, disponibilidade, modelo, cliente) */
 
+/* Dependência de módulo */
+#include "../cliente/cliente.h"
+
 /* Tipo exportado */
 typedef struct carro Carro;
 
@@ -25,14 +28,14 @@ void carro_disponivel();
 /* Função procura
 
 */
-int carro_procura(Carro **carro, int count, char *placa);
+int carro_busca(Carro **carro, int count, char *placa);
 
-/* Função ordena
-
-*/
-void ordena_carros(Carro **carro, int count);
-
-/* Funçaõ import_carros
+/* Função carro_ordena
 
 */
-int importa_carros(Carro **carro, FILE* fl, int count, int max);
+void carro_ordena(Carro **carro, int count);
+
+/* Funçaõ carro_importa
+
+*/
+int carro_importa(Carro **carro, FILE* fl, int count, int max);
