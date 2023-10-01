@@ -37,7 +37,7 @@ void carro_lista(Carro **carro)
     printf("Modelo\tPlaca\tDisponibilidade\tPreco");
 
     for(index = 0; index <= numero_carros; index++){
-        prinf("%s\t%s\t%s\t%.2f", carro[index]->modelo[index], carro[index]->placa, carro[index]->disponibilidade ? "Disponivel" : "Indisponivel", carro[index]->preco);
+        printf("%s\t%s\t%s\t%.2f", carro[index]->modelo[index], carro[index]->placa, carro[index]->disponibilidade ? "Disponivel" : "Indisponivel", carro[index]->preco);
     }
 }
 

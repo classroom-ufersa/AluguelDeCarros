@@ -3,7 +3,7 @@
 /* TAD carro (codigo, disponibilidade, modelo, cliente) */
 
 /* Dependência de módulo */
-#include "../cliente/cliente.h"
+// #include "../cliente/cliente.h"
 
 /* Tipo exportado */
 typedef struct carro Carro;
@@ -13,7 +13,7 @@ typedef struct carro Carro;
 /* Função carro_aluga
 
 */
-Carro *carro_aluga(Carro *carro, Cliente *cliente);
+// Carro *carro_aluga(Carro *carro, Cliente *cliente);
 
 /* Função carro_aluga
 

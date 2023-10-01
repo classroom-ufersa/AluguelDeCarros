@@ -16,28 +16,39 @@ void realoca_string(char* str);
 int main(void) {
 
     Cliente *clientes = NULL;
-    int op;
-    do {
-        op = menu_principal();
-        switch (op) {
-        case '1':
-            menu_cliente();
-            break;
-        
-        case '2':
-            menu_carro();
-            break;
-
-        case '3':
-            printf("Encerrando programa...");
-            break;
-
-        default:    
-            printf("Insira uma opcao valida!");
-            break;
-        }
-    } while (op != '3');
+    Carro *carros = NULL;
+    int op1 = 0, op2 = 0, op3 = 0;
     
+    /* Recuperando dados salvos */
+    
+    // Menu principal:
+    do {
+        op1 = menu_principal();
+        switch (op1) {
+            case '1':
+                printf("\nAbrindo Menu dos Clientes...\n");
+                delay(500);
+                clientes = menu_cliente(clientes);
+                break;
+            
+            case '2':
+                printf("\nAbrindo Menu dos Carros...\n");
+                delay(500);
+                carros = menu_carro(carros);
+                break;
+
+            case '3':
+                printf("\nEncerrando programa...\n");
+                delay(500);
+                break;
+
+            default:    
+                printf("\nInsira uma opcao valida!\n");
+                break;
+        }
+    } while (op1 != '3');
+    
+
     // clientes = cliente_cadastra(clientes, "gustavo", "01231212323", "88912345678");
     // clientes = cliente_cadastra(clientes, "antonio", "16537654525", "88909090909");
     // clientes = cliente_cadastra(clientes, "Bernardo", "16147634120", "88914253657");
@@ -46,7 +57,8 @@ int main(void) {
     
     // // int nada;
     // // nada = opcao_cliente();
-    // cliente_libera(clientes);
+    cliente_libera(clientes);
+    // carro_libera(carros);
     printf("\ntchau");
 
     return 0;
