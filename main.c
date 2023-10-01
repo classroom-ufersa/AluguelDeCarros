@@ -10,17 +10,25 @@
 char *clear(void);
 int opcao_cliente(void);
 int opcao_carro(void);
-void realoca_string(char* str);
+// void realoca_string(char* str);
 
 
 int main(void) {
 
     Cliente *clientes = NULL;
     Carro *carros = NULL;
+    FILE *registro;
     int op1 = 0, op2 = 0, op3 = 0;
     
     /* Recuperando dados salvos */
-    
+    printf("Carregando dados dos Clientes...\n");
+    registro = fopen("registro.txt", "rt");
+    if((clientes = cliente_leia(clientes, registro)) != NULL)
+        printf("Dados recuperados com sucesso\n");
+
+    fclose(registro);
+    // delay(1000);     /* atraso para verificar resposta */
+
     // Menu principal:
     do {
         op1 = menu_principal();
@@ -40,6 +48,12 @@ int main(void) {
             case '3':
                 printf("\nEncerrando programa...\n");
                 delay(500);
+                if (clientes != NULL) {
+                    registro = fopen("registro.txt", "wt");
+                    cliente_registra(clientes, registro);
+                    fclose(registro);
+                }
+
                 break;
 
             default:    

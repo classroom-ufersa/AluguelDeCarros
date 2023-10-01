@@ -49,10 +49,10 @@ Cliente *menu_cliente(Cliente *cli)
     char op2[3], op_i[3];
     int resp2, resp_i;
 
-    char dado[41];
+    char dado[31];
     int tipo;
 
-    char nome[41], doc[12], tel[12];
+    char nome[31], doc[12], tel[12];
     Cliente *C = NULL;
 
     do {
@@ -92,7 +92,7 @@ Cliente *menu_cliente(Cliente *cli)
                     system(clear());
                     
                     printf("Digite o Nome Completo: ");
-                    scanf(" %40[^\n]", nome);
+                    scanf(" %30[^\n]", nome);
                     while (getchar() != '\n');
                     
                     printf("Informe o CPF: ");
@@ -103,17 +103,26 @@ Cliente *menu_cliente(Cliente *cli)
                     scanf(" %11[^\n]", tel);
                     while (getchar() != '\n');
 
+                    // ponteiro auxiliar endereça para lista com novo cadastro:
                     C = cliente_cadastra(cli, nome, doc, tel);
 
-                    if (C != NULL) cli = C;
+                    if (C != NULL)  /* Cadastro bem sucedido */
+                    {
+                        // atualiza lista principal com a nova lista:
+                        cli = C;
+
+                        // ==================================================
+                        // cria um arquivo de histórico para o novo cadastro:
+                        cliente_cria_historico(cli, doc);
+                    }
                     else break;             /* não foi possível cadastrar um novo cliente */
                 }
                 else if (resp_i == '2')     /* busca cliente cadastrado no sistema */
                 {
-                    if (cli != NULL)
+                    if (cli != NULL)    /* Verifica se a lista está vazia */
                     {
                         printf("Insira o nome ou o CPF do cliente: ");
-                        scanf(" %40[^\n]", dado);
+                        scanf(" %30[^\n]", dado);
                         while (getchar() != '\n');
 
                         C = cliente_busca(cli, dado);
@@ -131,7 +140,7 @@ Cliente *menu_cliente(Cliente *cli)
                     printf("\nCadastro Cancelado!\n");
                     break;
                 }
-
+                // printf("\noi\n");
                 // Inicia o cadastro do aluguel:
                 // cliente_aluga(, C);
 
@@ -158,12 +167,12 @@ Cliente *menu_cliente(Cliente *cli)
                 system(clear());
 
                 printf("Insira o nome ou o CPF do cliente: ");
-                scanf(" %40[^\n]", dado);
+                scanf(" %30[^\n]", dado);
                 while (getchar() != '\n');
 
                 C = cliente_busca(cli, dado);
 
-                cliente_lista(C);
+                cliente_consulta(C);
                 delay(3000);
                 break;
 
@@ -179,7 +188,7 @@ Cliente *menu_cliente(Cliente *cli)
                 if (cli != NULL)
                 {
                     printf("Insira o nome ou o CPF do cliente: ");
-                    scanf(" %40[^\n]", dado);
+                    scanf(" %30[^\n]", dado);
                     while (getchar() != '\n');
                     
                     cli = cliente_exclui(cli, dado);
@@ -259,6 +268,36 @@ int compara(char *nome, char *nome_busca)
        da busca a partir do seu tamanho
     */
     return strncmp(nome, nome_busca, strlen(nome_busca)); 
+}
+
+char *realoca_string(char *dado)
+{
+    dado = (char*)realloc(dado, strlen(dado)*sizeof(char));
+    return dado;
+}
+
+void mascara(char *dado, char* dado_convertido, char formato[])
+{
+    char aux[100];
+    int i = 0;
+    int id = 0;
+
+    while (dado[id] != '\0')
+    {
+        if (formato[i] != '#')
+        {
+            aux[i] = formato[i];
+            i++;
+        }
+        else
+        {
+            aux[i] = dado[id];
+            id++;
+            i++;
+        }
+    }
+    aux[i] = '\0';
+    strcpy(dado_convertido, aux);
 }
 
 int teste_formato(char *str)
