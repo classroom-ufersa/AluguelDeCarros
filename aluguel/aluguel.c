@@ -22,5 +22,5 @@ Aluguel *aluguel_cria(Aluguel* aluguel)
 
     novo_aluguel->data_aluguel = (char *)malloc(31 * sizeof(char));
     novo_aluguel->duracao = (char *)malloc(15 * sizeof(char));
-    novo_aluguel->carro = (Carro *)malloc(sizeof(Carro));
+    novo_aluguel->carro = (Carro*)malloc(sizeof(Carro));
 }

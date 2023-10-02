@@ -20,6 +20,11 @@ Cliente *cliente_cadastra(int tag, Cliente *cli, char *nome, char *doc, char *te
 */
 Cliente *cliente_exclui(Cliente* cli, char *dado);
 
+/* Função cliente_doc
+
+*/
+char *cliente_doc(Cliente *cli);
+
 /* Função cliente_aluga
 
 */
@@ -42,7 +47,7 @@ void cliente_consulta(Cliente *cli);
 /* Função cliente_lista
 
 */
-void cliente_lista(Cliente *cli, int *id);
+Cliente *cliente_lista(Cliente *cli, int *id);
 
 /* Função cliente_edita
 

@@ -3,8 +3,8 @@
 #include <string.h>
 #include <ctype.h>
 #include <time.h>
-// #include "cliente.h"
-// #include "carro.h"
+#include "../cliente/cliente.h"
+#include "../carro/carro.h"
 #include "geral.h"
 
 
@@ -158,17 +158,12 @@ Cliente *menu_cliente(Cliente *cli)
                 system(clear());
                 count = 0;
                 
-                cliente_lista(cli, &count);
+                C = cliente_lista(cli, &count);
 
-                printf("Foi encontrado %d resultado(s)", count);
-                printf("Digite o ID do cliente que deseja consultar: ");
-                scanf("%d", &escolha);
-                while (getchar() != '\n');
-
-                if (escolha >= 0 && escolha <= count)
+                if (C != NULL)
                 {
                     system(clear());
-                    cliente_consulta(cli);
+                    cliente_consulta(C);
                 }
 
                 
@@ -219,11 +214,28 @@ Cliente *menu_cliente(Cliente *cli)
 
                     if ((C = cliente_filtra(cli, dado)) != NULL)
                     {
-                        system(clear());
-                        cliente_consulta(C);
+                        while (1)
+                        {
+                            system(clear());
+
+                            cliente_consulta(C);
+                            printf("\nO cadastro sera apagado. Deseja Continuar [S/N]?\n");
+                            resp_i = teste_input(op_i);
+                            if (resp_i == 'S')
+                            {   
+                                cli = cliente_exclui(cli, cliente_doc(C));
+                                break;
+                            }
+                            else if (resp_i == 'N')
+                            {
+                                printf("\nProcesso cancelado.\n");
+                                break;
+                            }
+                            // else
+                                // printf("\nInsira um valor valido\n");
+                        }
                     }
 
-                    // cli = cliente_exclui(cli, dado);
                     delay(3000);
 
                 }

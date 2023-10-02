@@ -1,6 +1,8 @@
 /* TAD: aluguel */
 
 /* Dependência de módulo */
+#include "../cliente/cliente.h"
+#include "../carro/carro.h"
 
 /* Tipo exportado */
 typedef struct aluguel Aluguel;

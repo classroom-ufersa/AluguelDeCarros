@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "../aluguel/aluguel.c"
+#include "../aluguel/aluguel.h"
 #include "../carro/carro.h"
 #include "../geral/geral.h"
 #include "cliente.h"
@@ -121,6 +121,11 @@ Cliente *cliente_exclui(Cliente* cli, char *dado)
     return cli;
 }
 
+char *cliente_doc(Cliente *cli)
+{
+    return cli->documento;
+}
+
 /* FALTA TERMINAR. IMPLEMENTAR O CADASTRO DE ALUGUEL */
 Cliente *cliente_aluga(Carro *carro, Cliente *cli)
 {
@@ -173,22 +178,7 @@ Cliente *cliente_filtra(Cliente *cli, char *dado_busca)
     system(clear());
     int id = 0, escolha;
     
-    cliente_lista(Busca, &id);
-    printf("\nFoi encontrado %d resultado(s).\n", id);
-    printf("Digite o ID do cliente para continuar: ");
-    scanf("%d", &escolha);
-    while (getchar() != '\n');
-
-    C = Busca;
-
-    if (Busca != NULL && escolha >= 0 && escolha <= id)
-    {
-        int i;
-        for (i = 0; i < escolha; i++)
-        {
-            C = C->prox_cliente;
-        }
-    }
+    C = cliente_lista(Busca, &id);
     return C;
 }
 
@@ -243,24 +233,51 @@ void cliente_consulta(Cliente *cli)
 }
 
 /* LISTANDO. TALVEZ ADICIONAR FERRAMENTAS DE NAVEGAÇÃO E EDIÇÃO */
-void cliente_lista(Cliente *cli, int *id)
+Cliente *cliente_lista(Cliente *cli, int *id)
 {
     char C_doc[15];
     char C_tel[15];
-    // ==================================================
-    // exibe cabeçalho:
-    printf("%-3s\t%-30s\t%-15s\t%-15s\t%-10s\n", "ID", "NOME", "CPF", "TELEFONE", "STATUS");
-    
-    // ==================================================
-    // exibe as informações do cliente:
-    Cliente *C;
-    for (C = cli ; C != NULL ; C=C->prox_cliente)
+    int escolha;
+    *id = 0;
+
+    if (cli != NULL)
     {
-        mascara(C->documento, C_doc, "###.###.###-##");
-        mascara(C->telefone, C_tel, "(##)#####-####");
+        // ==================================================
+        // exibe cabeçalho:
+        printf("%-3s\t%-30s\t%-15s\t%-15s\t%-10s\n", "ID", "NOME", "CPF", "TELEFONE", "STATUS");
         
-        printf("%d\t%-30s\t%-15s\t%-15s\n", (*id), C->nome, C_doc, C_tel);
-        (*id)++;
+        // ==================================================
+        // exibe as informações do cliente:
+        Cliente *C;
+        for (C = cli ; C != NULL ; C=C->prox_cliente)
+        {
+            mascara(C->documento, C_doc, "###.###.###-##");
+            mascara(C->telefone, C_tel, "(##)#####-####");
+            
+            printf("%d\t%-30s\t%-15s\t%-15s\n", (*id), C->nome, C_doc, C_tel);
+            (*id)++;
+        }
+
+        printf("\nFoi encontrado %d resultado(s).\n", *id);
+        printf("Digite o ID do cliente para continuar: ");
+        scanf("%d", &escolha);
+        while (getchar() != '\n');
+
+        C = cli;
+        if (escolha >= 0 && escolha <= *id)
+        {
+            int i;
+            for (i = 0; i < escolha; i++)
+            {
+                C = C->prox_cliente;
+            }
+        }
+        return C;
+    }
+    else
+    {
+        printf("\nNao ha clientes cadastrados no sistema\n");
+        return NULL;
     }
 }
 
