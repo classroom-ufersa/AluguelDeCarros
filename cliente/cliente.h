@@ -12,7 +12,8 @@ typedef struct cliente Cliente;
 /* Função cria_cliente
 
 */
-Cliente *cliente_cadastra(Cliente *cli, char *nome, char *doc, char *tel);
+// Cliente *cliente_cadastra(Cliente *cli, char *nome, char *doc, char *tel);
+Cliente *cliente_cadastra(int tag, Cliente *cli, char *nome, char *doc, char *tel);
 
 /* Função cliente_exclui
 
@@ -22,7 +23,12 @@ Cliente *cliente_exclui(Cliente* cli, char *dado);
 /* Função cliente_aluga
 
 */
-Cliente *cliente_aluga(Carro *carro, Cliente *cliente);
+Cliente *cliente_aluga(Carro *carro, Cliente *cli);
+
+/* Função cliente_busca_filtro
+
+*/
+Cliente *cliente_filtra(Cliente *cli, char* dado_busca);
 
 /* Função cliente_busca
 
@@ -36,7 +42,7 @@ void cliente_consulta(Cliente *cli);
 /* Função cliente_lista
 
 */
-void cliente_lista(Cliente *cli);
+void cliente_lista(Cliente *cli, int *id);
 
 /* Função cliente_edita
 

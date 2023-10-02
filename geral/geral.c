@@ -50,10 +50,11 @@ Cliente *menu_cliente(Cliente *cli)
     int resp2, resp_i;
 
     char dado[31];
-    int tipo;
+    int tipo, count, escolha;
 
     char nome[31], doc[12], tel[12];
     Cliente *C = NULL;
+    Cliente *Busca = NULL;
 
     do {
         system(clear());
@@ -104,30 +105,31 @@ Cliente *menu_cliente(Cliente *cli)
                     while (getchar() != '\n');
 
                     // ponteiro auxiliar endereça para lista com novo cadastro:
-                    C = cliente_cadastra(cli, nome, doc, tel);
+                    cli = cliente_cadastra(1, cli, nome, doc, tel);
 
-                    if (C != NULL)  /* Cadastro bem sucedido */
-                    {
-                        // atualiza lista principal com a nova lista:
-                        cli = C;
+                    // ==================================================
+                    // procura novo cliente dentro da nova lista:
+                    C = cliente_busca(cli, doc);
 
-                        // ==================================================
-                        // cria um arquivo de histórico para o novo cadastro:
-                        cliente_cria_historico(cli, doc);
-                    }
-                    else break;             /* não foi possível cadastrar um novo cliente */
                 }
                 else if (resp_i == '2')     /* busca cliente cadastrado no sistema */
                 {
                     if (cli != NULL)    /* Verifica se a lista está vazia */
                     {
+                        count = 0;
+                        system(clear());
                         printf("Insira o nome ou o CPF do cliente: ");
                         scanf(" %30[^\n]", dado);
                         while (getchar() != '\n');
 
-                        C = cliente_busca(cli, dado);
-                        if (C == NULL) break;
+                        C = cliente_filtra(cli, dado);
+                        if (C == NULL)
+                        {
+                            printf("\nERRO! Cliente nao encontrado.\n");
+                            break;
+                        }
 
+                        // C = cliente_busca(Busca, )
                     }
                     else
                     {
@@ -140,7 +142,8 @@ Cliente *menu_cliente(Cliente *cli)
                     printf("\nCadastro Cancelado!\n");
                     break;
                 }
-                // printf("\noi\n");
+
+                printf("\noi\n");
                 // Inicia o cadastro do aluguel:
                 // cliente_aluga(, C);
 
@@ -153,9 +156,21 @@ Cliente *menu_cliente(Cliente *cli)
                 delay(500);
                 
                 system(clear());
+                count = 0;
                 
-                cliente_lista(cli);
-                
+                cliente_lista(cli, &count);
+
+                printf("Foi encontrado %d resultado(s)", count);
+                printf("Digite o ID do cliente que deseja consultar: ");
+                scanf("%d", &escolha);
+                while (getchar() != '\n');
+
+                if (escolha >= 0 && escolha <= count)
+                {
+                    system(clear());
+                    cliente_consulta(cli);
+                }
+
                 
                 delay(3000);
                 break;
@@ -165,14 +180,20 @@ Cliente *menu_cliente(Cliente *cli)
                 delay(500);
 
                 system(clear());
+                count = 0;
 
                 printf("Insira o nome ou o CPF do cliente: ");
                 scanf(" %30[^\n]", dado);
                 while (getchar() != '\n');
 
-                C = cliente_busca(cli, dado);
+                // C = cliente_busca(cli, dado);
 
-                cliente_consulta(C);
+                if ((C = cliente_filtra(cli, dado)) != NULL)
+                {
+                    system(clear());
+                    cliente_consulta(C);
+                }
+
                 delay(3000);
                 break;
 
@@ -185,13 +206,26 @@ Cliente *menu_cliente(Cliente *cli)
                 printf("\nApagando Conta de Cadastro...\n");
                 delay(500);
 
+                system(clear());
+                count = 0;
+
                 if (cli != NULL)
                 {
                     printf("Insira o nome ou o CPF do cliente: ");
                     scanf(" %30[^\n]", dado);
                     while (getchar() != '\n');
-                    
-                    cli = cliente_exclui(cli, dado);
+
+                    // C = cliente_busca(cli, dado);
+
+                    if ((C = cliente_filtra(cli, dado)) != NULL)
+                    {
+                        system(clear());
+                        cliente_consulta(C);
+                    }
+
+                    // cli = cliente_exclui(cli, dado);
+                    delay(3000);
+
                 }
                 else
                 {
