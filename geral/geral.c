@@ -167,7 +167,7 @@ Cliente *menu_cliente(Cliente *cli)
                 }
 
                 
-                delay(3000);
+                // delay(3000);     /* atraso para verificar resposta */
                 break;
 
             case '3':
@@ -189,7 +189,7 @@ Cliente *menu_cliente(Cliente *cli)
                     cliente_consulta(C);
                 }
 
-                delay(3000);
+                // delay(3000);        /* atraso para verificar resposta */
                 break;
 
             case '4':
@@ -236,7 +236,7 @@ Cliente *menu_cliente(Cliente *cli)
                         }
                     }
 
-                    delay(3000);
+                    // delay(3000);        /* atraso para verificar resposta */
 
                 }
                 else
@@ -322,9 +322,12 @@ char *realoca_string(char *dado)
     return dado;
 }
 
-void mascara(char *dado, char* dado_convertido, char formato[])
+void mascara(char *dado, char *dado_convertido, char formato[])
 {
-    char aux[100];
+    char dado_base[100];
+    strcpy(dado_base, dado);
+    char *aux = (char*)malloc(100*sizeof(char));
+
     int i = 0;
     int id = 0;
 
@@ -344,6 +347,7 @@ void mascara(char *dado, char* dado_convertido, char formato[])
     }
     aux[i] = '\0';
     strcpy(dado_convertido, aux);
+    free(aux);
 }
 
 int teste_formato(char *str)

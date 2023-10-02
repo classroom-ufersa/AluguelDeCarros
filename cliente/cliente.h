@@ -2,14 +2,19 @@
 
 /* Dependência de módulo */
 #include <stdio.h>
-#include "../carro/carro.h"
+#include "../aluguel/aluguel.h"
 
 /* Tipo exportado */
 typedef struct cliente Cliente;
 
 /* Funções Exportadas */
 
-/* Função cria_cliente
+// /* Função menu_cliente
+//     exibe o menu cliente
+// */
+// Cliente *menu_cliente(Cliente *cli);
+
+/* Função cliente_cadastra
 
 */
 // Cliente *cliente_cadastra(Cliente *cli, char *nome, char *doc, char *tel);
@@ -28,7 +33,7 @@ char *cliente_doc(Cliente *cli);
 /* Função cliente_aluga
 
 */
-Cliente *cliente_aluga(Carro *carro, Cliente *cli);
+void cliente_aluga(Cliente *cli, Carro* carro, char *placa);
 
 /* Função cliente_busca_filtro
 
@@ -52,7 +57,7 @@ Cliente *cliente_lista(Cliente *cli, int *id);
 /* Função cliente_edita
 
 */
-void cliente_edita();
+void cliente_edita(Cliente *cli);
 
 /* Função cliente_total
 
@@ -63,6 +68,11 @@ int cliente_total();
 
 */
 void cliente_cria_historico(Cliente *cli, char *doc);
+
+/* Função cliente_atualiza_historico
+
+*/
+void cliente_atualiza_historico(int tag, Cliente *cli, char* doc);
 
 /* Função cliente_recupera_historico
 

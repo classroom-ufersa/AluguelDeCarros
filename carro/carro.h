@@ -1,8 +1,7 @@
-// #include "../cliente/cliente.c"
-
 /* TAD carro (codigo, disponibilidade, modelo, cliente) */
 
 /* Dependência de módulo */
+#include <stdio.h>
 // #include "../cliente/cliente.h"
 
 /* Tipo exportado */
@@ -10,32 +9,47 @@ typedef struct carro Carro;
 
 /* Funções Exportadas */
 
+// /* Função menu_carro
+//     exibe o menu carro
+// */
+// Carro *menu_carro(Carro *carro);
+
+/* Função carro_busca
+
+*/
+Carro *carro_busca(Carro *carro, char *modelo);
+
 /* Função carro_aluga
 
 */
 // Carro *carro_aluga(Carro *carro, Cliente *cliente);
 
-/* Função carro_aluga
+/* Função carro_lista
 
 */
-void carro_lista(Carro **carro);
+void carro_lista(Carro *carro);
 
-/* Função carro_aluga
-
-*/
-void carro_disponivel();
-
-/* Função procura
+/* Função carro_disponivel
 
 */
-int carro_busca(Carro **carro, int count, char *placa);
+void carro_disponivel(Carro *carro);
+
+/* Função carro_alugado
+
+*/
+void carro_alugado(Carro *carro);
+
+/* Função carro_busca
+
+*/
+Carro *carro_busca(Carro *carro, char *placa);
 
 /* Função carro_ordena
 
 */
-void carro_ordena(Carro **carro, int count);
+Carro *carro_ordena(Carro *carro, char *modelo);
 
 /* Funçaõ carro_importa
 
 */
-int carro_importa(Carro **carro, FILE* fl, int count, int max);
+// int carro_importa(Carro *carro, FILE* fl, int count, int max);

@@ -1,6 +1,6 @@
 /* Dependência de módulo */
 #include "../cliente/cliente.h"
-#include "../carro/carro.h"
+// #include "../carro/carro.h"
 
 /* Funções Exportadas */
 
@@ -37,7 +37,7 @@ char *realoca_string(char *dado);
 /* Função mascara
 
 */
-void mascara(char *dado, char* dado_convertido, char formato[]);
+void mascara(char *dado, char *dado_convertido, char formato[]);
 
 /* Função teste_formato
 
