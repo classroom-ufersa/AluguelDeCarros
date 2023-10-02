@@ -533,26 +533,26 @@ Cliente *cliente_recupera_historico(Cliente *cli, char *doc)
     
     // }
     
-    if (!feof(hist))      /* atualiza o histórico de aluguel */
-    {
+    // if (!feof(hist))      /* atualiza o histórico de aluguel */
+    // {
 
-        // escreve os dados no arquivo, após a sessão dos dados do cliente:
-        fgets(pula, 100, hist);
-        fgets(pula, 100, hist);
+    //     // escreve os dados no arquivo, após a sessão dos dados do cliente:
+    //     fgets(pula, 100, hist);
+    //     fgets(pula, 100, hist);
 
-        Aluguel *A = aluguel_cria(cli->ultimo_aluguel, );
-        for (A = cli->ultimo_aluguel; A != NULL; A=A->prox_aluguel)
-        {
-            fscanf(hist, "%[^\t]\t%d\n", pula, &cli->status);
-            fscanf(hist, "%[^\t]\t%s\n", pula, A->data_aluguel);
-            fscanf(hist, "%[^\t]\t%s\n", pula, A->duracao);
-            fscanf(hist, "%[^\t]\t%s\n", pula, A->carro->modelo);
-            fscanf(hist, "%[^\t]\t%s\n", pula, A->carro->placa);
-            fscanf(hist, "%[^\t]\t%f\n", pula, &A->carro->preco);
+    //     Aluguel *A = aluguel_cria(cli->ultimo_aluguel, );
+    //     for (A = cli->ultimo_aluguel; A != NULL; A=A->prox_aluguel)
+    //     {
+    //         fscanf(hist, "%[^\t]\t%d\n", pula, &cli->status);
+    //         fscanf(hist, "%[^\t]\t%s\n", pula, A->data_aluguel);
+    //         fscanf(hist, "%[^\t]\t%s\n", pula, A->duracao);
+    //         fscanf(hist, "%[^\t]\t%s\n", pula, A->carro->modelo);
+    //         fscanf(hist, "%[^\t]\t%s\n", pula, A->carro->placa);
+    //         fscanf(hist, "%[^\t]\t%f\n", pula, &A->carro->preco);
 
-            fgets(pula, 100, hist);
-        }
-    }
+    //         fgets(pula, 100, hist);
+    //     }
+    // }
 
     fclose(hist);
     return cli;
