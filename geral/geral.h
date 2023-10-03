@@ -29,6 +29,26 @@ Carro *menu_carro(Carro *carro);
 */
 int compara(char *nome, char *nome_busca);
 
+/* Função data_para_num
+
+*/
+int data_para_num(char *data);
+
+/* Função num_para_data
+
+*/
+char *num_para_data(int data);
+
+/* Função compara_data
+    faz a comparação entre duas datas
+*/
+int compara_data(char *data1, char *data2);
+
+/* Função calcula_tempo
+
+*/
+char *prazo(char *data, int duracao);
+
 /* Função realoca_string
 
 */

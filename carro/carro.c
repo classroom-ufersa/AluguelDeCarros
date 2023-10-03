@@ -59,6 +59,23 @@ Carro *carro_cadastra(Carro *carro, char *placa, char *modelo, float preco)
     return carro;
 }
 
+void carro_libera(Carro *carro)
+{
+    Carro *C = carro;   /* ponteiro inicializado com a lista */
+    Carro *t;         /* ponteiro auxiliar */
+
+    // ==================================================
+    // laço de repetição, enquanto valor de "P" não for [NULL] (Fim da lista):
+    while (C != NULL) 
+    {
+        t = C->prox_carro;
+        free(C->placa);
+        free(C->modelo);
+        free(C);
+        C = t;
+    }
+}
+
 // Carro *carro_aluga(Carro *carro, Cliente *cliente)
 // {
 //     carro->cliente = cliente;

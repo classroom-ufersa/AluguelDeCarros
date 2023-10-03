@@ -19,6 +19,11 @@ typedef struct carro Carro;
 */
 Carro *carro_busca(Carro *carro, char *modelo);
 
+/* Função carro_libera
+
+*/
+void carro_libera(Carro *carro);
+
 /* Função carro_aluga
 
 */

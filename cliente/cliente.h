@@ -33,7 +33,7 @@ char *cliente_doc(Cliente *cli);
 /* Função cliente_aluga
 
 */
-void cliente_aluga(Cliente *cli, Carro* carro, char *placa);
+void cliente_aluga(Cliente *cli, Carro* carro, char *placa, char *data, int duracao);
 
 /* Função cliente_busca_filtro
 
@@ -77,7 +77,7 @@ void cliente_atualiza_historico(int tag, Cliente *cli, char* doc);
 /* Função cliente_recupera_historico
 
 */
-Cliente *cliente_recupera_historico(Cliente *cli, char *doc);
+Cliente *cliente_recupera_historico(Cliente *cli, Carro *carro, char *doc);
 
 /* Função cliente_apaga_historico
 
@@ -87,7 +87,7 @@ void cliente_apaga_historico(Cliente *cli);
 /* Função cliente_registra
 
 */
-void cliente_registra(Cliente *cli, FILE *fl/*, char *status*/);
+void cliente_registra(Cliente *cli, FILE *fl);
 
 /* Função cliente_ordena
 
@@ -97,9 +97,4 @@ Cliente *cliente_ordena(Cliente *cli, char *nome);
 /* Função cliente_leia
 
 */
-Cliente *cliente_leia(Cliente *cli, FILE* fl);
-
-/* Funçaõ cliente_importa
-
-*/
-Cliente *cliente_importa(Cliente *cli, FILE* fl, int count, int max);
+Cliente *cliente_leia(Cliente *cli, Carro *carro, FILE* fl);

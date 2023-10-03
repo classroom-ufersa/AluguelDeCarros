@@ -316,6 +316,84 @@ int compara(char *nome, char *nome_busca)
     return strncmp(nome, nome_busca, strlen(nome_busca)); 
 }
 
+int data_para_num(char *data)
+{
+    int dia, mes, ano;
+    int tempo_dia = 0;
+
+    // quantidade de dias de cada mês:
+    //               J   F   M   A   M   J   J   A   S   O   N   D 
+    int meses[12] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+    
+    sscanf(data, "%d/%d/%d", &dia, &mes, &ano);     /* separa os valores da data */
+
+    tempo_dia += ano * 365;     /* converte ano em dias */
+    
+
+    /* Conversão de meses em dias */
+    int i;
+    for (i = 0; i < mes; i++)
+    {
+        tempo_dia += meses[i];      /* incrementa os dias de cada mês completo */
+    }
+    
+    tempo_dia += dia;       /* soma os dias no resultado do cálculo */
+
+    return tempo_dia;
+}
+
+char *num_para_data(int data)
+{
+    int ano = 0, mes = 0, dia = 0;
+    int dia_mes;
+
+    // quantidade de dias de cada mês:
+    //               J   F   M   A   M   J   J   A   S   O   N   D 
+    int meses[12] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+
+    ano = data / 365;
+    
+    /* conversão de dias em meses */
+    dia_mes = data % 365;
+    while (dia_mes > meses[mes])    /* verifica os meses, de janeiro a dezembro */
+    {
+        dia_mes -= meses[mes];      /* decrementa a quantidade de dias do mês */
+        mes++;                      /* contabiliza os meses completos */
+    }
+
+    dia = dia_mes;      /* o resto do cálculo será o dia */
+
+    char data_fim[11];
+    sprintf(data_fim, "%02d/%02d/%04d", dia, mes, ano);
+
+}
+
+int compara_data(char *data1, char *data2)
+{
+    // converte as datas de string em valor numérico:
+    int data1_num = data_para_num(data1);
+    int data2_num = data_para_num(data2);
+
+    // compara as datas:
+    if (data1_num > data2_num)
+        return -1;
+    else if (data1_num < data2_num)
+        return 1;
+    else
+        return 0;
+}
+
+char *prazo(char *data, int duracao)
+{   
+    // converte data de início para valor numérico:
+    int data_ini = data_para_num(data);
+    // soma a duração do aluguel:
+    int data_fim = data_ini + duracao;
+
+    // retorna a data final do aluguel:
+    return num_para_data(data_fim);
+}
+
 char *realoca_string(char *dado)
 {
     dado = (char*)realloc(dado, strlen(dado)*sizeof(char));
@@ -325,42 +403,44 @@ char *realoca_string(char *dado)
 void mascara(char *dado, char *dado_convertido, char formato[])
 {
     char dado_base[100];
-    strcpy(dado_base, dado);
-    char *aux = (char*)malloc(100*sizeof(char));
+    strcpy(dado_base, dado);        /* recebe o valor de entrada */
+    char *aux = (char*)malloc(100*sizeof(char));    /* string auxiliar para montar a máscara */
 
-    int i = 0;
-    int id = 0;
+    int i = 0;      /* índice geral */
+    int id = 0;     /* índice do valor de entrada */
 
     while (dado[id] != '\0')
     {
-        if (formato[i] != '#')
+        if (formato[i] != '#')      /* adiciona a máscara */
         {
             aux[i] = formato[i];
             i++;
         }
-        else
+        else        /* adiciona os valores do valor de entrada */
         {
             aux[i] = dado[id];
             id++;
             i++;
         }
     }
-    aux[i] = '\0';
-    strcpy(dado_convertido, aux);
-    free(aux);
+    aux[i] = '\0';      /* fecha a string */
+    strcpy(dado_convertido, aux);   /* copia resultado no parâmetro "dado_convertido" */
+    free(aux);      /* libera memória da variável auxiliar */
 }
 
 int teste_formato(char *str)
 {
     int i;
-    for (i = 0; str[i] != '\0'; i++) {
-        if (!(str[i] >= '0' && str[i] <= '9')) {
+    for (i = 0; str[i] != '\0'; i++)    /* verifica cada caracter */
+    {
+        if (!(str[i] >= '0' && str[i] <= '9'))  /* verifica se o caracter é numérico */
+        {
             // printf("string\n");
-            return 0;
+            return 0;       /* é string */
         }
     }
     // printf("numero\n");
-    return 1;
+    return 1;       /* é número */
 }
 
 int teste_input(char *resp) // editar função
@@ -369,12 +449,15 @@ int teste_input(char *resp) // editar função
     while (getchar() != '\n');
 
     int len = strlen(resp);
-    if(len == 1) {
+    if(len == 1)    /* é esperado input com apenas 1 caracter */
+    {
         return toupper(resp[0]);
-    } else if(len >= 2) {
+    }
+    else if(len >= 2)   /* valor de caracteres do input excedido */
+    {
         //printf(TXT_red"\nLimite de caracter atingido!"TXT_reset);
     }
-    return 0;
+    return 0;       /* input invalido */
 }
 
 void delay(double milissegundos)
