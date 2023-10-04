@@ -236,8 +236,7 @@ Carro *carro_leia(Carro *carro)
         while (!feof(fl))
         {
             fscanf(fl, "%[^\t]\t%[^\t]\t%f\n", modelo, placa, &preco);
-            // printf("%s\t%s\n\n", nome, doc);
-            // cli = cliente_cadastra(cli, nome, doc, tel);
+           
             carro = carro_cadastra(carro, modelo, placa, preco);
         }
     }

@@ -7,7 +7,6 @@
 #include "../carro/carro.h"
 #include "geral.h"
 
-
 char *clear(void)
 {    
     // Checking for windows OS with
