@@ -216,7 +216,7 @@ Carro *carro_ordena(Carro *carro, char *modelo)
 //     return count;
 // }
 
-Cliente *carro_leia(Carro *carro)
+Carro *carro_leia(Carro *carro)
 {
     FILE *fl = fopen("./carro/galeria.txt", "rt");
     // verifica se o arquivo foi aberto corretamente:
@@ -246,8 +246,7 @@ Cliente *carro_leia(Carro *carro)
         while (!feof(fl))
         {
             fscanf(fl, "%[^\t]\t%[^\t]\t%f\n", modelo, placa, &preco);
-            // printf("%s\t%s\n\n", nome, doc);
-            // cli = cliente_cadastra(cli, nome, doc, tel);
+           
             carro = carro_cadastra(carro, modelo, placa, preco);
         }
     }

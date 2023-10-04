@@ -129,11 +129,11 @@ char *cliente_doc(Cliente *cli)
 void cliente_aluga(Cliente *cli, Carro* carro, char *placa, char *data, int duracao)
 {
     // Aluguel* aluguel = NULL;
-    Carro *C;
+    Carro *carro_aux;
     if (cli->ultimo_aluguel->status == 0) /* não possui aluguel pendente */
     {
-        C = carro_busca(carro, placa);
-        cli->ultimo_aluguel = aluguel_cria(cli->ultimo_aluguel, C, data, duracao);
+        carro_aux = carro_busca(carro, placa);
+        cli->ultimo_aluguel = aluguel_cria(cli->ultimo_aluguel, carro_aux, data, duracao);
         cliente_atualiza_historico(1, cli, cli->documento);
     }
     else
