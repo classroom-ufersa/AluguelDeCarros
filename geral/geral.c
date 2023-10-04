@@ -121,7 +121,7 @@ Cliente *menu_cliente(Cliente *cli)
                         scanf(" %30[^\n]", dado);
                         while (getchar() != '\n');
 
-                        cliente_aux = cliente_filtra(cli, dado);
+                        cliente_aux = cliente_busca(cli, dado);
                         if (cliente_aux == NULL)
                         {
                             printf("\nERRO! Cliente nao encontrado.\n");
@@ -182,7 +182,7 @@ Cliente *menu_cliente(Cliente *cli)
 
                 // C = cliente_busca(cli, dado);
 
-                if ((cliente_aux = cliente_filtra(cli, dado)) != NULL)
+                if ((cliente_aux = cliente_busca(cli, dado)) != NULL)
                 {
                     system(clear());
                     cliente_consulta(cliente_aux);
@@ -211,7 +211,7 @@ Cliente *menu_cliente(Cliente *cli)
 
                     // cliente_aux = cliente_busca(cli, dado);
 
-                    if ((cliente_aux = cliente_filtra(cli, dado)) != NULL)
+                    if ((cliente_aux = cliente_busca(cli, dado)) != NULL)
                     {
                         while (1)
                         {
