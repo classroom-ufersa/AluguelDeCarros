@@ -33,12 +33,7 @@ void cliente_aluga(Cliente *cli, Carro* carro, char *placa, char *data, int dura
     a partir de um dado de busca, retorna lista de
     elementos que o contenham parcialmente ou por completo
 */
-Cliente *cliente_filtra(Cliente *cli, char* dado_busca);
-
-// /* Função cliente_busca
-//     busca um d
-// */
-// Cliente *cliente_busca(Cliente *cli, char* dado_busca);
+Cliente *cliente_busca(Cliente *cli, char* dado_busca);
 
 /* Função cliente_consulta
     verifica os detalhes de registro do cliente (dados pessoais e aluguel)
