@@ -17,16 +17,13 @@ int main(void) {
 
     Cliente *clientes = NULL;
     Carro *carros = NULL;
-    FILE *registro;
     int op1 = 0, op2 = 0, op3 = 0;
     
     /* Recuperando dados salvos */
     printf("Carregando dados dos Clientes...\n");
-    registro = fopen("registro.txt", "rt");
-    if((clientes = cliente_leia(clientes, carros, registro)) != NULL)
+    if((clientes = cliente_leia(clientes, carros)) != NULL)
         printf("Dados recuperados com sucesso\n");
 
-    fclose(registro);
     // delay(1000);     /* atraso para verificar resposta */
 
     // Menu principal:
@@ -49,9 +46,7 @@ int main(void) {
                 printf("\nEncerrando programa...\n");
                 delay(500);
                 if (clientes != NULL) {
-                    registro = fopen("registro.txt", "wt");
-                    cliente_registra(clientes, registro);
-                    fclose(registro);
+                    cliente_registra(clientes);
                 }
 
                 break;

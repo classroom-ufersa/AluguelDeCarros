@@ -12,7 +12,7 @@ typedef struct carro Carro;
 /* Função carro_cadastra
     
 */
-Carro *carro_cadastra(Carro *carro, char *modelo, char *placa, float preco)
+Carro *carro_cadastra(Carro *carro, char *modelo, char *placa, float preco);
 
 /* Função carro_busca
 
@@ -57,5 +57,5 @@ Carro *carro_ordena(Carro *carro, char *modelo);
 /* Funçaõ carro_leia
 
 */
-Cliente *carro_leia(Carro *carro)
+Carro *carro_leia(Carro *carro);
 

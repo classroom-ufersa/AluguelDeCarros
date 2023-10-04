@@ -17,7 +17,7 @@ Cliente *cliente_cadastra(int tag, Cliente *cli, char *nome, char *doc, char *te
 /* Função cliente_exclui
     exclui o cadastro do cliente
 */
-Cliente *cliente_exclui(Cliente* cli, char *dado);
+Cliente *cliente_exclui(Cliente *cli, char *dado);
 
 /* Função cliente_doc
     retorna o valor de documento do cliente
@@ -85,7 +85,7 @@ void cliente_apaga_historico(Cliente *cli);
     armazena um resumo dos dados do cliente,
     para recuperar histórico na re-execução do código
 */
-void cliente_registra(Cliente *cli, FILE *fl);
+void cliente_registra(Cliente *cli);
 
 /* Função cliente_ordena
     retorna a posição ordenada do novo cliente,
@@ -96,4 +96,4 @@ Cliente *cliente_ordena(Cliente *cli, char *nome);
 /* Função cliente_leia
     lê o registro dos clientes, e recupera os históricos
 */
-Cliente *cliente_leia(Cliente *cli, Carro *carro, FILE* fl);
+Cliente *cliente_leia(Cliente *cli, Carro *carro);

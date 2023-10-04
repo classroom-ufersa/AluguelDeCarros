@@ -74,14 +74,14 @@ void aluguel_libera(Aluguel *aluguel)
 Aluguel *aluguel_ordena(Aluguel *aluguel, char *data_inicio)
 {
     Aluguel *ref = NULL;            /* ponteiro para indicar endereço de referência, inicializado com [NULL] */
-	Aluguel *A = aluguel;			/* cria um ponteiro auxiliar "A", inicializada com a lista "aluguel" */
+	Aluguel *aluguel_aux = aluguel;			/* cria um ponteiro auxiliar "aluguel_aux", inicializada com a lista "aluguel" */
 
     // O critério de parada será o fim da fila ou encontrar 
     // uma data que venha depois:
-	while (A != NULL && compara_data(aluguel->data_aluguel, data_inicio) == -1)		/* verifica "P" chegou na posição */
+	while (aluguel_aux != NULL && compara_data(aluguel->data_aluguel, data_inicio) == -1)		/* verifica "P" chegou na posição */
 	{
-		ref = A;		        /* "ref" aponta para o valor atual de "P" */
-		A = A->prox_aluguel;	/* "P" passa a apontar para o próximo valor */
+		ref = aluguel_aux;		                    /* "ref" aponta para o valor atual de "aluguel_aux" */
+		aluguel_aux = aluguel_aux->prox_aluguel;	/* "aluguel_aux" passa a apontar para o próximo valor */
 	}
 	
 	return ref; /* retorna o endereço de referência para o novo cadastro */

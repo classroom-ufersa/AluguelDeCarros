@@ -85,10 +85,10 @@ Cliente *cliente_cadastra(int tag, Cliente *cli, char *nome, char *doc, char *te
     return cli;
 }
 
-Cliente *cliente_exclui(Cliente* cli, char *dado)
+Cliente *cliente_exclui(Cliente *cli, char *dado)
 {
     // procura o cliente do dado especificado:
-    Cliente *cliente_aux = cliente_busca(cli, dado);
+    Cliente *cliente_aux = cliente_filtra(cli, dado);
     if (cliente_aux == NULL)
     {
         printf("\nCadastro nao encontrado!\n");
@@ -129,11 +129,11 @@ char *cliente_doc(Cliente *cli)
 void cliente_aluga(Cliente *cli, Carro* carro, char *placa, char *data, int duracao)
 {
     // Aluguel* aluguel = NULL;
-    Carro *C;
+    Carro *carro_aux;
     if (cli->ultimo_aluguel->status == 0) /* não possui aluguel pendente */
     {
-        C = carro_busca(carro, placa);
-        cli->ultimo_aluguel = aluguel_cria(cli->ultimo_aluguel, C, data, duracao);
+        carro_aux = carro_busca(carro, placa);
+        cli->ultimo_aluguel = aluguel_cria(cli->ultimo_aluguel, carro_aux, data, duracao);
         cliente_atualiza_historico(1, cli, cli->documento);
     }
     else
@@ -561,8 +561,9 @@ void cliente_apaga_historico(Cliente *cli)
     else printf("\nERRO! Arquivo nao foi encontrado.\n");
 }
 
-void cliente_registra(Cliente *cli, FILE *fl)
+void cliente_registra(Cliente *cli)
 {
+    FILE *fl = fopen("./cliente/registro.txt", "wt");
     // verifica se o arquivo foi aberto corretamente:
     if (fl == NULL) 
     {
@@ -581,6 +582,7 @@ void cliente_registra(Cliente *cli, FILE *fl)
     {
         fprintf(fl, "%s\t%s\t%d\n", cliente_aux->nome, cliente_aux->documento, cliente_aux->ultimo_aluguel->status);
     }
+    fclose(fl);
 }
 
 Cliente *cliente_ordena(Cliente *cli, char *nome)
@@ -599,8 +601,9 @@ Cliente *cliente_ordena(Cliente *cli, char *nome)
 	return ref; /* retorna o endereço de referência para o novo cadastro */
 }
 
-Cliente *cliente_leia(Cliente *cli, Carro *carro, FILE* fl)
+Cliente *cliente_leia(Cliente *cli, Carro *carro)
 {
+    FILE *fl = fopen("./cliente/registro.txt", "rt");
     // verifica se o arquivo foi aberto corretamente:
     if (fl == NULL) 
     {

@@ -159,30 +159,25 @@ Carro *carro_ordena(Carro *carro, char *modelo)
 // int carro_importa(Carro **carro, FILE* fl, int count, int max)
 // {   
 //     int count_import = 0;
-
 //     // move o cursor do arquivo para o fim
 //     // e verifica se o arquivo está vazio:
 //     fseek(fl, 0, SEEK_END);
 //     if (ftell(fl) != 0) {   
 //         // retorna o cursor ao início do arquivo:
 //         fseek(fl, 0, SEEK_SET);
-
 //         int i, id;
 //         char nome[31], cargo[101];
 //         long long doc;
 //         int repetidos = 0;
-
 //         // verifica a quantidade de linhas de dados:
 //         fscanf(fl, "%d\n", &count_import);
 //         // pula a linha do cabeçalho:
 //         char linha[100];
 //         fgets(linha, 100, fl);
-
 //         // verifica há espaço para receber os dados importados:
 //         if ((count+count_import) < max) {
 //             for (i = 0; i < count_import; i++) {
 //                 fscanf(fl, "%d\t%[^\t]\t%[^\t]\t%lld\n", &id, nome, cargo, &doc);
-                
 //                 if (!func_procura(carro, count, doc)) {
 //                     carro[count] = func_cadastra(1, nome, cargo, doc);
 //                     count++;
@@ -190,7 +185,6 @@ Carro *carro_ordena(Carro *carro, char *modelo)
 //                     repetidos++;
 //                 }
 //             }
-
 //             if (repetidos != count_import) {
 //                 if (repetidos != 0) {
 //                     printf("\nFoi encontrado %d documentos ja registrados!", repetidos);
@@ -199,24 +193,20 @@ Carro *carro_ordena(Carro *carro, char *modelo)
 //                     printf(TXT_green"\nTodos os dados foram importados!\n"TXT_reset);
 //                 }
 //                 func_ordena(carro, count);
-                
 //             } else {
 //                 printf(TXT_yellow"\nTodos os dados importados ja estao cadastrados\n"TXT_reset);
 //             }
-
 //         } else {
 //             printf(TXT_red"\nA quantidade importada excede o limite de cadastro!\n"TXT_reset);
 //         }
-
 //     } else {
 //         printf(TXT_yellow"\nO arquivo selecionado esta vazio!\n"TXT_reset);
 //     }
-    
 //     // fclose(fl);
 //     return count;
 // }
 
-Cliente *carro_leia(Carro *carro)
+Carro *carro_leia(Carro *carro)
 {
     FILE *fl = fopen("./carro/galeria.txt", "rt");
     // verifica se o arquivo foi aberto corretamente:
