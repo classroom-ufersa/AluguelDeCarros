@@ -88,7 +88,7 @@ Cliente *cliente_cadastra(int tag, Cliente *cli, char *nome, char *doc, char *te
 Cliente *cliente_exclui(Cliente *cli, char *dado)
 {
     // procura o cliente do dado especificado:
-    Cliente *cliente_aux = cliente_filtra(cli, dado);
+    Cliente *cliente_aux = cliente_busca(cli, dado);
     if (cliente_aux == NULL)
     {
         printf("\nCadastro nao encontrado!\n");
@@ -142,7 +142,7 @@ void cliente_aluga(Cliente *cli, Carro* carro)
     cliente_atualiza_historico(1, cli, cli->documento);
 }
 
-Cliente *cliente_filtra(Cliente *cli, char *dado_busca)
+Cliente *cliente_busca(Cliente *cli, char *dado_busca)
 {
     Cliente *cliente_aux;
     Cliente *Busca = NULL;    /* armazena lista de resultado da busca */
@@ -183,38 +183,6 @@ Cliente *cliente_filtra(Cliente *cli, char *dado_busca)
     
     cliente_aux = cliente_lista(Busca);
     return cliente_aux;
-}
-
-Cliente *cliente_busca(Cliente *cli, char *dado_busca)
-{
-    Cliente *cliente_aux;
-    // verifica o tipo de dado usado para a busca [nome/CPF]:
-    int tipo = teste_formato(dado_busca);
-
-    // printf("Tipo: %d\n", tipo);
-    if (tipo == 0)      /* procura o cliente pelo nome */
-    {
-        for (cliente_aux = cli; cliente_aux != NULL; cliente_aux = cliente_aux->prox_cliente)   
-        {
-            if (compara(cliente_aux->nome, strupr(dado_busca)) == 0) {
-                // printf("achou, %s\n", C->nome);
-                return cliente_aux;
-            }
-        }
-        return NULL;
-    }
-    else                /* procura o cliente pelo CPF */
-    {
-        for (cliente_aux = cli; cliente_aux != NULL; cliente_aux = cliente_aux->prox_cliente)
-        {
-            // printf("len teste: %d", (int)strlen(dado_busca));
-            if (compara(cliente_aux->documento, dado_busca) == 0) {
-                // printf("achou, %s\n", C->documento);
-                return cliente_aux;
-            }
-        }
-        return NULL;
-    }
 }
 
 /* FALTA TERMINAR. ADICIONAR FERRAMENTAS DE EDIÇÃO */
