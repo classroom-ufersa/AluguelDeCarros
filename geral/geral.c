@@ -43,7 +43,7 @@ int menu_principal(void){
     return resp1;
 }
 
-Cliente *menu_cliente(Cliente *cli)
+Cliente *menu_cliente(Cliente *cli, Carro *carro)
 {
     char op2[3], op_i[3];
     int resp2, resp_i;
@@ -128,7 +128,6 @@ Cliente *menu_cliente(Cliente *cli)
                             break;
                         }
 
-                        // C = cliente_busca(Busca, )
                     }
                     else
                     {
@@ -142,9 +141,9 @@ Cliente *menu_cliente(Cliente *cli)
                     break;
                 }
 
-                printf("\noi\n");
+                printf("\n:)\n");
                 // Inicia o cadastro do aluguel:
-                // cliente_aluga(, C);
+                cliente_aluga(cliente_aux, carro);
 
 
                 delay(500);
@@ -157,7 +156,7 @@ Cliente *menu_cliente(Cliente *cli)
                 system(clear());
                 count = 0;
                 
-                cliente_aux = cliente_lista(cli, &count);
+                cliente_aux = cliente_lista(cli);
 
                 if (cliente_aux != NULL)
                 {

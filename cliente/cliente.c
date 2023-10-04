@@ -126,20 +126,20 @@ char *cliente_doc(Cliente *cli)
     return cli->documento;
 }
 
-void cliente_aluga(Cliente *cli, Carro* carro, char *placa, char *data, int duracao)
+void cliente_aluga(Cliente *cli, Carro* carro)
 {
-    // Aluguel* aluguel = NULL;
-    Carro *carro_aux;
-    if (cli->ultimo_aluguel->status == 0) /* não possui aluguel pendente */
-    {
-        carro_aux = carro_busca(carro, placa);
-        cli->ultimo_aluguel = aluguel_cria(cli->ultimo_aluguel, carro_aux, data, duracao);
-        cliente_atualiza_historico(1, cli, cli->documento);
-    }
-    else
-    {
-        printf("\nEsse cliente ja esta alugando um carro.\n");
-    }
+    Aluguel* aluguel = NULL;
+    Carro *carro_aux = carro_lista(carro);
+    char *data;
+    int duracao;
+    
+    printf("Data do aluguel:\n");
+    scanf(" %[^\n]", data);
+    printf("Qual a duracao do aluguel?\n");
+    scanf("%d", &duracao);
+
+    cli->ultimo_aluguel = aluguel_cria(cli->ultimo_aluguel, carro_aux, data, duracao);
+    cliente_atualiza_historico(1, cli, cli->documento);
 }
 
 Cliente *cliente_filtra(Cliente *cli, char *dado_busca)
@@ -160,7 +160,7 @@ Cliente *cliente_filtra(Cliente *cli, char *dado_busca)
                 // printf("achou, %s\n", C->nome);
                 Busca = cliente_cadastra(0, Busca, cliente_aux->nome, cliente_aux->documento, cliente_aux->telefone);
                 // cliente_consulta(C, count);
-                // (*id)++;
+                // (id)++;
             }
         }
     }
@@ -181,7 +181,7 @@ Cliente *cliente_filtra(Cliente *cli, char *dado_busca)
     system(clear());
     int id = 0, escolha;
     
-    cliente_aux = cliente_lista(Busca, &id);
+    cliente_aux = cliente_lista(Busca);
     return cliente_aux;
 }
 
@@ -247,12 +247,12 @@ void cliente_consulta(Cliente *cli)
 }
 
 /* LISTANDO. TALVEZ ADICIONAR FERRAMENTAS DE NAVEGAÇÃO E EDIÇÃO */
-Cliente *cliente_lista(Cliente *cli, int *id)
+Cliente *cliente_lista(Cliente *cli)
 {
     char cliente_doc[15];
     char cliente_tel[15];
     int escolha;
-    *id = 0;
+    int id = 0;
 
     if (cli != NULL)
     {
@@ -267,17 +267,17 @@ Cliente *cliente_lista(Cliente *cli, int *id)
         {
             mascara(cliente_aux->documento, cliente_doc, "###.###.###-##");
             mascara(cliente_aux->telefone, cliente_tel, "(##)#####-####");
-            printf("%d\t%-30s\t%-15s\t%-15s\n", (*id), cliente_aux->nome, cliente_doc, cliente_tel);
-            (*id)++;
+            printf("%d\t%-30s\t%-15s\t%-15s\n", (id), cliente_aux->nome, cliente_doc, cliente_tel);
+            (id)++;
         }
 
-        printf("\nFoi encontrado %d resultado(s).\n", *id);
+        printf("\nFoi encontrado %d resultado(s).\n", id);
         printf("Digite o ID do cliente para continuar: ");
         scanf("%d", &escolha);
         while (getchar() != '\n');
 
         cliente_aux = cli;
-        if (escolha >= 0 && escolha <= *id)
+        if (escolha >= 0 && escolha <= id)
         {
             int i;
             for (i = 0; i < escolha; i++)

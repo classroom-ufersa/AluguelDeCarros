@@ -32,7 +32,7 @@ void carro_libera(Carro *carro);
 /* Função carro_lista
 
 */
-void carro_lista(Carro *carro);
+Carro *carro_lista(Carro *carro);
 
 /* Função carro_disponivel
 

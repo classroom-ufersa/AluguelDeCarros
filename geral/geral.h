@@ -17,7 +17,7 @@ int menu_principal(void);
 /* Função menu_cliente
     exibe o menu cliente
 */
-Cliente *menu_cliente(Cliente *cli);
+Cliente *menu_cliente(Cliente *cli, Carro *carro);
 
 /* Função menu_carro
     exibe o menu carro

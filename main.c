@@ -33,7 +33,7 @@ int main(void) {
             case '1':
                 printf("\nAbrindo Menu dos Clientes...\n");
                 delay(500);
-                clientes = menu_cliente(clientes);
+                clientes = menu_cliente(clientes, carros);
                 break;
             
             case '2':

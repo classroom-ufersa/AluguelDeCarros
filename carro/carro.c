@@ -76,7 +76,7 @@ void carro_libera(Carro *carro)
     }
 }
 
-void carro_lista(Carro *carro)
+Carro *carro_lista(Carro *carro)
 {
     int index = 0, numero_carros = 0;
     
@@ -85,6 +85,56 @@ void carro_lista(Carro *carro)
     for (carro_aux = carro; carro_aux != NULL; carro_aux = carro_aux->prox_carro)
     {
         printf("%-20s\t%-10s\t%-10s\t%8.2f", carro->modelo, carro->placa, carro->disponibilidade ? "Disponivel" : "Indisponivel", carro->preco);
+    }
+
+    int escolha;
+    int id = 0;
+
+    if (carro != NULL)
+    {
+        do
+        {
+            system(clear());
+            // ==================================================
+            // exibe cabeçalho:
+            printf("%-3s\t%-30s\t%-10s\t%-10s\t%-10s\n", "ID", "MODELO", "PLACA", "PRECO", "STATUS");
+            
+            // ==================================================
+            // exibe as informações do cliente:
+            Carro *carro_aux;
+            for (carro_aux = carro ; carro_aux != NULL ; carro_aux=carro_aux->prox_carro)
+            {
+                printf("%d\t%-30s\t%-10s\tR$%-10.2f\n", (id), carro_aux->modelo, carro_aux->placa, carro_aux->preco, carro_aux->disponibilidade);
+                (id)++;
+            }
+
+            printf("\nFoi encontrado %d resultado(s).\n", id);
+            printf("Digite o ID do carro para continuar: ");
+            scanf("%d", &escolha);
+            while (getchar() != '\n');
+
+            carro_aux = carro;
+            if (escolha >= 0 && escolha <= id)
+            {
+                int i;
+                for (i = 0; i < escolha; i++)
+                {
+                    carro_aux = carro_aux->prox_carro;
+                }
+            }
+            if(carro_aux->disponibilidade == 0){
+                printf("\nCarro indisponivel!\n");
+                delay(500);
+            }
+        }
+        while(carro_aux->disponibilidade == 0);
+
+        return carro_aux;
+    }
+    else
+    {
+        printf("\nNao ha carros cadastrados no sistema\n");
+        return NULL;
     }
 }
 
