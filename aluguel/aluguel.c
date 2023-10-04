@@ -31,24 +31,24 @@ Aluguel *aluguel_inicializa(Aluguel* aluguel)
 
 Aluguel *aluguel_cria(Aluguel* aluguel, Carro* carro, char *data, int duracao)
 {
-    Aluguel *A;
-    A->data_aluguel = (char *)malloc(11 * sizeof(char));
-    A->duracao = duracao;
-    A->status = 1;
-    A->carro = carro;
+    Aluguel *aluguel_auxiliar;
+    aluguel_auxiliar->data_aluguel = (char *)malloc(11 * sizeof(char));
+    aluguel_auxiliar->duracao = duracao;
+    aluguel_auxiliar->status = 1;
+    aluguel_auxiliar->carro = carro;
     carro_alugado(carro);
 
     // endereço do elemento imediatamente antes do novo elemento, na ordem alfabética:
     Aluguel *ref = aluguel_ordena(aluguel, data);
     if (ref == NULL)   /* verifica se o novo cadastro ficará na primeira posição da lista */
     {
-        A->prox_aluguel = aluguel;
-        aluguel = A;
+        aluguel_auxiliar->prox_aluguel = aluguel;
+        aluguel = aluguel_auxiliar;
     }
     else
     {
-        A->prox_aluguel = ref->prox_aluguel;
-        ref->prox_aluguel = A;
+        aluguel_auxiliar->prox_aluguel = ref->prox_aluguel;
+        ref->prox_aluguel = aluguel_auxiliar;
     }
 
     return aluguel;
@@ -57,7 +57,7 @@ Aluguel *aluguel_cria(Aluguel* aluguel, Carro* carro, char *data, int duracao)
 void aluguel_libera(Aluguel *aluguel)
 {
     Aluguel *A = aluguel;   /* ponteiro inicializado com a lista */
-    Aluguel *t;         /* ponteiro auxiliar */
+    Aluguel *t;             /* ponteiro auxiliar */
 
     // ==================================================
     // laço de repetição, enquanto valor de "P" não for [NULL] (Fim da lista):
@@ -73,7 +73,7 @@ void aluguel_libera(Aluguel *aluguel)
 
 Aluguel *aluguel_ordena(Aluguel *aluguel, char *data_inicio)
 {
-    Aluguel *ref = NULL;        /* ponteiro para indicar endereço de referência, inicializado com [NULL] */
+    Aluguel *ref = NULL;            /* ponteiro para indicar endereço de referência, inicializado com [NULL] */
 	Aluguel *A = aluguel;			/* cria um ponteiro auxiliar "A", inicializada com a lista "aluguel" */
 
     // O critério de parada será o fim da fila ou encontrar 

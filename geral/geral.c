@@ -8,8 +8,8 @@
 #include "geral.h"
 
 
-char *clear(void){
-    
+char *clear(void)
+{    
     // Checking for windows OS with
     // _WIN32 macro
     #ifdef _WIN32
@@ -18,7 +18,7 @@ char *clear(void){
     // Checking for mac OS with
     // __APPLE__ macro
     #elif __APPLE__
-        return "cls";
+        return "clear";
 
     // Checking for linux OS with
     // __linux__ macro

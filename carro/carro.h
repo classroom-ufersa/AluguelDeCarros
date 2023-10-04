@@ -9,10 +9,10 @@ typedef struct carro Carro;
 
 /* Funções Exportadas */
 
-// /* Função menu_carro
-//     exibe o menu carro
-// */
-// Carro *menu_carro(Carro *carro);
+/* Função carro_cadastra
+    
+*/
+Carro *carro_cadastra(Carro *carro, char *modelo, char *placa, float preco)
 
 /* Função carro_busca
 
@@ -54,7 +54,8 @@ Carro *carro_busca(Carro *carro, char *placa);
 */
 Carro *carro_ordena(Carro *carro, char *modelo);
 
-/* Funçaõ carro_importa
+/* Funçaõ carro_leia
 
 */
-// int carro_importa(Carro *carro, FILE* fl, int count, int max);
+Cliente *carro_leia(Carro *carro)
+
