@@ -56,18 +56,18 @@ Aluguel *aluguel_cria(Aluguel* aluguel, Carro* carro, char *data, int duracao)
 
 void aluguel_libera(Aluguel *aluguel)
 {
-    Aluguel *A = aluguel;   /* ponteiro inicializado com a lista */
-    Aluguel *t;             /* ponteiro auxiliar */
+    Aluguel *aluguel_aux = aluguel;   /* ponteiro inicializado com a lista */
+    Aluguel *aux;             /* ponteiro auxiliar */
 
     // ==================================================
     // laço de repetição, enquanto valor de "P" não for [NULL] (Fim da lista):
-    while (A != NULL) 
+    while (aluguel_aux != NULL) 
     {
-        t = A->prox_aluguel;
-        free(A->data_aluguel);
-        carro_libera(A->carro);
-        free(A);
-        A = t;
+        aux = aluguel_aux->prox_aluguel;
+        free(aluguel_aux->data_aluguel);
+        carro_libera(aluguel_aux->carro);
+        free(aluguel_aux);
+        aluguel_aux = aux;
     }
 }
 
