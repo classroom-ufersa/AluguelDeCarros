@@ -27,7 +27,7 @@ char *cliente_doc(Cliente *cli);
 /* Função cliente_aluga
     inicia o processo de alguel de carro
 */
-void cliente_aluga(Cliente *cli, Carro* carro, char *placa, char *data, int duracao);
+void cliente_aluga(Cliente *cli, Carro* carro);
 
 /* Função cliente_busca_filtro
     a partir de um dado de busca, retorna lista de
