@@ -311,7 +311,7 @@ void cliente_edita(Cliente *cli)
         // dados pessoais do cliente:
 
         case 0:     /* nome do cliente */
-            printf("NOME:\n");
+            printf("Digite o novo nome:\n");
             printf("Antigo: %s\n", cli->nome);
             printf("Novo: ");
             scanf(" %30[^\n]", nome);
@@ -323,7 +323,7 @@ void cliente_edita(Cliente *cli)
             break;
 
         case 1:     /* CPF do cliente*/
-            printf("CPF:\n");
+            printf("Digite o novo CPF (somente numeros):\n");
 
             mascara(cli->documento, doc, "###.###.###-##");
             printf("Antigo: %s\n", doc);
@@ -337,7 +337,7 @@ void cliente_edita(Cliente *cli)
             break;
         
         case 2:     /* Telefone de contato do cliente */
-            printf("TELEFONE PARA CONTATO:\n");
+            printf("Novo telefone (somente numeros):\n");
 
             mascara(cli->telefone, tel, "(##)#####-####");
             printf("Antigo: %s\n", tel);
