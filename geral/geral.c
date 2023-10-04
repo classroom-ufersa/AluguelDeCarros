@@ -52,7 +52,7 @@ Cliente *menu_cliente(Cliente *cli)
     int tipo, count, escolha;
 
     char nome[31], doc[12], tel[12];
-    Cliente *carro_aux = NULL;
+    Cliente *cliente_aux = NULL;
     Cliente *Busca = NULL;
 
     do {
@@ -108,7 +108,7 @@ Cliente *menu_cliente(Cliente *cli)
 
                     // ==================================================
                     // procura novo cliente dentro da nova lista:
-                    carro_aux = cliente_busca(cli, doc);
+                    cliente_aux = cliente_busca(cli, doc);
 
                 }
                 else if (resp_i == '2')     /* busca cliente cadastrado no sistema */
@@ -121,8 +121,8 @@ Cliente *menu_cliente(Cliente *cli)
                         scanf(" %30[^\n]", dado);
                         while (getchar() != '\n');
 
-                        carro_aux = cliente_filtra(cli, dado);
-                        if (carro_aux == NULL)
+                        cliente_aux = cliente_filtra(cli, dado);
+                        if (cliente_aux == NULL)
                         {
                             printf("\nERRO! Cliente nao encontrado.\n");
                             break;
@@ -157,12 +157,12 @@ Cliente *menu_cliente(Cliente *cli)
                 system(clear());
                 count = 0;
                 
-                carro_aux = cliente_lista(cli, &count);
+                cliente_aux = cliente_lista(cli, &count);
 
-                if (carro_aux != NULL)
+                if (cliente_aux != NULL)
                 {
                     system(clear());
-                    cliente_consulta(carro_aux);
+                    cliente_consulta(cliente_aux);
                 }
 
                 
@@ -182,10 +182,10 @@ Cliente *menu_cliente(Cliente *cli)
 
                 // C = cliente_busca(cli, dado);
 
-                if ((carro_aux = cliente_filtra(cli, dado)) != NULL)
+                if ((cliente_aux = cliente_filtra(cli, dado)) != NULL)
                 {
                     system(clear());
-                    cliente_consulta(carro_aux);
+                    cliente_consulta(cliente_aux);
                 }
 
                 // delay(3000);        /* atraso para verificar resposta */
@@ -209,20 +209,20 @@ Cliente *menu_cliente(Cliente *cli)
                     scanf(" %30[^\n]", dado);
                     while (getchar() != '\n');
 
-                    // carro_aux = cliente_busca(cli, dado);
+                    // cliente_aux = cliente_busca(cli, dado);
 
-                    if ((carro_aux = cliente_filtra(cli, dado)) != NULL)
+                    if ((cliente_aux = cliente_filtra(cli, dado)) != NULL)
                     {
                         while (1)
                         {
                             system(clear());
 
-                            cliente_consulta(carro_aux);
+                            cliente_consulta(cliente_aux);
                             printf("\nO cadastro sera apagado. Deseja Continuar [S/N]?\n");
                             resp_i = teste_input(op_i);
                             if (resp_i == 'S')
                             {   
-                                cli = cliente_exclui(cli, cliente_doc(carro_aux));
+                                cli = cliente_exclui(cli, cliente_doc(cliente_aux));
                                 break;
                             }
                             else if (resp_i == 'N')
