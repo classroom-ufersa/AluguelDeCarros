@@ -23,7 +23,7 @@ int main(void) {
     /* Recuperando dados salvos */
     printf("Carregando dados dos Clientes...\n");
     registro = fopen("registro.txt", "rt");
-    if((clientes = cliente_leia(clientes, registro)) != NULL)
+    if((clientes = cliente_leia(clientes, carros, registro)) != NULL)
         printf("Dados recuperados com sucesso\n");
 
     fclose(registro);

@@ -299,7 +299,7 @@ void cliente_edita(Cliente *cli)
     char nome[31], doc[15], tel[15];    /* dados pessoais cliente */
     Aluguel *A = cli->ultimo_aluguel;
     int op_edit = 0;
-    while (op_edit < 5)
+    while (op_edit < 3)
     {
         system(clear());
 
@@ -351,33 +351,6 @@ void cliente_edita(Cliente *cli)
             
             break;
         
-        // ==================================================
-        // informações do aluguel, caso esteja em ativo:
-
-        case 3:     /* status do aluguel */
-            if (A->status == 1)
-            {
-                printf("TELEFONE:\n");
-                
-            }
-            break;
-
-        case 4:     /* data do aluguel do carro */
-            if (A->status == 1)
-            {
-                printf("TELEFONE:\n");
-                
-            }
-            break;
-
-        case 5:     /* duração do aluguel */
-            if (A->status == 1)
-            {
-                printf("CARRO:\n");
-                
-            }
-            break;
-            
         default:
             break;
         }
@@ -460,28 +433,29 @@ void cliente_atualiza_historico(int tag, Cliente *cli, char* doc)
         
     }        
     else while (fgetc(hist) != '%');
+    printf(":)");
 
-    if (cli->ultimo_aluguel != NULL == 1)      /* atualiza o histórico de aluguel */
-    {
+    // if (cli->ultimo_aluguel != NULL)      /* atualiza o histórico de aluguel */
+    // {
 
-        // escreve os dados no arquivo, após a sessão dos dados do cliente:
-        fprintf(hist,"\n");     /* pula a linha do '%' */
+    //     // escreve os dados no arquivo, após a sessão dos dados do cliente:
+    //     fprintf(hist,"\n");     /* pula a linha do '%' */
 
-        fprintf(hist, "===== HISTORICO DE ALUGUEL =====\n");
-        Aluguel *A;
-        for (A = cli->ultimo_aluguel; A != NULL; A=A->prox_aluguel)
-        {
-            fprintf(hist, "STATUS:\t%s\n", A->status ? "ATIVO" : "FINALIZADO");
-            fprintf(hist, "PRAZO ALUGUEL:\n");
-            fprintf(hist, "\tDE:\t%s\n", A->data_aluguel);
-            fprintf(hist, "\tATE:\t%s\n", prazo(A->data_aluguel, A->duracao));
-            fprintf(hist, "MODELO:\t%s\n", A->carro->modelo);
-            fprintf(hist, "PLACA:\t%s\n", A->carro->placa);
-            fprintf(hist, "PRECO:\t%.2f\n", A->carro->preco);
+    //     fprintf(hist, "===== HISTORICO DE ALUGUEL =====\n");
+    //     Aluguel *A;
+    //     for (A = cli->ultimo_aluguel; A != NULL; A=A->prox_aluguel)
+    //     {
+    //         fprintf(hist, "STATUS:\t%s\n", A->status ? "ATIVO" : "FINALIZADO");
+    //         fprintf(hist, "PRAZO ALUGUEL:\n");
+    //         fprintf(hist, "\tDE:\t%s\n", A->data_aluguel);
+    //         fprintf(hist, "\tATE:\t%s\n", prazo(A->data_aluguel, A->duracao));
+    //         fprintf(hist, "MODELO:\t%s\n", A->carro->modelo);
+    //         fprintf(hist, "PLACA:\t%s\n", A->carro->placa);
+    //         fprintf(hist, "PRECO:\t%.2f\n", A->carro->preco);
 
-            fprintf(hist,"==================================================\n");
-        }
-    }
+    //         fprintf(hist,"==================================================\n");
+    //     }
+    // }
 
     fclose(hist);
 }
