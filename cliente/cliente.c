@@ -181,7 +181,7 @@ Cliente *cliente_busca(Cliente *cli, char *dado_busca)
     system(clear());
     int id = 0, escolha;
     
-    cliente_aux = cliente_lista(Busca, &id);
+    cliente_aux = cliente_lista(Busca);
     return cliente_aux;
 }
 
@@ -215,12 +215,12 @@ void cliente_consulta(Cliente *cli)
 }
 
 /* LISTANDO. TALVEZ ADICIONAR FERRAMENTAS DE NAVEGAÇÃO E EDIÇÃO */
-Cliente *cliente_lista(Cliente *cli, int *id)
+Cliente *cliente_lista(Cliente *cli)
 {
     char cliente_doc[15];
     char cliente_tel[15];
     int escolha;
-    *id = 0;
+    int id = 0;
 
     if (cli != NULL)
     {
@@ -235,17 +235,17 @@ Cliente *cliente_lista(Cliente *cli, int *id)
         {
             mascara(cliente_aux->documento, cliente_doc, "###.###.###-##");
             mascara(cliente_aux->telefone, cliente_tel, "(##)#####-####");
-            printf("%d\t%-30s\t%-15s\t%-15s\n", (*id), cliente_aux->nome, cliente_doc, cliente_tel);
-            (*id)++;
+            printf("%d\t%-30s\t%-15s\t%-15s\n", (id), cliente_aux->nome, cliente_doc, cliente_tel);
+            (id)++;
         }
 
-        printf("\nFoi encontrado %d resultado(s).\n", *id);
+        printf("\nFoi encontrado %d resultado(s).\n", id);
         printf("Digite o ID do cliente para continuar: ");
         scanf("%d", &escolha);
         while (getchar() != '\n');
 
         cliente_aux = cli;
-        if (escolha >= 0 && escolha <= *id)
+        if (escolha >= 0 && escolha <= id)
         {
             int i;
             for (i = 0; i < escolha; i++)

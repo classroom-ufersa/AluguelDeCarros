@@ -43,7 +43,7 @@ void cliente_consulta(Cliente *cli);
 /* Função cliente_lista
     imprime um lista dos clientes cadastrados
 */
-Cliente *cliente_lista(Cliente *cli, int *id);
+Cliente *cliente_lista(Cliente *cli);
 
 /* Função cliente_edita
     abre sessão de edição, para modificar os dados pessoais

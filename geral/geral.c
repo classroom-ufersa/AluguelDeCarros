@@ -157,7 +157,7 @@ Cliente *menu_cliente(Cliente *cli)
                 system(clear());
                 count = 0;
                 
-                cliente_aux = cliente_lista(cli, &count);
+                cliente_aux = cliente_lista(cli);
 
                 if (cliente_aux != NULL)
                 {
