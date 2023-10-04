@@ -1,2 +1,32 @@
+Modelo: "Sedan Excello"
+Placa: ABC1D23
+
+Modelo: "Crossover Aventura"
+Placa: XYZ5E67
+
+Modelo: "Hatchback Velozz"
+Placa: LMN9O12
+
+Modelo: "SUV Explora"
+Placa: DEF3G56
+
+Modelo: "Caminhonete Titan"
+Placa: GHI7H89
+
+Modelo: "Compacto Sprint"
+Placa: OPQ2R34
+
+Modelo: "Esportivo Rápido"
+Placa: STU6V78
+
+Modelo: "Van Conforto"
+Placa: VWX0Y12
+
+Modelo: "Conversível Brisa"
+Placa: YZA4B56
+
+Modelo: "Elétrico EcoCharge"
+Placa: BCD8E90
+
 NES6L18
 GUS1N25
