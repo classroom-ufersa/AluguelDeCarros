@@ -409,7 +409,7 @@ void mascara(char *dado, char *dado_convertido, char formato[])
     int i = 0;      /* índice geral */
     int id = 0;     /* índice do valor de entrada */
 
-    while (dado[id] != '\0')
+    while (dado_base[id] != '\0')
     {
         if (formato[i] != '#')      /* adiciona a máscara */
         {
@@ -418,7 +418,7 @@ void mascara(char *dado, char *dado_convertido, char formato[])
         }
         else        /* adiciona os valores do valor de entrada */
         {
-            aux[i] = dado[id];
+            aux[i] = dado_base[id];
             id++;
             i++;
         }
