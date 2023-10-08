@@ -8,7 +8,7 @@ struct aluguel
 {
     char *data_aluguel;
     int duracao;
-    int status;     /* 1 -> alugando carro, 0 -> não está alugando */
+    int status_aluguel;     /* 1 -> ativo, 0 -> finalizado */
     
     Carro *carro;
     Aluguel *prox_aluguel;
@@ -23,7 +23,7 @@ Aluguel *aluguel_inicializa(Aluguel* aluguel)
         return NULL;
     }
 
-    novo_aluguel->status = 0;
+    novo_aluguel->status_aluguel = 0;
     aluguel = novo_aluguel;
 
     return aluguel;
@@ -31,24 +31,37 @@ Aluguel *aluguel_inicializa(Aluguel* aluguel)
 
 Aluguel *aluguel_cria(Aluguel* aluguel, Carro* carro, char *data, int duracao)
 {
-    Aluguel *aluguel_auxiliar;
-    aluguel_auxiliar->data_aluguel = (char *)malloc(11 * sizeof(char));
-    aluguel_auxiliar->duracao = duracao;
-    aluguel_auxiliar->status = 1;
-    aluguel_auxiliar->carro = carro;
+    // aloca o espaço necessário para o aluguel novo:
+    Aluguel *novo_aluguel = (Aluguel*)malloc(sizeof(Aluguel));
+    if (novo_aluguel == NULL)
+    {
+        printf("\nNao foi possivel criar o registro de aluguel\n");
+        return NULL;
+    }
+
+    novo_aluguel->data_aluguel = (char *)malloc(11 * sizeof(char));
+
+    // ==================================================
+    // insere os dados do cliente:
+    novo_aluguel->duracao = duracao;
+    novo_aluguel->status_aluguel = 1;
+    novo_aluguel->carro = carro;
     carro_alugado(carro);
 
-    // endereço do elemento imediatamente antes do novo elemento, na ordem alfabética:
+    // ==================================================
+    // encadea o endereço dos alugueis:
+
+    // endereço do elemento imediatamente antes do novo elemento, na ordem cronológica:
     Aluguel *ref = aluguel_ordena(aluguel, data);
     if (ref == NULL)   /* verifica se o novo cadastro ficará na primeira posição da lista */
     {
-        aluguel_auxiliar->prox_aluguel = aluguel;
-        aluguel = aluguel_auxiliar;
+        novo_aluguel->prox_aluguel = aluguel;
+        aluguel = novo_aluguel;
     }
     else
     {
-        aluguel_auxiliar->prox_aluguel = ref->prox_aluguel;
-        ref->prox_aluguel = aluguel_auxiliar;
+        novo_aluguel->prox_aluguel = ref->prox_aluguel;
+        ref->prox_aluguel = novo_aluguel;
     }
 
     return aluguel;
@@ -65,7 +78,7 @@ void aluguel_libera(Aluguel *aluguel)
     {
         aux = aluguel_aux->prox_aluguel;
         free(aluguel_aux->data_aluguel);
-        carro_libera(aluguel_aux->carro);
+        // carro_libera(aluguel_aux->carro);
         free(aluguel_aux);
         aluguel_aux = aux;
     }
@@ -85,4 +98,11 @@ Aluguel *aluguel_ordena(Aluguel *aluguel, char *data_inicio)
 	}
 	
 	return ref; /* retorna o endereço de referência para o novo cadastro */
+}
+
+char *aluguel_fim(Aluguel *aluguel)
+{
+    int data_inicio = data_para_num(aluguel->data_aluguel);
+    char *data_fim = num_para_data(data_inicio + aluguel->duracao);
+    return data_fim;
 }

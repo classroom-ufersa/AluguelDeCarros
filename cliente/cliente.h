@@ -29,11 +29,16 @@ char *cliente_doc(Cliente *cli);
 */
 void cliente_aluga(Cliente *cli, Carro* carro);
 
+/* Função cliente_busca
+    retorna o elemento que contenha o dado de busca
+*/
+Cliente *cliente_busca(Cliente *cli, char* dado_busca);
+
 /* Função cliente_busca_filtro
     a partir de um dado de busca, retorna lista de
     elementos que o contenham parcialmente ou por completo
 */
-Cliente *cliente_busca(Cliente *cli, char* dado_busca);
+Cliente *cliente_filtra_busca(Cliente *cli, char* dado_busca);
 
 /* Função cliente_consulta
     verifica os detalhes de registro do cliente (dados pessoais e aluguel)
@@ -52,9 +57,14 @@ Cliente *cliente_lista(Cliente *cli);
 void cliente_edita(Cliente *cli);
 
 /* Função cliente_total
-
+    calcula o total de clientes cadastrados
 */
-int cliente_total();
+int cliente_total(Cliente *cli);
+
+/* Função cliente_libera
+    libera memória alocada para a lista de clientes
+*/
+void cliente_libera(Cliente *cli);
 
 /* Função cliente_cria_historico
     cria um arquivo de histórico para o cliente

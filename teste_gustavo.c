@@ -1,17 +1,8 @@
+#include <time.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
-
-int teste_formato(char *str) {
-    int i;
-    for (i = 0; str[i] != '\0'; i++) {
-        if (!(str[i] >= '0' && str[i] <= '9')) {
-            printf("string\n");
-            return 0;
-        }
-    }
-    printf("numero\n");
-    return 1;
-}
+#include "./geral/geral.c"
 
 int main(void) {
 
@@ -23,11 +14,35 @@ int main(void) {
     // printf("%d", strncmp(str1, "Car", len));
     // printf("%d", strncmp(str2, "Car", len));
     // printf("%d", strncmp(str3, "Car", len));
-    char val[41];
-    scanf(" %[^\n]", val);
+    // char val[41];
+    // scanf(" %[^\n]", val);
 
-    printf("%d", teste_formato(val));
+    // printf("%d", teste_formato(val));
 
+    // time_t ltime = 0;
+    // if (time(&ltime) == -1)
+    // {
+    //     printf("Calendar time not available.\n");
+    //     exit(1);
+    // }
+    // printf("The time is %s\n", ctime(&ltime));
 
+    int data1 = 0;
+    char *data2 = "01/01/0002";
+    char *data;
+    int dat;
+    // for (int i = 0; i < 731; i++)
+    // {
+    //     data = num_para_data(i);
+    //     printf("%s\n", data);
+    // }
+    char c[3];
+    int i = 0;
+    while ((c[i] = getchar()) != '\n') i++;
+    c[i] = '\0';
+    printf("%s", c);
+    // printf("%d", scanf("%d", &dat));
+
+    // free(data);
     return 0;
 }

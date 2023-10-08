@@ -4,6 +4,9 @@
         "cliente.h": "c",
         "string.h": "c",
         "carro.h": "c",
-        "geral.h": "c"
+        "geral.h": "c",
+        "stdio.h": "c",
+        "time.h": "c",
+        "ctype.h": "c"
     }
 }

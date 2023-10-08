@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 #include "../aluguel/aluguel.c"
 // #include "../carro/carro.h"
 #include "../geral/geral.h"
@@ -15,37 +16,38 @@ struct cliente
     Cliente *prox_cliente;
     Cliente *ant_cliente;
     
+    int status;
     Aluguel *ultimo_aluguel;
     // char *data_aluguel;
     // char *duracao;
     // Carro *carro
 };
 
-// Cliente *cliente_cadastra(Cliente *cli, char *nome, char *doc, char *tel)
 Cliente *cliente_cadastra(int tag, Cliente *cli, char *nome, char *doc, char *tel)
 {
     // aloca o espaço necessário para o cliente novo:
-    Cliente *novo = (Cliente *)malloc(sizeof(Cliente));
-    if (novo == NULL)
+    Cliente *novo_cliente = (Cliente *)malloc(sizeof(Cliente));
+    if (novo_cliente == NULL)
     {
-        printf("\nNao foi possivel concluir o cadastro\n");
+        err_cod = 7;
         return cli;
     }
 
-    novo->nome = (char *)malloc(31 * sizeof(char));
-    novo->documento = (char *)malloc(15 * sizeof(char));
-    novo->telefone = (char *)malloc(15 * sizeof(char));
-    novo->ultimo_aluguel = NULL;
-    novo->ultimo_aluguel = aluguel_inicializa(novo->ultimo_aluguel);
+    novo_cliente->nome = (char *)malloc(31 * sizeof(char));
+    novo_cliente->documento = (char *)malloc(15 * sizeof(char));
+    novo_cliente->telefone = (char *)malloc(15 * sizeof(char));
+    novo_cliente->ultimo_aluguel = NULL;
+    // novo_cliente->ultimo_aluguel = aluguel_inicializa(novo_cliente->ultimo_aluguel);
 
     // ==================================================
     // insere os dados do cliente:
-    strcpy(novo->nome, strupr(nome));
-    novo->nome = realoca_string(novo->nome);
-    strcpy(novo->documento, doc);
-    novo->documento = realoca_string(novo->documento);
-    strcpy(novo->telefone, tel);
-    novo->telefone = realoca_string(novo->telefone);
+    strcpy(novo_cliente->nome, strupr(nome));
+    novo_cliente->nome = realoca_string(novo_cliente->nome);
+    strcpy(novo_cliente->documento, doc);
+    novo_cliente->documento = realoca_string(novo_cliente->documento);
+    strcpy(novo_cliente->telefone, tel);
+    novo_cliente->telefone = realoca_string(novo_cliente->telefone);
+    novo_cliente->status = 0;   /* cadastra sem aluguel ativo */
 
     // ==================================================
     // encadea o endereço dos clientes:
@@ -54,31 +56,33 @@ Cliente *cliente_cadastra(int tag, Cliente *cli, char *nome, char *doc, char *te
     Cliente *ref = cliente_ordena(cli, nome);
     if (ref == NULL)   /* verifica se o novo cadastro ficará na primeira posição da lista */
     {
-        novo->prox_cliente = cli;
-        novo->ant_cliente = NULL;
+        novo_cliente->prox_cliente = cli;
+        novo_cliente->ant_cliente = NULL;
 
         if (cli != NULL)
-            cli->ant_cliente = novo;
+            cli->ant_cliente = novo_cliente;
         
-        cli = novo;
+        cli = novo_cliente;
     }
     else
     {
-        novo->prox_cliente = ref->prox_cliente;
-        novo->ant_cliente = ref;
+        novo_cliente->prox_cliente = ref->prox_cliente;
+        novo_cliente->ant_cliente = ref;
     
         if (ref->prox_cliente != NULL)    /* verifica se o novo cadastro é o último da lista*/
-            ref->prox_cliente->ant_cliente = novo;
+            ref->prox_cliente->ant_cliente = novo_cliente;
         
-        ref->prox_cliente = novo;
+        ref->prox_cliente = novo_cliente;
     }
 
     // ==================================================
     // cria um arquivo de histórico, caso seja um novo cadastro:
     
     // verifica se é um cadastro novo:
-    if (tag == 1) {
-        cliente_cria_historico(novo, doc);
+    if (tag == 1)
+    {
+        cliente_cria_historico(novo_cliente, doc);
+        cliente_registra(cli);
     }
     // printf("\nCadastro feito com sucesso!\n");
     // delay(1000);        /* atraso para verificar resposta */
@@ -87,38 +91,74 @@ Cliente *cliente_cadastra(int tag, Cliente *cli, char *nome, char *doc, char *te
 
 Cliente *cliente_exclui(Cliente *cli, char *dado)
 {
+    char op[3];
+    int resp;
     // procura o cliente do dado especificado:
-    Cliente *cliente_aux = cliente_busca(cli, dado);
-    if (cliente_aux == NULL)
+    Cliente *cliente_excluido = cliente_busca(cli, dado);
+    if (cliente_excluido == NULL)
+        return cli;
+            
+    do
     {
-        printf("\nCadastro nao encontrado!\n");
-        return cli; /* não achou elemento */
-    }
+        system(clear());
 
-    // ==================================================
-    // retira elemento do encadeamento:
-    if (cliente_aux == cli) /* teste se é o primeiro elemento */
-        cli = cliente_aux->prox_cliente;
-    else
-        cliente_aux->ant_cliente->prox_cliente = cliente_aux->prox_cliente;
+        error_msg();
+        printf("\nO cadastro sera apagado. Deseja Continuar [S/N]?\n");
+        resp = teste_input(op);
 
-	if (cliente_aux->prox_cliente != NULL)    /* teste se é o último elemento */
-        cliente_aux->prox_cliente->ant_cliente = cliente_aux->ant_cliente;
+        if (resp == 'S')
+        { 
+            // ==================================================
+            // retira elemento do encadeamento:
+            if (cliente_excluido == cli) /* teste se é o primeiro elemento */
+                cli = cliente_excluido->prox_cliente;
+            else
+                cliente_excluido->ant_cliente->prox_cliente = cliente_excluido->prox_cliente;
 
-    // ==================================================
-    // apaga o arquivo de histórico de aluguel:
-    cliente_apaga_historico(cliente_aux);
+            if (cliente_excluido->prox_cliente != NULL)    /* teste se é o último elemento */
+                cliente_excluido->prox_cliente->ant_cliente = cliente_excluido->ant_cliente;
 
-    // ==================================================
-    // libera o espaço de memória:
-	free(cliente_aux->nome);
-	free(cliente_aux->documento);
-	free(cliente_aux->telefone);
-    // free(C->ultimo_aluguel);
-    free(cliente_aux);
-	
-    printf("\nCadastro Excluido com Sucesso\n");
+            // ==================================================
+            // apaga o arquivo de histórico de aluguel:
+            cliente_apaga_historico(cliente_excluido);
+
+            // ==================================================
+            // libera o espaço de memória:
+            free(cliente_excluido->nome);
+            free(cliente_excluido->documento);
+            free(cliente_excluido->telefone);
+            aluguel_libera(cliente_excluido->ultimo_aluguel);
+            free(cliente_excluido);
+            
+            printf(TXT_green"\nCadastro Excluido com Sucesso\n"TXT_reset);
+            break;
+        } 
+        else if (resp == 'N')
+            break;
+        else
+            err_cod = 1;
+    } while (1);
+
     return cli;
+}
+
+void cliente_libera(Cliente *cli)
+{
+    Cliente *cliente_aux = cli;   /* ponteiro inicializado com a lista */
+    Cliente *auxiliar;            /* ponteiro auxiliar */
+
+    // ==================================================
+    // laço de repetição, enquanto valor de "cliente_aux" não for [NULL] (Fim da lista):
+    while (cliente_aux != NULL) 
+    {
+        auxiliar = cliente_aux->prox_cliente;
+        free(cliente_aux->nome);
+        free(cliente_aux->documento);
+        free(cliente_aux->telefone);
+        aluguel_libera(cliente_aux->ultimo_aluguel);
+        free(cliente_aux);
+        cliente_aux = auxiliar;
+    }
 }
 
 char *cliente_doc(Cliente *cli)
@@ -128,39 +168,57 @@ char *cliente_doc(Cliente *cli)
 
 void cliente_aluga(Cliente *cli, Carro* carro)
 {
-    Aluguel* aluguel = NULL;
-    Carro *carro_aux = carro_lista(carro);
-    char *data;
+    // Aluguel* aluguel = cli->ultimo_aluguel;
+    Carro *carro_aluga = carro_lista(carro);
+    char *data_hoje, *data;
     int duracao;
     
-    printf("Data do aluguel:\n");
-    scanf(" %[^\n]", data);
-    printf("Qual a duracao do aluguel?\n");
-    scanf("%d", &duracao);
+    printf("Qual a Data do aluguel?\n");
+    strcpy(data, input_data());
 
-    cli->ultimo_aluguel = aluguel_cria(cli->ultimo_aluguel, carro_aux, data, duracao);
-    cliente_atualiza_historico(1, cli, cli->documento);
+    // data_hoje = num_para_data(hoje);
+    // if (compara_data(aluguel_fim(aluguel), data_hoje) != 1)  /* verificando se o antigo aluguel ainda estará ativo */
+    if (cli->status == 0)  /* verificando se o antigo aluguel ainda estará ativo */
+    {
+        printf("Qual a Duracao do aluguel?\n");
+        scanf("%d", &duracao);
+        while (getchar() != '\n');
+
+        cli->ultimo_aluguel = aluguel_cria(cli->ultimo_aluguel, carro_aluga, data, duracao);
+        cliente_atualiza_historico(1, cli, cli->documento);
+        cli->status = 1;
+    }
+    else
+    {
+        printf("\nO cliente possui um aluguel ainda ativo.\n");
+    }
 }
 
 Cliente *cliente_busca(Cliente *cli, char *dado_busca)
 {
     Cliente *cliente_aux;
+    for (cliente_aux = cli; cliente_aux != NULL; cliente_aux = cliente_aux->prox_cliente)
+    {
+        if (compara(cliente_aux->documento, dado_busca) == 0)
+        return cliente_aux;
+    }
+    return NULL;
+}
+
+Cliente *cliente_filtra_busca(Cliente *cli, char *dado_busca)
+{
+    Cliente *cliente_aux, *cliente_escolha;
     Cliente *Busca = NULL;    /* armazena lista de resultado da busca */
 
     // verifica o tipo de dado usado para a busca [nome/CPF]:
     int tipo = teste_formato(dado_busca);
 
-    printf("%-3s\t%-30s\t%-15s\t%-15s\t%-10s\n", "ID", "NOME", "CPF", "TELEFONE", "STATUS");
-    // printf("Tipo: %d\n", tipo);
     if (tipo == 0)      /* procura o elemento na lista pelo nome do cliente */
     {
         for (cliente_aux = cli; cliente_aux != NULL; cliente_aux = cliente_aux->prox_cliente)   
         {
-            if (strncmp(cliente_aux->nome, strupr(dado_busca), strlen(dado_busca)) == 0) {
-                // printf("achou, %s\n", C->nome);
+            if (compara(cliente_aux->nome, string_upper(dado_busca)) == 0) {
                 Busca = cliente_cadastra(0, Busca, cliente_aux->nome, cliente_aux->documento, cliente_aux->telefone);
-                // cliente_consulta(C, count);
-                // (id)++;
             }
         }
     }
@@ -168,21 +226,30 @@ Cliente *cliente_busca(Cliente *cli, char *dado_busca)
     {
         for (cliente_aux = cli; cliente_aux != NULL; cliente_aux = cliente_aux->prox_cliente)
         {
-            // printf("len teste: %d", (int)strlen(dado_busca));
-            if (strncmp(cliente_aux->documento, dado_busca, strlen(dado_busca)) == 0) {
-                // printf("achou, %s\n", C->documento);
+            if (compara(cliente_aux->documento, dado_busca) == 0) {
                 Busca = cliente_cadastra(0, Busca, cliente_aux->nome, cliente_aux->documento, cliente_aux->telefone);
-                // cliente_consulta(C, count);
-                // (*id)++;
             }
         }
     }
-
-    system(clear());
-    int id = 0, escolha;
     
-    cliente_aux = cliente_lista(Busca);
-    return cliente_aux;
+    cliente_escolha = cliente_lista(Busca);
+    // Exclui o restante da lista:
+    while (Busca != NULL)
+    {
+        cliente_aux = Busca->prox_cliente;
+        if (Busca != cliente_escolha)
+        {
+            free(Busca->nome);
+            free(Busca->documento);
+            free(Busca->telefone);
+            free(Busca);
+        }
+        Busca = cliente_aux;
+    }
+
+    // printf("oi\n"); delay(500);
+    // retorna o cliente escolhido:
+    return cliente_escolha;
 }
 
 /* FALTA TERMINAR. ADICIONAR FERRAMENTAS DE EDIÇÃO */
@@ -214,52 +281,63 @@ void cliente_consulta(Cliente *cli)
     else return;
 }
 
-/* LISTANDO. TALVEZ ADICIONAR FERRAMENTAS DE NAVEGAÇÃO E EDIÇÃO */
 Cliente *cliente_lista(Cliente *cli)
 {
+    Cliente *cliente_aux = NULL, *cliente_escolha = NULL;
     char cliente_doc[15];
     char cliente_tel[15];
+    char ch_escolha[3];
     int escolha;
-    int id = 0;
+    int i, id_cliente;
 
     if (cli != NULL)
     {
-        // ==================================================
-        // exibe cabeçalho:
-        printf("%-3s\t%-30s\t%-15s\t%-15s\t%-10s\n", "ID", "NOME", "CPF", "TELEFONE", "STATUS");
-        
-        // ==================================================
-        // exibe as informações do cliente:
-        Cliente *cliente_aux;
-        for (cliente_aux = cli ; cliente_aux != NULL ; cliente_aux=cliente_aux->prox_cliente)
+        do
         {
-            mascara(cliente_aux->documento, cliente_doc, "###.###.###-##");
-            mascara(cliente_aux->telefone, cliente_tel, "(##)#####-####");
-            printf("%d\t%-30s\t%-15s\t%-15s\n", (id), cliente_aux->nome, cliente_doc, cliente_tel);
-            (id)++;
-        }
+            id_cliente = 0;
+            system(clear());
 
-        printf("\nFoi encontrado %d resultado(s).\n", id);
-        printf("Digite o ID do cliente para continuar: ");
-        scanf("%d", &escolha);
-        while (getchar() != '\n');
-
-        cliente_aux = cli;
-        if (escolha >= 0 && escolha <= id)
-        {
-            int i;
-            for (i = 0; i < escolha; i++)
+            // ==================================================
+            // exibe cabeçalho:
+            printf("\n%-3s\t%-30s\t%-15s\t%-15s\t%-10s\n", "ID", "NOME", "CPF", "TELEFONE", "STATUS");
+            printf("==========================================================================================\n");
+            
+            // ==================================================
+            // exibe as informações do cliente:
+            for (cliente_aux = cli ; cliente_aux != NULL ; cliente_aux = cliente_aux->prox_cliente)
             {
-                cliente_aux = cliente_aux->prox_cliente;
+                mascara(cliente_aux->documento, cliente_doc, "###.###.###-##");
+                mascara(cliente_aux->telefone, cliente_tel, "(##)#####-####");
+                printf("%d\t%-30s\t%-15s\t%-15s\n", id_cliente, cliente_aux->nome, cliente_doc, cliente_tel);
+                id_cliente++;
             }
-        }
-        return cliente_aux;
+
+            printf("\nFoi encontrado %d resultado(s).\n", id_cliente);
+
+            error_msg();
+            printf("\nDigite o ID do cliente para continuar (ou deixe em branco para voltar ao menu): ");
+            escolha = teste_input(ch_escolha);
+            if (escolha >= '0' && escolha <= ('0' + id_cliente-1))
+            {
+                escolha = escolha - '0';    /* convertendo para o valor inteiro */
+
+                cliente_escolha = cli;
+                for (i = 0; i < escolha; i++)
+                {
+                    cliente_escolha = cliente_escolha->prox_cliente;
+                }
+                return cliente_escolha;
+            }
+            else if (escolha == '\n')
+                err_cod = 0;    /* voltando para o menu (sem mensagem de erro) */
+            else
+                err_cod = 1;    /* valor inválido */
+        } while (escolha != '\n');
     }
     else
-    {
-        printf("\nNao ha clientes cadastrados no sistema\n");
-        return NULL;
-    }
+        err_cod = 5;            /* lista está vazia */
+
+    return NULL;
 }
 
 void cliente_edita(Cliente *cli)
@@ -327,31 +405,18 @@ void cliente_edita(Cliente *cli)
     cliente_atualiza_historico(0, cli, cli->documento);
 }
 
-/* FALTA FAZER */
-int cliente_total()
+int cliente_total(Cliente *cli)
 {
-}
-
-void cliente_libera(Cliente *cli)
-{
-    Cliente *cliente_aux = cli;   /* ponteiro inicializado com a lista */
-    Cliente *auxiliar;            /* ponteiro auxiliar */
-
-    // ==================================================
-    // laço de repetição, enquanto valor de "cliente_aux" não for [NULL] (Fim da lista):
-    while (cliente_aux != NULL) 
+    int total_cliente = 0;
+    Cliente *cliente_aux;
+    for (cliente_aux = cli; cliente_aux != NULL; cliente_aux = cliente_aux->prox_cliente)
     {
-        auxiliar = cliente_aux->prox_cliente;
-        free(cliente_aux->nome);
-        free(cliente_aux->documento);
-        free(cliente_aux->telefone);
-        aluguel_libera(cliente_aux->ultimo_aluguel);
-        free(cliente_aux);
-        cliente_aux = auxiliar;
+        total_cliente++;
     }
+
+    return total_cliente;
 }
 
-/* FUNCIONANDO. CRIANDO APENAS A SESSÃO DOS DADOS PESSOAIS DO CLIENTE */
 void cliente_cria_historico(Cliente *cli, char* doc)
 {
     // cria o arquivo de histórico:
@@ -369,6 +434,7 @@ void cliente_cria_historico(Cliente *cli, char* doc)
     fprintf(hist, "NOME:\t%s\n", cli->nome);
     fprintf(hist, "CPF:\t%s\n", cli->documento);
     fprintf(hist, "TELEFONE:\t%s\n", cli->telefone);
+    fprintf(hist, "STATUS:\t%d\n", cli->status);
 
     fprintf(hist,"%%\n");     /* Indicador de parada, para busca do histórico */
     
@@ -389,6 +455,8 @@ void cliente_atualiza_historico(int tag, Cliente *cli, char* doc)
     if (hist == NULL) exit(1);
     rewind(hist);
 
+    // ==================================================
+    // atualização dos dados modificado:
     if (tag == 0)       /* atualiza os dados pessoais */
     {
         // escreve dados pessoais no arquivo:
@@ -400,13 +468,9 @@ void cliente_atualiza_historico(int tag, Cliente *cli, char* doc)
         fprintf(hist,"%%\n");     /* Indicador de parada, para busca do histórico */
         
     }        
-    else if (tag == 1)
+    else if (tag == 1)  /* atualiza a lista de histórico */
     {
-        while (fgetc(hist) != '%');
-        // printf(":)");
-
-    // if (cli->ultimo_aluguel != NULL)      /* atualiza o histórico de aluguel */
-    // {
+        while (fgetc(hist) != '%');     /* pula a sessão dos dados do cliente */
 
         // escreve os dados no arquivo, após a sessão dos dados do cliente:
         fprintf(hist,"\n");     /* pula a linha do '%' */
@@ -415,10 +479,10 @@ void cliente_atualiza_historico(int tag, Cliente *cli, char* doc)
         Aluguel *aluguel_aux;
         for (aluguel_aux = cli->ultimo_aluguel; aluguel_aux != NULL; aluguel_aux=aluguel_aux->prox_aluguel)
         {
-            fprintf(hist, "STATUS:\t%s\n", aluguel_aux->status ? "ATIVO" : "FINALIZADO");
+            fprintf(hist, "STATUS:\t%d\n", aluguel_aux->status_aluguel);
             fprintf(hist, "PRAZO ALUGUEL:\n");
-            fprintf(hist, "\tDE:\t%s\n", aluguel_aux->data_aluguel);
-            fprintf(hist, "\tATE:\t%s\n", prazo(aluguel_aux->data_aluguel, aluguel_aux->duracao));
+            fprintf(hist, " -> DE:\t%s\n", aluguel_aux->data_aluguel);
+            fprintf(hist, " -> ATE:\t%s\n", prazo(aluguel_aux->data_aluguel, aluguel_aux->duracao));
             fprintf(hist, "MODELO:\t%s\n", aluguel_aux->carro->modelo);
             fprintf(hist, "PLACA:\t%s\n", aluguel_aux->carro->placa);
             fprintf(hist, "PRECO:\t%.2f\n", aluguel_aux->carro->preco);
@@ -432,12 +496,15 @@ void cliente_atualiza_historico(int tag, Cliente *cli, char* doc)
 
 Cliente *cliente_recupera_historico(Cliente *cli, Carro *carro, char *doc)
 {
-    char cli_nome[41], cli_doc[12], cli_tel[12];
+    char cli_nome[41], cli_doc[12], cli_tel[12];    /* dados do cliente */
     int status;
-    char data_ini[11], data_fim[11];
-    int duracao;
-    char modelo[35] , placa[7];
+
+    char data_ini[11], data_fim[11];                /* dados aluguel */
+    int status_aluguel, duracao;
+
+    char modelo[35] , placa[7];                     /* dados carros */
     float preco;
+
     // abre histórico do cliente:
     char nome_arquivo[51] = "./cliente/historico/cliente";
 
@@ -453,38 +520,40 @@ Cliente *cliente_recupera_historico(Cliente *cli, Carro *carro, char *doc)
     // printf("\nHistorico ta top!\n");
 
     // ==================================================
-    // leitura do arquivo:
+    // leitura do arquivo, iniciando pelos dados do cliente:
     char pula[100];             /* usado para pular partes indesejadas do arquivo */
-    
     fgets(pula, 100, hist);     /* pula o cabeçalho do cliente */
     
-    fscanf(hist, "%[^\t]\t%s\n", pula, cli_nome);
-    fscanf(hist, "%[^\t]\t%s\n", pula, cli_doc);
-    fscanf(hist, "%[^\t]\t%s\n", pula, cli_tel);
+    fscanf(hist, "%[^\t]\t%[^\n]\n", pula, cli_nome);
+    fscanf(hist, "%[^\t]\t%[^\n]\n", pula, cli_doc);
+    fscanf(hist, "%[^\t]\t%[^\n]\n", pula, cli_tel);
+    fscanf(hist, "%[^\t]\t%[^\n]\n", pula, &status);
 
     // printf("%s\t%s\t%s\n\n", cli_nome, cli_doc, cli_tel);
     // delay(1000);        /* atraso para verificar resposta */
     cli = cliente_cadastra(0, cli, cli_nome, cli_doc, cli_tel);
     
-    if (!feof(hist))      /* atualiza o histórico de aluguel */
+    // ==================================================
+    // atualiza a lista do histórico de aluguel:
+    if (!feof(hist))
     {
-
         // escreve os dados no arquivo, após a sessão dos dados do cliente:
         fgets(pula, 100, hist);     
         fgets(pula, 100, hist);     /* pula cabeçalho do histórico */
 
-        Aluguel *aluguel_aux = cli->ultimo_aluguel;
+        Aluguel *aluguel_aux = cli->ultimo_aluguel = NULL;
         Carro *carro_aux;
         while (!feof(hist))     /* lê todo o histórico */
         {
         
+            // ==================================================
             // dados do aluguel:
-            fscanf(hist, "%[^\t]\t%d\n", pula, &status);
+            fscanf(hist, "%[^\t]\t%d\n", pula, &status_aluguel);
     
             fgets(pula, 100, hist);
 
-            fscanf(hist, "\t%[^\t]\t%s\n", pula, data_ini);
-            fscanf(hist, "\t%[^\t]\t%s\n", pula, data_fim);
+            fscanf(hist, "%[^\t]\t%s\n", pula, data_ini);
+            fscanf(hist, "%[^\t]\t%s\n", pula, data_fim);
 
             duracao = data_para_num(data_fim) - data_para_num(data_ini);
 
@@ -548,7 +617,7 @@ void cliente_registra(Cliente *cli)
     Cliente *cliente_aux;
     for (cliente_aux = cli; cliente_aux != NULL; cliente_aux = cliente_aux->prox_cliente)
     {
-        fprintf(fl, "%s\t%s\t%d\n", cliente_aux->nome, cliente_aux->documento, cliente_aux->ultimo_aluguel->status);
+        fprintf(fl, "%s\t%s\t%d\n", cliente_aux->nome, cliente_aux->documento, cliente_aux->status);
     }
     fclose(fl);
 }
@@ -591,10 +660,10 @@ Cliente *cliente_leia(Cliente *cli, Carro *carro)
         char nome[41], doc[15], status[15];
         
         // pula a linha do cabeçalho:
-        char linha[100];
-        fgets(linha, 100, fl);
+        char pula[100];
+        fgets(pula, 100, fl);
 
-        printf("Dados registro:\n");
+        // printf("Dados registro:\n");
         while (!feof(fl))
         {
             fscanf(fl, "%[^\t]\t%[^\t]\t%[^\n]\n", nome, doc, status);

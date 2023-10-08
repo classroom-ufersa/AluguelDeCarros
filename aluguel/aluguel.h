@@ -28,3 +28,8 @@ void aluguel_libera(Aluguel *aluguel);
 
 */
 Aluguel *aluguel_ordena(Aluguel *aluguel, char *data_inicio);
+
+/* Função aluguel_fim
+
+*/
+char *aluguel_fim(Aluguel *aluguel);
