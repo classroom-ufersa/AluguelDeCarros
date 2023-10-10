@@ -38,7 +38,6 @@ Aluguel *aluguel_cria(Aluguel* aluguel, Carro* carro, char *data, int duracao)
         printf("\nNao foi possivel criar o registro de aluguel\n");
         return NULL;
     }
-
     novo_aluguel->data_aluguel = (char *)malloc(11 * sizeof(char));
 
     // ==================================================
@@ -47,6 +46,7 @@ Aluguel *aluguel_cria(Aluguel* aluguel, Carro* carro, char *data, int duracao)
     novo_aluguel->status_aluguel = 1;
     novo_aluguel->carro = carro;
     carro_alugado(carro);
+    // printf(":).....");
 
     // ==================================================
     // encadea o endereço dos alugueis:

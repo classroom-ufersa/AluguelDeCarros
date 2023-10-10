@@ -172,7 +172,7 @@ void cliente_aluga(Cliente *cli, Carro* carro)
     Carro *carro_aluga = carro_lista(carro);
     char *data_hoje, *data;
     int duracao;
-    
+    // printf("%d",carro_aluga->disponibilidade);
     printf("Qual a Data do aluguel?\n");
     strcpy(data, input_data());
 
@@ -180,12 +180,15 @@ void cliente_aluga(Cliente *cli, Carro* carro)
     // if (compara_data(aluguel_fim(aluguel), data_hoje) != 1)  /* verificando se o antigo aluguel ainda estará ativo */
     if (cli->status == 0)  /* verificando se o antigo aluguel ainda estará ativo */
     {
-        printf("Qual a Duracao do aluguel?\n");
+        printf("Qual a Duracao do aluguel em dias?\n");
         scanf("%d", &duracao);
         while (getchar() != '\n');
 
+
         cli->ultimo_aluguel = aluguel_cria(cli->ultimo_aluguel, carro_aluga, data, duracao);
+        printf(":);;;;");
         cliente_atualiza_historico(1, cli, cli->documento);
+        printf(":)");
         cli->status = 1;
     }
     else

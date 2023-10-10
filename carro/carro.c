@@ -14,9 +14,9 @@ int err_cod = 0;
 
 struct carro
 {
-    char *placa; 
+    char *placa;
     char *modelo;
-    int disponibilidade; 
+    int disponibilidade;
     float preco;
     // Cliente *cliente;
     Carro *ant_carro;
@@ -25,15 +25,15 @@ struct carro
 
 Carro *carro_cadastra(Carro *carro, char *modelo, char *placa, float preco)
 {
-    Carro *novo = (Carro*)malloc(sizeof(Carro));
+    Carro *novo = (Carro *)malloc(sizeof(Carro));
 
-    novo->placa = (char*)malloc(41*sizeof(char)); 
-    novo->modelo = (char*)malloc(15*sizeof(char)); 
+    novo->placa = (char *)malloc(41 * sizeof(char));
+    novo->modelo = (char *)malloc(15 * sizeof(char));
     novo->disponibilidade = 1;
     novo->preco = preco;
     // ==================================================
     // encadea o endereço dos clientes:
-    
+
     // ==================================================
     // insere os dados do cliente:
     strcpy(novo->modelo, strupr(modelo));
@@ -46,7 +46,7 @@ Carro *carro_cadastra(Carro *carro, char *modelo, char *placa, float preco)
 
     // endereço do elemento imediatamente antes do novo elemento, na ordem alfabética:
     Carro *ref = carro_ordena(carro, modelo);
-    if (ref == NULL)   /* verifica se o novo cadastro ficará na primeira posição da lista */
+    if (ref == NULL) /* verifica se o novo cadastro ficará na primeira posição da lista */
     {
         novo->prox_carro = carro;
         novo->ant_carro = NULL;
@@ -60,10 +60,10 @@ Carro *carro_cadastra(Carro *carro, char *modelo, char *placa, float preco)
     {
         novo->prox_carro = ref->prox_carro;
         novo->ant_carro = ref;
-    
-        if (ref->prox_carro != NULL)    /* verifica se o novo cadastro é o último da lista*/
+
+        if (ref->prox_carro != NULL) /* verifica se o novo cadastro é o último da lista*/
             ref->prox_carro->ant_carro = novo;
-        
+
         ref->prox_carro = novo;
     }
     return carro;
@@ -71,12 +71,12 @@ Carro *carro_cadastra(Carro *carro, char *modelo, char *placa, float preco)
 
 void carro_libera(Carro *carro)
 {
-    Carro *carro_aux = carro;   /* ponteiro inicializado com a lista */
-    Carro *t;           /* ponteiro auxiliar */
+    Carro *carro_aux = carro; /* ponteiro inicializado com a lista */
+    Carro *t;                 /* ponteiro auxiliar */
 
     // ==================================================
     // laço de repetição, enquanto valor de "P" não for [NULL] (Fim da lista):
-    while (carro_aux != NULL) 
+    while (carro_aux != NULL)
     {
         t = carro_aux->prox_carro;
         free(carro_aux->placa);
@@ -101,11 +101,11 @@ Carro *carro_lista(Carro *carro)
             // ==================================================
             // exibe cabeçalho:
             printf("%-3s\t%-30s\t%-10s\t%-10s\t%-10s\n", "ID", "MODELO", "PLACA", "PRECO", "STATUS");
-            
+
             // ==================================================
             // exibe as informações do cliente:
             Carro *carro_aux;
-            for (carro_aux = carro ; carro_aux != NULL ; carro_aux=carro_aux->prox_carro)
+            for (carro_aux = carro; carro_aux != NULL; carro_aux = carro_aux->prox_carro)
             {
                 printf("%d\t%-30s\t%-10s\tR$%-10.2f\t%-10s\n", id_carro, carro_aux->modelo, carro_aux->placa, carro_aux->preco, carro->disponibilidade ? "Disponivel" : "Indisponivel");
                 id_carro++;
@@ -114,27 +114,32 @@ Carro *carro_lista(Carro *carro)
             printf("\nFoi encontrado %d resultado(s).\n", id_carro);
             printf("Digite o ID do carro para continuar: ");
             scanf("%d", &escolha);
-            while (getchar() != '\n');
+            while (getchar() != '\n')
+                ;
 
-            carro_aux = carro;
-            if (escolha >= 0 && escolha <= id_carro-1)
+            // carro_aux = carro;
+            if (escolha >= 0 && escolha <= id_carro - 1)
             {
                 int i;
                 for (i = 0; i < escolha; i++)
                 {
-                    carro_aux = carro_aux->prox_carro;
+                    carro = carro->prox_carro;
+                    // carro_aux = carro_aux->prox_carro;
                 }
+                // printf("%d",carro->disponibilidade);
+                // printf("%s", carro->modelo);
+                // carro_aux = carro;
+                // printf("....");
+                if (carro->disponibilidade == 0)
+                    {
+                        printf("\nCarro indisponivel!\n");
+                        delay(500);
+                    }
+                    else
+                        break;                   
             }
-            if(carro_aux->disponibilidade == 0)
-            {
-                printf("\nCarro indisponivel!\n");
-                delay(500);
-            }
-            else
-                break;
         }
-
-        return carro_aux;
+        return carro;
     }
     else
     {
@@ -149,44 +154,51 @@ void carro_disponivel(Carro *carro)
     printf("CARROS DISPONIVEIS:\n");
     printf("%s\t%s\t%s", "MODELO", "PLACA", "PRECO");
 
-    for(auxiliar = carro; auxiliar != NULL; auxiliar=auxiliar->prox_carro){
+    for (auxiliar = carro; auxiliar != NULL; auxiliar = auxiliar->prox_carro)
+    {
 
-        if(auxiliar->disponibilidade != 0){
+        if (auxiliar->disponibilidade != 0)
+        {
             printf("%s\t%s\tR$%.2f\n", auxiliar->modelo, auxiliar->placa, auxiliar->preco);
-        }   
+        }
     }
 }
 
 void carro_alugado(Carro *carro)
 {
+    // printf(":(");
+    // printf("%d", carro->disponibilidade);
     carro->disponibilidade = 0;
+    // printf(":)");
 }
 
 Carro *carro_busca(Carro *carro, char *dado_busca)
 {
     Carro *carro_aux;
-    
+
     // verifica o tipo de dado usado para a busca [nome/CPF]:
     int tipo = teste_formato(dado_busca);
 
     // printf("Tipo: %d\n", tipo);
-    if (tipo == 0)      /* procura o carro pelo modelo */
+    if (tipo == 0) /* procura o carro pelo modelo */
     {
-        for (carro_aux = carro; carro_aux != NULL; carro_aux = carro_aux->prox_carro)   
+        for (carro_aux = carro; carro_aux != NULL; carro_aux = carro_aux->prox_carro)
         {
-            if (compara(carro_aux->modelo, strupr(dado_busca)) == 0) {
+            if (compara(carro_aux->modelo, strupr(dado_busca)) == 0)
+            {
                 // printf("achou, %s\n", C->nome);
                 return carro_aux;
             }
         }
         return NULL;
     }
-    else                /* procura o carro pela placa */
+    else /* procura o carro pela placa */
     {
         for (carro_aux = carro; carro_aux != NULL; carro_aux = carro_aux->prox_carro)
         {
             // printf("len teste: %d", (int)strlen(dado_busca));
-            if (compara(carro_aux->placa, dado_busca) == 0) {
+            if (compara(carro_aux->placa, dado_busca) == 0)
+            {
                 // printf("achou, %s\n", C->documento);
                 return carro_aux;
             }
@@ -197,27 +209,27 @@ Carro *carro_busca(Carro *carro, char *dado_busca)
 
 Carro *carro_ordena(Carro *carro, char *modelo)
 {
-    Carro *ref = NULL;          /* ponteiro para indicar endereço de referência, inicializado com [NULL] */
-	Carro *carro_aux = carro;			/* cria um ponteiro auxiliar "P", inicializada com a lista "cli" */
-    // O critério de parada será o fim da fila ou encontrar 
-    // um nome que venha depois, na ordem alfabética:
-	while (carro_aux != NULL && compara(carro_aux->modelo, modelo) == -1)		/* verifica "carro_aux" chegou na posição */
-	{
-		ref = carro_aux;		        /* "ref" aponta para o valor atual de "P" */
-		carro_aux = carro_aux->prox_carro;	    /* "carro_aux" passa a apontar para o próximo valor */
-	}
+    Carro *ref = NULL;                                                    /* ponteiro para indicar endereço de referência, inicializado com [NULL] */
+    Carro *carro_aux = carro;                                             /* cria um ponteiro auxiliar "P", inicializada com a lista "cli" */
+                                                                          // O critério de parada será o fim da fila ou encontrar
+                                                                          // um nome que venha depois, na ordem alfabética:
+    while (carro_aux != NULL && compara(carro_aux->modelo, modelo) == -1) /* verifica "carro_aux" chegou na posição */
+    {
+        ref = carro_aux;                   /* "ref" aponta para o valor atual de "P" */
+        carro_aux = carro_aux->prox_carro; /* "carro_aux" passa a apontar para o próximo valor */
+    }
     // printf("oi\n");
-	
-	return ref; /* retorna o endereço de referência para o novo cadastro */
+
+    return ref; /* retorna o endereço de referência para o novo cadastro */
 }
 
 // int carro_importa(Carro **carro, FILE* fl, int count, int max)
-// {   
+// {
 //     int count_import = 0;
 //     // move o cursor do arquivo para o fim
 //     // e verifica se o arquivo está vazio:
 //     fseek(fl, 0, SEEK_END);
-//     if (ftell(fl) != 0) {   
+//     if (ftell(fl) != 0) {
 //         // retorna o cursor ao início do arquivo:
 //         fseek(fl, 0, SEEK_SET);
 //         int i, id;
@@ -265,8 +277,8 @@ Carro *carro_leia(Carro *carro)
 {
     FILE *fl = fopen("./carro/galeria.txt", "rt");
     // verifica se o arquivo foi aberto corretamente:
-    
-    if (fl == NULL) 
+
+    if (fl == NULL)
     {
         printf("\nArquivo nao encontrado!\n");
         return 0; // erro ao acessar o arquivo
@@ -276,14 +288,15 @@ Carro *carro_leia(Carro *carro)
     // move o cursor do arquivo para o fim
     // e verifica se o arquivo está vazio:
     fseek(fl, 0, SEEK_END);
-    if (ftell(fl) != 0) {
+    if (ftell(fl) != 0)
+    {
         // retorna o cursor ao início do arquivo:
         rewind(fl);
 
         int i = 0;
         char modelo[41], placa[15];
         float preco;
-        
+
         // pula a linha do cabeçalho:
         char pula[100];
         fgets(pula, 100, fl);
@@ -291,7 +304,7 @@ Carro *carro_leia(Carro *carro)
         while (!feof(fl))
         {
             fscanf(fl, "%[^\t]\t%[^\t]\t%f\t%[^\n]\n", modelo, placa, &preco, pula);
-            
+
             carro = carro_cadastra(carro, modelo, placa, preco);
         }
     }
