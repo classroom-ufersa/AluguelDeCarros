@@ -548,7 +548,7 @@ Cliente *cliente_exclui(Cliente *cli, char *dado)
     if (cliente_excluido == NULL)
         return cli;
 
-    if(cli->status == 0)
+    if (cliente_excluido->status == 0)
     {
         // ==================================================
         // retira elemento do encadeamento:
@@ -574,9 +574,10 @@ Cliente *cliente_exclui(Cliente *cli, char *dado)
         
         registro(cli);
         alert(-4);      /* cadastro excluido */
-    }else
+    }
+    else
     {
-        alert(-2);
+        alert(-2);      /* aluguel ainda ativo */
     }
 
     return cli;
@@ -644,7 +645,7 @@ int cliente_consulta(Cliente *cli, Cliente *consultado)
                     if (op == 'S')
                     {
                         cliente_exclui(cli, consultado->documento);
-                        alert(0);       /* volta ao menu iniciar, sem mensagem */
+                        break;
                     } 
                     else if (op == 'N')
                         break;
@@ -705,7 +706,7 @@ Cliente *cliente_atualiza_aluguel(Cliente *cli, char *data_hoje)
         if (aluguel_aux != NULL)
         {
             data_final = aluguel_data_fim(aluguel_aux);
-            
+            printf("%s\n", cliente_aux->nome); delay(1000);
             if (compara_data(data_final, data_hoje) < 0)
             {
                 cliente_aux->status = 1;
@@ -831,7 +832,7 @@ Cliente *cliente_recupera_historico(Cliente *cli, Carro *carro, char *doc)
     fscanf(hist, "%[^\t]\t%[^\n]\n", pula, cli_doc);
     fscanf(hist, "%[^\t]\t%[^\n]\n", pula, cli_tel);
     fscanf(hist, "%[^\t]\t%d\n", pula, &status);
-
+    // printf("%s\n", cli_nome); delay(500);
     cli = cliente_cadastra(0, cli, cli_nome, cli_doc, cli_tel, status);
     fgets(pula, 100, hist);     /* pula linha do '%' */
     
@@ -872,7 +873,6 @@ Cliente *cliente_recupera_historico(Cliente *cli, Carro *carro, char *doc)
 
             cliente_aux->ultimo_aluguel = aluguel_cria(cliente_aux->ultimo_aluguel, carro_aux, data_ini, duracao, status_aluguel);
         }
-
     }
 
     fclose(hist);

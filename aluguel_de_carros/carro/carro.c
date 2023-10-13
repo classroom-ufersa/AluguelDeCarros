@@ -36,9 +36,9 @@ Carro *carro_cadastra(Carro *carro, char *modelo, char *placa, float preco)
     
     // ==================================================
     // insere os dados do cliente:
-    strcpy(novo->modelo, strupr(modelo));
+    strcpy(novo->modelo, string_upper(modelo));
     novo->modelo = realoca_string(novo->modelo);
-    strcpy(novo->placa, placa);
+    strcpy(novo->placa, string_upper(placa));
     novo->placa = realoca_string(novo->placa);
     novo->disponibilidade = 1;
     novo->preco = preco;
@@ -342,52 +342,37 @@ void carro_edita(Carro *carro, Carro *carro_consultado)
 
 void carro_exclui(Carro *carro, Carro *carro_consultado)
 {
-    int op;
     Carro *carro_aux;
-
-    while(1)
+    
+    if (carro_consultado->disponibilidade == 1)
     {
-        system(clear());
-
-        alert_msg();
-        printf("\nO cadastro sera apagado. Deseja Continuar [S/N]?\n");
-        op = teste_input();
-
-        if (op == 'S')
-        {
-            //for (carro_aux = carro; carro_aux != NULL; carro_aux = carro_aux->prox_carro)
-            //{
-             
-                if (carro_consultado == carro)
-                    carro = carro_consultado->prox_carro;
-                else
-                    carro_consultado->ant_carro->prox_carro = carro_consultado->prox_carro;
-                if(carro_consultado->prox_carro != NULL)
-                    carro_consultado->prox_carro->ant_carro = carro_consultado->ant_carro;  
-                
-                carro_atualiza_galeria(carro);
-                free(carro_consultado->modelo);
-                free(carro_consultado->placa);
-                free(carro_consultado);
-                alert(-14);
-
-                break;;
-            //} 
-        }
-        else if (op == 'N')
-            break;
+        if (carro_consultado == carro)
+            carro = carro_consultado->prox_carro;
         else
-            alert(1);
+            carro_consultado->ant_carro->prox_carro = carro_consultado->prox_carro;
+        if(carro_consultado->prox_carro != NULL)
+            carro_consultado->prox_carro->ant_carro = carro_consultado->ant_carro;  
+        
+        carro_atualiza_galeria(carro);
+        free(carro_consultado->modelo);
+        free(carro_consultado->placa);
+        free(carro_consultado);
+        alert(-14);
     }
+    else
+    {
+        alert(9);      /* aluguel ainda ativo */
+    }
+    
 }
 
 int carro_consulta(Carro *carro, Carro *carro_consultado)
 {
-    int op_cons;
+    int op, op_cons;
 
     while(1)
     {
-        system(clear());
+        cabecalho("CONSULTA CARRO\t","\t\t");
 
         printf("==========================================================================================\n");
         printf("DADOS DO CARRO:\n");
@@ -397,9 +382,10 @@ int carro_consulta(Carro *carro, Carro *carro_consultado)
         printf("\n==========================================================================================\n");
         
 
-        printf("\n>>>[1] Editar\n");
-        printf(">>>[2] Excluir\n");
-        printf(">>>[3] Volar");
+        printf("\n>>> [1] Editar\n");
+        printf(">>> [2] Excluir\n");
+        printf(">>> [3] Voltar\n");
+        printf(">>> [4] Voltar ao Menu\n");
 
         fflush(stdin);
 
@@ -414,12 +400,33 @@ int carro_consulta(Carro *carro, Carro *carro_consultado)
                 break;
 
             case '2':
-                carro_exclui(carro, carro_consultado);
+                while(1)
+                {
+                    system(clear());
+
+                    alert_msg();
+                    printf("\nO cadastro sera apagado. Deseja Continuar [S/N]?\n");
+                    op = teste_input();
+
+                    if (op == 'S')
+                    {
+                        carro_exclui(carro, carro_consultado);
+                        break;
+                    }
+                    else if (op == 'N')
+                        break;
+                    else
+                        alert(1);
+                }
                 return 0;
 
             case '3':
                 alert(0);
                 return 1;
+            
+            case '4':
+                alert(0);
+                return 0;
     
             default:
                 alert(1);

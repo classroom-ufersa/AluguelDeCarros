@@ -462,8 +462,6 @@ Carro *menu_carro(Cliente *cli, Carro *carro)
                 printf("\nConsultando informacoes do Carro...\n");
                 delay(ATRASO);
 
-                system(clear());
-
                 menu_consulta_carro(carro);
 
                 break;
@@ -844,6 +842,7 @@ void alert_msg(void)
     else if (alert_cod == 6) printf(TXT_yellow"\nTamanho invalido! O telefone deve conter 11 digitos.\n"TXT_reset);
     else if (alert_cod == 7) printf(TXT_yellow"\nO telefone deve conter apenas numeros.\n"TXT_reset);
     else if (alert_cod == 8) printf(TXT_red"\nNao e possivel selecionar uma data anterior.\n"TXT_reset);
+    else if (alert_cod == 9) printf(TXT_red"\nCarro esta sendo alugado!\n"TXT_reset);
     // alerta de processo:
     else if (alert_cod == -1) printf(TXT_green"\nData atualizada!\n"TXT_reset);
     else if (alert_cod == -2) printf(TXT_red"\nO cliente possui um aluguel ativo!\n"TXT_reset);
@@ -862,7 +861,6 @@ void alert_msg(void)
     else if (alert_cod == -15) printf(TXT_red"\nNao ha carros cadastrados no sistema.\n"TXT_reset);
     else if (alert_cod == -16) printf(TXT_red"\nCarro Indisponivel!\n"TXT_reset);
     else if (alert_cod == -17) printf(TXT_red"\nERRO! Carro nao encotrado.\n"TXT_reset);
-    else if (alert_cod == -18) printf(TXT_red"\nConflito de Data!\n"TXT_reset);
 
     alert(0);    /* reseta marcador */
 }
@@ -906,13 +904,23 @@ void registro(Cliente *cli)
 void registro_leia(Cliente **cli, Carro **carro)
 {
     int i, id;
-    char nome[41], doc[15], status[15], data[11];
+    char nome[31], doc[15], status[15], data[11];
+    
+    /* Recuperando informações dos carros */
+    printf("Carregando dados dos Carros...\n");
+    delay(ATRASO);     /* atraso para verificar resposta */
+    if((*carro = carro_leia(*carro)) != NULL)
+    {
+        printf("Dados recuperados com sucesso\n");
+        delay(ATRASO);     /* atraso para verificar resposta */
+    }
 
+    /* Recuperando dados salvos do cliente */
     FILE *fl = fopen("./aluguel_de_carros/rizixtru.txt", "rt");
     // verifica se o arquivo foi aberto corretamente:
     if (fl == NULL) 
     {
-        printf("\nArquivo nao encontrado!\n");
+        alert(-7);
         return; // erro ao acessar o arquivo
     }
     // ==================================================
@@ -927,16 +935,6 @@ void registro_leia(Cliente **cli, Carro **carro)
         
         strcpy(data_hoje, data);
 
-        /* Recuperando informações dos carros */
-        printf("Carregando dados dos Carros...\n");
-        delay(ATRASO);     /* atraso para verificar resposta */
-        if((*carro = carro_leia(*carro)) != NULL)
-        {
-            printf("Dados recuperados com sucesso\n");
-            delay(ATRASO);     /* atraso para verificar resposta */
-        }
-
-        /* Recuperando dados salvos do cliente */
         printf("Carregando dados dos Clientes...\n");
         delay(ATRASO);     /* atraso para verificar resposta */
         
@@ -946,11 +944,12 @@ void registro_leia(Cliente **cli, Carro **carro)
         // printf("Dados registro:\n");
         while (!feof(fl))
         {   
+            // printf("oi\n"); delay(500);
             fscanf(fl, "%[^\t]\t%[^\t]\t%[^\n]\n", nome, doc, status);
             *cli = cliente_recupera_historico(*cli, *carro, doc);
         }
 
-        if(*cli  != NULL)
+        if(*cli != NULL)
         {
             cliente_atualiza_aluguel(*cli, data_hoje);
             // cliente_atualiza_historico(1, cli);
@@ -985,7 +984,6 @@ void menu_consulta_carro(Carro *carro)
             carro_encontrado = carro_busca(carro, placa, 1);
             if (carro_encontrado != NULL)
             {
-                // system(clear());
                 if (carro_consulta(carro, carro_encontrado) == 0) return;
             }
             else
