@@ -1,12 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-// #include "./carro/carro.c"
-// #include "./cliente/cliente.c"
-#include "./geral/geral.c"
-// #include "carro.h" // pensei em nao ser possivel modificar nada do carro, ento so o cliente.c ja seria suficiente 
-// #include "cliente.c"
-
+#include "./aluguel_de_carros/geral/geral.c"
 
 int main(void) {
 
