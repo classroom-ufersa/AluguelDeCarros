@@ -1002,4 +1002,3 @@ void menu_consulta_carro(Carro *carro)
     }
     
 }
-
