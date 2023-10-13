@@ -80,6 +80,6 @@ int carro_consulta(Carro *carro, Carro *carro_consultado);
 
 
 /* Função carro_atualiza_galeria
-
+    
 */
 void carro_atualiza_galeria(Carro *carro);
