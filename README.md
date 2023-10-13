@@ -8,9 +8,11 @@ O sistema de gerenciamento conta com três TADs e um módulo. Sendo estas para o
 
 O sistema foi criado para ser capaz de adicionar um cliente ou veículo, alugar e fazer a verificação dos veículos disponíveis, ou seja, contará com a listagem dos carros, bem como dos clientes. Além disso, permitirá a busca dentro dos dados existentes, permitindo a edição, mas este último apenas no menu Cliente. Entre outras funções dispostas em ambos os menus, como consultar, remover e exibir histórico. 
 
+Além disso, o projeto faz uso de listas duplamente encadeadas, que permitem a possibilidade de percorrer a lista nos dois sentidos, tanto do início para o fim, como do fim para o início. 
+
 ### **Vantagens**
 
-O sistema de gerenciamento utiliza Listas duplamente encadeadas. As maiores vantagens apresentadas pelo seu uso é:
+As maiores vantagens apresentadas pelo uso de Listas duplamente encadeadas é:
 
 - Possibilidade de percorrer a lista em qualquer direção;
 
@@ -28,7 +30,7 @@ As maiores desvantagens apresentadas pelo seu uso é:
 
 - Complexidade de implementação;
 
-### **Funções comuns às TADs** 
+### **Funções Importantes** 
 
 ### Função cliente_cadastra
 
@@ -48,7 +50,7 @@ Cliente *cliente_exclui(Cliente *cli, char *dado);
 
 ### Função carro_lista
 
-- **Descrição:** Listar carros.
+- **Descrição:** Lista os carros.
 
 ```c
 Carro *carro_lista(Carro *carro);
@@ -64,7 +66,7 @@ Cliente *cliente_busca(Cliente *cli, char* dado_busca);
 
 ### Função cliente_edita
 
-- **Descrição:** abre sessão de edição, para modificar.
+- **Descrição:** Abre a sessão de edição, para modificar.
 
 ```c
 void cliente_edita(Cliente *cli);
@@ -72,7 +74,7 @@ void cliente_edita(Cliente *cli);
 
 ### Função carro_disponivel
 
-- **Descrição:** Consultar carros disponíveis.
+- **Descrição:** Consulta os carros disponíveis.
 
 ```c
 void carro_disponivel(Carro *carro);
@@ -85,3 +87,6 @@ void carro_disponivel(Carro *carro);
 ```c
 int cliente_total(Cliente *cli);
 ```
+
+### **Funções Extras** 
+

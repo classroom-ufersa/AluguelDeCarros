@@ -7,9 +7,9 @@
 #include "../carro/carro.h"
 #include "geral.h"
 
-#define ATRASO 1
-char *data_hoje = "01/01/2023";       /* dia inicial da simulação */
-// int err_cod = 0;
+#define ATRASO 200
+char data_hoje[11] = "01/01/2023";     /* dia inicial da simulação */
+// int alert_cod = 0;
 
 char *clear(void)
 {    
@@ -30,32 +30,35 @@ char *clear(void)
     #endif
 }
 
-void cabecalho(char *titulo)
+void cabecalho(char *pagina, char *titulo)
 {
-    printf("=======================================================\n");
-    printf("   ALUGUEL DE CARROS\t%s\t%s\n", titulo, data_hoje);
-    printf("=======================================================\n");
-    printf(">>> [0] PASSAR TEMPO\n\n");
+    system(clear());
+    printf("==========================================================================================\n");
+    printf("\t%s\t%s\t\t%s\n", pagina, titulo, data_hoje);
+    printf("==========================================================================================\n");
 }
 
-int menu_principal(void){
-    char op1[3];
-    int resp1;
+int menu_principal(Cliente* cli)
+{
+    int op1;
     
-    system(clear());
-    cabecalho("MENU INICIAR");
+    cabecalho("ALUGUEL DE CARROS\t", "MENU INICIAR\t");
+    printf(">>> [0] PASSAR TEMPO\n\n");
+
     printf(">>> [1] CLIENTE\n");
     printf(">>> [2] VEICULO\n");
     printf(">>> [3] SAIR\n");
 
-    error_msg();
+    alert_msg();
     printf("\nEscolha uma opcao: ");
-    resp1 = teste_input(op1);
+    op1 = teste_input();
 
-    switch (resp1) {
+    switch (op1) {
         case '0':
-            data_hoje = passa_tempo(data_hoje);
-            delay(3000);
+            strcpy(data_hoje, passa_tempo(data_hoje));
+            cliente_atualiza_aluguel(cli, data_hoje);
+            registro(cli);
+
             break;
 
         case '1':
@@ -74,152 +77,196 @@ int menu_principal(void){
             break;
 
         default:    
-            err_cod = 1;
+            alert(1);
             break;
     }
 
-    return resp1;
+    return op1;
 }
 
 Cliente *menu_cliente(Cliente *cli, Carro *carro)
 {
-    char op2[3], op_i[3];
-    int resp2, resp_i;
+    int op2, op_i;
 
     char dado[32];
     int tipo, count, escolha;
     int total_anterior, total_atual;
+    int cliente_escolhido = 0;
 
     char nome[32], doc[13], tel[13];
     Cliente *cliente_aux = NULL;
     Cliente *Busca = NULL;
+    Carro *carro_aluga;
 
     do {
-        system(clear());
-        
-        cabecalho("MENU CLIENTE");
+        cabecalho("ALUGUEL DE CARROS\t", "MENU CLIENTE\t");
+        printf(">>> [0] PASSAR TEMPO\n\n");
         
         printf(">>> [1] ALUGAR\n"); // submenu: adicionar cliente            
         printf(">>> [2] LISTAR\n"); // submenu: historico do cliente
         printf(">>> [3] BUSCAR\n"); // submenu: editar cliente e historico
-        printf(">>> [4] CONSULTAR QUANTIDADE\n");    
-        printf(">>> [5] REMOVER CLIENTE\n");    
-        printf(">>> [6] VOLTAR\n");    
+        printf(">>> [4] REMOVER CLIENTE\n");    
+        printf(">>> [5] VOLTAR\n");    
         
-        error_msg();
+        alert_msg();
         printf("\nEscolha uma opcao: ");
 
         // Menu do Cliente:
-        resp2 = teste_input(op2);
+        op2 = teste_input();
 
-        switch (resp2)
+        switch (op2)
         {
             case '0':
-                
+                strcpy(data_hoje, passa_tempo(data_hoje));
+                cliente_atualiza_aluguel(cli, data_hoje);
+                registro(cli);
+
                 break;
 
             case '1':
                 printf("\nIniciando Cadastro de Aluguel...\n");
                 delay(ATRASO);
+                while (1)
+                {
+                    cabecalho("SISTEMA DE ALUGUEL\t", "\t\t");
 
-                system(clear());
-
-                printf("1 - Novo Cadastro\n");      /* Cria um novo cadastro antes de iniciar o aluguel */
-                printf("2 - Cliente Existente\n");  /* Cliente já está cadastrado no sistema */
-                printf("Escolha uma opcao: ");
-
-                resp_i = teste_input(op_i);
-
-                if (resp_i == '1')          /* criar cadastro */
-                {      
-                    printf("\nCriando Cadastro...\n");
-                    delay(ATRASO);
+                    printf(">>> [1] Novo Cadastro\n");      /* Cria um novo cadastro antes de iniciar o aluguel */
+                    printf(">>> [2] Cliente Existente\n");  /* Cliente já está cadastrado no sistema */
+                    printf(">>> [3] Voltar\n");
                     
-                    system(clear());
-                    
-                    total_anterior = cliente_total(cli);    /* total de clientes antes do cadastro */
+                    alert_msg();
+                    printf("\nEscolha uma opcao: ");
 
-                    printf("Digite o Nome Completo: ");
-                    scanf(" %31[^\n]", nome);
-                    while (getchar() != '\n');
-                    if (strlen(nome) > 30)                  /* verifica se o nome é válido */
-                    {
-                        printf(TXT_red"\nErro! Tamanho maximo do nome excedido.\n"TXT_reset);
-                        break;
-                    }
+                    op_i = teste_input();
 
-                    printf("Informe o CPF: ");
-                    scanf(" %12[^\n]", doc);
-                    while (getchar() != '\n');
-                    if (teste_formato(doc))                 /* verifica se o CPF é válido */
-                    {
-                        if (strlen(doc) != 11) 
+                    if (op_i == '1')          /* criar cadastro */
+                    {      
+                        printf("\nCriando Cadastro...\n");
+                        delay(ATRASO);
+                        
+                        cabecalho("SISTEMA DE ALUGUEL\t", "NOVO CADASTRO\t");
+
+                        total_anterior = cliente_total(cli);    /* total de clientes antes do cadastro */
+
+                        printf("Digite o Nome Completo: ");
+                        scanf(" %31[^\n]", nome);
+                        while (getchar() != '\n');
+                        if (strlen(nome) > 30)                  /* verifica se o nome é válido */
                         {
-                            printf(TXT_yellow"\nO CPF deve conter 11 digitos.\n"TXT_reset);
+                            alert(3);
+                            break;
+                        }
+
+                        printf("Informe o numeros do CPF: ");
+                        scanf(" %12[^\n]", doc);
+                        while (getchar() != '\n');
+                        if (teste_formato(doc))                 /* verifica se o CPF é válido */
+                        {
+                            if (strlen(doc) != 11) 
+                            {
+                                alert(4);
+                                break;
+                            }
+                        }
+                        else
+                        {
+                            alert(5);
+                            break;
+                        }
+
+                        printf("Informe os numeros de um telefone para contato: ");
+                        scanf(" %12[^\n]", tel);
+                        while (getchar() != '\n');
+                        if (teste_formato(tel))                 /* verifica se o telefone é válido */
+                        {
+                            if (strlen(tel) != 11)
+                            {
+                                alert(6);
+                                break;
+                            }
+                        } else {
+                            alert(7);
+                            break;
+                        }
+
+                        // ponteiro auxiliar endereça para lista com novo cadastro:
+                        cli = cliente_cadastra(1, cli, nome, doc, tel, 0);
+
+                        total_atual = cliente_total(cli);   /* total de clientes após o cadastro */
+
+                        // ==================================================
+                        // caso o cadastro tenho sido realizado com sucesso,
+                        // procura novo cliente dentro da nova lista:
+                        if (total_atual != total_anterior)
+                        {
+                            cliente_aux = cliente_busca(cli, doc);
+                            cliente_escolhido = 1;
+                        }
+                        else
+                            alert(-3);      /* Cadastro falhou */
+                        break;
+
+                    }
+                    else if (op_i == '2')   /* busca cliente cadastrado no sistema */
+                    {
+                        if (cli != NULL)    /* Verifica se a lista está vazia */
+                        {
+                            cabecalho("SISTEMA DE ALUGUEL\t", "BUSCA CLIENTE\t");
+                            cliente_aux = cliente_lista(cli);
+                            cliente_escolhido = 1;
+                            break;
+                        }
+                        else
+                        {
+                            alert(-5);      /* Nao ha cadastros no sistema */
                             break;
                         }
                     }
-                    else
-                    {
-                        printf(TXT_yellow"\nO CPF deve conter apenas numeros.\n"TXT_reset);
+                    else if (op_i == '3')
                         break;
-                    }
+                    else
+                        alert(1);
+                }
 
-                    printf("Informe um telefone para contato: ");
-                    scanf(" %12[^\n]", tel);
-                    while (getchar() != '\n');
-                    if (teste_formato(tel))                 /* verifica se o telefone é válido */
+                if (cliente_escolhido == 1 && op_i != 3)
+                {
+                    // Inicia o cadastro do aluguel:
+                    if (cliente_aux != NULL)
                     {
-                        if (strlen(tel) != 11)
+                        if (cliente_aux->status == 0)
                         {
-                            printf(TXT_yellow"\nO telefone deve conter no minimo 11 digitos.\n"TXT_reset);
-                            break;
+                            while(1)
+                            {
+                                cabecalho("SISTEMA DE ALUGUEL\t", "ESCOLHE CARRO\t");
+                                
+                                carro_aluga = carro_lista(carro);
+                                if (carro_aluga != NULL)
+                                {
+                                    if(carro_disponibilidade(carro_aluga) == 1)
+                                    {
+                                        cliente_aluga(cli, cliente_doc(cliente_aux), carro_aluga, data_hoje);
+                                        registro(cli);
+                                        break;
+                                    }
+                                    else
+                                        alert(-16); /* Carro indisponível */
+                                }
+                                else
+                                {
+                                    alert(-12); /* aluguel cancelado */
+                                    break;
+                                }
+                            }
                         }
-                    } else {
-                        printf(TXT_yellow"\nO telefone deve conter apenas numeros.\n"TXT_reset);
-                        break;
-                    }
-
-                    // ponteiro auxiliar endereça para lista com novo cadastro:
-                    cli = cliente_cadastra(1, cli, nome, doc, tel);
-
-                    total_atual = cliente_total(cli);   /* total de clientes após o cadastro */
-
-                    // ==================================================
-                    // caso o cadastro tenho sido realizado com sucesso,
-                    // procura novo cliente dentro da nova lista:
-                    if (total_atual != total_anterior)
-                        cliente_aux = cliente_busca(cli, doc);
-                    else
-                    {
-                        err_cod = 3;
-                        break;
-                    }
-
-                }
-                else if (resp_i == '2')     /* busca cliente cadastrado no sistema */
-                {
-                    if (cli != NULL)    /* Verifica se a lista está vazia */
-                    {
-                        system(clear());
-                        cliente_aux = cliente_lista(cli);
+                        else
+                            alert(-2);  /* há um aluguel ativo */
                     }
                     else
                     {
-                        err_cod = 4;
-                        break;
+                        alert(-12);   /* aluguel cancelado */
                     }
+                    cliente_escolhido = 0;
                 }
-                else
-                {
-                    err_cod = 5;
-                    break;
-                }
-
-                printf("\n:)\n");
-                // Inicia o cadastro do aluguel:
-                cliente_aluga(cliente_aux, carro);
-
                 delay(ATRASO);
                 break;
             
@@ -227,137 +274,198 @@ Cliente *menu_cliente(Cliente *cli, Carro *carro)
                 printf("\nListando Clientes Cadastrados...\n");
                 delay(ATRASO);
                 
-                system(clear());
-                
-                cliente_aux = cliente_lista(cli);
-
-                if (cliente_aux != NULL)
+                while (1)
                 {
-                    system(clear());
-                    cliente_consulta(cliente_aux);
+                    cliente_aux = cliente_lista(cli);
+                    if (cliente_aux != NULL)
+                    {
+                        if (cliente_consulta(cli, cliente_aux) == 0) break;
+                    }
+                    else break;
                 }
-                // delay(3000);     /* atraso para verificar resposta */
                 break;
 
             case '3':
                 printf("\nBuscando Cliente...\n");
                 delay(ATRASO);
 
-                system(clear());
+                cabecalho("BUSCA DE CLIENTES\t", "\t\t");
                 
-                printf("Insira o nome ou o CPF do cliente: ");
+                printf("\nInsira o nome ou o CPF do cliente: ");
                 scanf(" %30[^\n]", dado);
                 while (getchar() != '\n');
-                cliente_aux = cliente_filtra_busca(cli, dado);
-                if (cliente_aux != NULL)
+                
+                while (1)
                 {
-                    system(clear());
-                    cliente_consulta(cliente_aux);
-                }
-                break;
-
-            case '4':
-                printf("\nConsultando Quantitativo...\n");
-                delay(ATRASO);
-
-                total_atual = cliente_total(cli);
-                printf("Ha %d clientes cadastrados.\n", total_atual);
-                delay(3000);       /* atraso para verificar resposta */
-                break;
-            
-            case '5':
-                printf("\nApagando Conta de Cadastro...\n");
-                delay(ATRASO);
-
-                system(clear());
-
-                if (cli != NULL)
-                {
-                    printf("Insira o nome ou o CPF do cliente: ");
-                    scanf(" %30[^\n]", dado);
-                    while (getchar() != '\n');
+                    cabecalho("BUSCA DE CLIENTES\t", "RESULTADOS\t");
 
                     cliente_aux = cliente_filtra_busca(cli, dado);
                     if (cliente_aux != NULL)
                     {
-                        // while (1)
-                        // {
-                        //     system(clear());
+                        system(clear());
+                        if (cliente_consulta(cli, cliente_aux) == 0)
+                        {
+                            // registro(data_hoje, cli);   /* atualiza o registro */
+                            break;
+                        }
 
-                        //     // cliente_consulta(cliente_aux);
-                        //     printf("\nO cadastro sera apagado. Deseja Continuar [S/N]?\n");
-                        //     resp_i = teste_input(op_i);
-                        //     if (resp_i == 'S')
-                        //     {   
-                        cli = cliente_exclui(cli, cliente_doc(cliente_aux));
-                        //         break;
-                        //     }
-                        //     else if (resp_i == 'N')
-                        //     {
-                        //         err_cod = 5;
-                        //         break;
-                        //     }
-                        //     else
-                        //         err_cod = 1;
-                        // }
+                    }
+                    else break;
+                }
+                break;
+            
+            case '4':
+                printf("\nApagando Conta de Cadastro...\n");
+                delay(ATRASO);
+
+                if (cli != NULL)    /* verifica se há cadastros no sistema */
+                {
+                    cabecalho("EXCLUINDO CLIENTE\t", "\t\t");
+                    printf("\nInsira o nome ou o CPF do cliente: ");
+                    scanf(" %30[^\n]", dado);
+                    while (getchar() != '\n');
+
+                    while (1)
+                    {
+                        cabecalho("EXCLUINDO CLIENTE\t", "RESULTADOS\t");
+                        cliente_aux = cliente_filtra_busca(cli, dado);
+                        if (cliente_aux != NULL)
+                        {
+                            while (1)
+                            {
+                                cabecalho("EXCLUINDO CLIENTE\t", "\t\t");
+                                
+                                alert_msg();
+                                printf("\nO cadastro sera apagado. Deseja Continuar [S/N]?\n");
+                                op_i = teste_input();
+
+                                if (op_i == 'S')
+                                {
+                                    cliente_exclui(cli, cliente_aux->documento);
+                                    alert(0);       /* volta ao menu iniciar, sem mensagem */
+                                } 
+                                else if (op_i == 'N')
+                                    break;
+                                else
+                                    alert(1);
+                            }
+                        }
+                        break;
                     }
                 }
                 else
                 {
-                    err_cod = 3;
+                    alert(-5);      /* Nao ha cadastros no sistema */
                     delay(ATRASO);
                 }
                 break;
 
-            case '6':
+            case '5':
                 printf("\nVoltando ao Menu Inicial...\n");
                 delay(ATRASO);
                 break;
 
             default:
-                err_cod = 1;
+                alert(1);
                 delay(ATRASO);
                 break;
         }
-    } while (resp2 != '6');
+    } while (op2 != '5');
 
     return cli;
 }
 
-Carro *menu_carro(Carro *carro)
+Carro *menu_carro(Cliente *cli, Carro *carro)
 {
-    char op3[3];
-    int resp3;
+    int op3;
+    Carro *carro_aux;
+    char modelo[20], placa[10];
+    float preco;
 
     do {
         system(clear());
 
         // Menu do Cliente:
-        cabecalho("MENU CARRO");
+        cabecalho("ALUGUEL DE CARROS\t", "MENU CARRO\t");
+        printf(">>> [0] PASSAR TEMPO\n\n");
 
         printf(">>> [1] ADICIONAR\n"); 
         printf(">>> [2] LISTAR\n"); //submenu: consultar disp. e consultar historico
-        printf(">>> [3] CONSULTAR CARROS\n");
+        printf(">>> [3] CONSULTAR CARRO\n"); //Consultar se está disponivel 
         printf(">>> [4] VOLTAR\n");
 
-        printf("Escolha uma opcao: ");
+        alert_msg();
+        printf("\nEscolha uma opcao: ");
 
-        resp3 = teste_input(op3);
+        op3 = teste_input();
 
-        switch (resp3) {
+        switch (op3) {
+            case '0':
+                strcpy(data_hoje, passa_tempo(data_hoje));
+                cliente_atualiza_aluguel(cli, data_hoje);
+                registro(cli);
+                break;
+
+
             case '1':
                 printf("\nAdicionando Carro ao Sistema...\n");
                 delay(ATRASO);
+
+                cabecalho("SISTEMA DE CADASTRO\t", "NOVO CADASTRO\t");
+
+                printf("\nDigite o modelo do carro: ");
+                scanf(" %19[^\n]", modelo);
+                while (getchar() != '\n');
+                if(strlen(modelo) > 18)
+                {
+                    alert(3);
+                    break;
+                }
+
+                printf("\nDigite a placa do carro: ");
+                scanf(" %9[^\n]", placa);
+                while (getchar() != '\n');
+                if(strlen(placa) > 8)
+                {
+                    alert(3);
+                    break;
+                }
+
+                printf("\nDigite o preco do carro: ");
+                scanf("%f", &preco);
+                while (getchar() != '\n');
+
+                carro = carro_cadastra(carro, modelo, placa, preco);
+
                 break;
             
             case '2':
                 printf("\nListando Carros...\n");
                 delay(ATRASO);
+
+                while (1)
+                {
+                    // Listando os carros da galeria
+                    //============================================
+                    cabecalho("LISTA DE CARROS\t", "\t\t");
+
+                    carro_aux = carro_lista(carro);
+                    if (carro_aux != NULL)
+                    {
+                        if(carro_consulta(carro, carro_aux) == 0) break;
+                    }
+                    else break;
+                }
                 break;
 
             case '3':
                 printf("\nConsultando informacoes do Carro...\n");
                 delay(ATRASO);
+
+                system(clear());
+
+                menu_consulta_carro(carro);
+
                 break;
 
             case '4':
@@ -366,24 +474,25 @@ Carro *menu_carro(Carro *carro)
                 break;
 
             default:    
-                printf("\nInsira uma opcao valida!\n");
+                alert(1);
                 break;
         }
-    } while (resp3 != '4');
+    } while (op3 != '4');
 
     return carro; 
 }
 
-int data_para_num(char *data)
+long long data_para_num(char *data)
 {
-    int dia, mes, ano;
-    int tempo_dia = 0;
+    int dia, mes;
+    long long ano;
+    long long tempo_dia = 0;
 
     // quantidade de dias de cada mês:
     //               J   F   M   A   M   J   J   A   S   O   N   D 
     int meses[12] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
     
-    sscanf(data, "%d/%d/%d", &dia, &mes, &ano);     /* separa os valores da data */
+    sscanf(data, "%d/%d/%lld", &dia, &mes, &ano);     /* separa os valores da data */
 
     tempo_dia += (ano-1) * 365;     /* converte ano em dias */
     
@@ -400,9 +509,10 @@ int data_para_num(char *data)
     return tempo_dia;
 }
 
-char *num_para_data(int data)
+char *num_para_data(long long data)
 {
-    int ano = 0, mes = 0, dia = 0;
+    long long ano = 0;
+    int mes = 0, dia = 0;
     int dia_mes;
 
     // quantidade de dias de cada mês:
@@ -422,9 +532,27 @@ char *num_para_data(int data)
     dia = dia_mes;                  /* o resto do cálculo será o dia */
 
     char *data_format = (char*)malloc(11*sizeof(char));
-    sprintf(data_format, "%02d/%02d/%04d", dia+1, mes+1, ano+1);
+    sprintf(data_format, "%02d/%02d/%04lld", dia+1, mes+1, ano+1);
 
     return data_format;
+}
+
+int data_valida(char *data)
+{
+    int dia, mes, ano;
+    sscanf(data, "%d/%d/%d", &dia, &mes, &ano);
+    if (dia == 0 || mes == 0 || ano == 0)   /* verifica se a data é nula */
+        return 0;
+    
+    // verificação do dia máximo de cada mês:
+    if (dia > 31 || mes > 12)               /* valores máximos de dia e mês */
+        return 0;
+    else if (mes == 2 && dia > 28)
+        return 0;
+    else if ((mes == 4 || mes == 6 || mes == 9 || mes == 11) && dia > 30)
+        return 0;
+
+    return 1;
 }
 
 int compara_data(char *data1, char *data2)
@@ -434,20 +562,20 @@ int compara_data(char *data1, char *data2)
     int data2_num = data_para_num(data2);
 
     // compara as datas:
-    if (data1_num > data2_num)          /* data1 vem antes de data2 */
+    if (data1_num > data2_num)          /* data2 vem antes de data1 */
         return -1;
-    else if (data1_num < data2_num)     /* data2 vem antes de data1 */
+    else if (data1_num < data2_num)     /* data2 vem depois de data1 */
         return 1;
     else                                /* as datas são iguais */
         return 0;
 }
 
-char *prazo(char *data, int duracao)
+char *prazo(char *data, long long duracao)
 {   
     // converte data de início para valor numérico:
-    int data_ini = data_para_num(data);
+    long long data_ini = data_para_num(data);
     // soma a duração do aluguel:
-    int data_fim = data_ini + duracao;
+    long long data_fim = data_ini + duracao - 1;
 
     // retorna a data final do aluguel:
     return num_para_data(data_fim);
@@ -498,101 +626,192 @@ void mascara(char *dado, char *dado_convertido, char formato[])
 int teste_formato(char *str)
 {
     int i;
+    int negativo = 0;
     for (i = 0; str[i] != '\0'; i++)    /* verifica cada caracter */
     {
         if (!(str[i] >= '0' && str[i] <= '9'))  /* verifica se o caracter é numérico */
-        {
-            // printf("string\n");
-            return 0;       /* é string */
+        {   
+            if (i == 0 && str[i] == '-')
+                negativo++;
+            else
+                return 0;   /* é string */
         }
     }
-    // printf("numero\n");
-    return 1;       /* é número */
+    if (negativo == 1)
+    {
+        printf("oi\n");
+        return -1;          /* é número negativo */
+    }
+
+    return 1;               /* é número positivo */
 }
 
-int teste_input(char *resp) // editar função
+int teste_input(void)
 {
+    char teste[100];
     int i = 0;
-    while ((resp[i] = getchar()) != '\n') i++;
-    resp[i] = '\0';
+    while ((teste[i] = getchar()) != '\n') i++;
+    teste[i] = '\0';
+    int len = strlen(teste);
 
-    int len = strlen(resp);
     if (len == 0)
         return '\n';
     else if(len == 1)    /* é esperado input com apenas 1 caracter */
-    {
-        return toupper(resp[0]);
-    }
+        return toupper(teste[0]);
+
     return 0;       /* input invalido */
 }
 
-char *input_data(void)
+char *input_data(char *data)
 {
-    int dia, mes, ano;
-    char str_dia[3], str_mes[3], str_ano[5];
-    char *data = (char*)malloc(11*sizeof(char));
+    int i, dia, mes;
+    long long ano;
+    char str_dia[100], str_mes[100], str_ano[100];
+    char data_input[100];
 
-    printf("Digite o dia: ");
-    scanf("%d", &dia);
-    itoa(dia, str_dia, 10);
-    if(teste_formato(str_dia) == 0) return NULL;
-    printf("Digite o mes: ");
-    scanf("%d", &mes);
-    itoa(mes, str_mes, 10);
-    if(teste_formato(str_mes) == 0) return NULL;
-    printf("Digite o ano: ");
-    scanf("%d", &ano);
-    itoa(ano, str_ano, 10);
-    if(teste_formato(str_ano) == 0) return NULL;
+    data = (char*)malloc(11*sizeof(char));
+    // recebe a data:
+    i = 0;
+    while ((data_input[i] = getchar()) != '\n') i++;
+    data_input[i] = '\0';
+    // verifica se a entrada está vazia:
+    if (strlen(data_input) > 0)
+    {
+        // separa os valores da data:
+        sscanf(data_input, "%[^/]/%[^/]/%[^\n]\n", str_dia, str_mes, str_ano);
+        // verifica se os valores são numéricos:
+        if (teste_formato(str_dia) == 1 && teste_formato(str_mes) == 1 && teste_formato(str_ano) == 1)
+        {
+            if (strlen(str_dia) == 2 && strlen(str_mes) == 2)
+            {
+                // convertendo para inteiro:
+                dia = atoi(str_dia);
+                mes = atoi(str_mes);
+                ano = atoll(str_ano);
+                sprintf(data_input, "%02d/%02d/%04lld", dia, mes, ano);
 
-    sprintf(data, "%02d/%02d/%04d", dia, mes, ano);
-    return data;
+                // verifica se a data é válida:
+                if (data_valida(data_input) == 1)
+                {
+                    strcpy(data, data_input);
+                    return data;
+                }
+
+            }
+            else
+                alert(-9); /* Data inválida */
+        }
+        else
+            alert(2);   /* Formato inválido */
+    }
+    else
+        alert(2);       /* Formato inválido */
+    
+    /* entrada inválida */
+    free(data);         /* libera espaço reservado para data */
+    return NULL;
 }
 
 char *passa_tempo(char *data)
 {
     system(clear());
 
-    char resp_data[3], *data_nova = data;
-    int op_data, dias;
-
-    printf(">>> [1] Avancar Dias\n");
-    printf(">>> [2] Inserir Data\n");
-    printf("\nEscolha uma opcao: ");
-    op_data = teste_input(resp_data);
-
-    switch (op_data)
+    char ch_dias[100];
+    int i, op_data;
+    long long dias;
+    char *data_nova = NULL;
+    
+    do
     {
-        case '1':
-            system(clear());
-
-            printf("Quantos dias quer avancar?\n");
-            scanf("%d", &dias);
-            while (getchar() != '\n');
-
-            data_nova = prazo(data_hoje, dias);
-            break;
+        cabecalho("MUDAR DATA\t\t", "\t\t");
         
-        case '2':
-            system(clear());
+        printf(">>> [1] Avancar Dias\n");
+        printf(">>> [2] Inserir Data\n");
+        printf(">>> [3] Voltar\n");
 
-            printf("Insira a nova data\n");
-            data_nova = input_data();
-            break;
+        alert_msg();
+        printf("\nEscolha uma opcao: ");
+        op_data = teste_input();
 
-        default:
-            break;
-    }
+        switch (op_data)
+        {
+            case '1':
+                cabecalho("MUDAR DATA\t\t", "AVANCAR DIA\t");
 
-    if (compara_data(data_nova, data_hoje) != 1)
-        return data_nova;
-    else
-    {
-        free(data_nova);
-        printf("\nNao e possivel voltar para uma data anterior.\n");
-        return data_hoje;
-    }
+                printf("Quantos dias quer avancar?\n");
+                
+                i = 0;
+                while ((ch_dias[i] = getchar()) != '\n') i++;
+                ch_dias[i] = '\0';
+                if (strlen(ch_dias) > 0)
+                {
+                    if (teste_formato(ch_dias) != 0)    /* o valor é numérico */
+                    {
+                        dias = atoll(ch_dias);
+                        data_nova = prazo(data, dias + 1);
+                        if (compara_data(data, data_nova) >= 0)
+                        {
+                            alert(-1);   /* data atualizada */
+                            strcpy(data, data_nova);    /* copia nova data para "data" */
+                            free(data_nova);            /* libera data_nova */
+                            return data;
+                        }
+                        else
+                        {
+                            free(data_nova);            /* libera data_nova */
+                            data_nova = NULL;
+                            alert(8);          /*não pode ir pro passado */
+                        }
+                    }
+                    else
+                        alert(2);               /* formato inválido */
+                }
+                else
+                {
+                    alert(1); /* valor inválido */
+                }
+                break;
+            
+            case '2':
+                cabecalho("MUDAR DATA\t\t", "INSERIR DATA\t");
 
+                printf("Insira a nova data [dd/mm/aaaa]:\n");
+
+                data_nova = input_data(data_nova);
+                if (data_nova != NULL)
+                {
+                    if (compara_data(data, data_nova) >= 0)
+                    {
+                        alert(-1);   /* data atualizada */
+                        strcpy(data, data_nova);
+                        free(data_nova);            /* libera data_nova */
+                        data_nova = NULL;
+                        
+                        return data;
+                    }
+                    else
+                    {
+                        free(data_nova);            /* libera data_nova */
+                        data_nova = NULL;
+                        alert(-9);          /*não pode ir pro passado */
+                    }
+                }
+                else
+                    alert(2);               /* formato inválido */
+
+                break;
+
+            case '3':
+                alert(0);   /* voltando ao menu, sem mensagem de erro */
+                break;
+
+            default:
+                alert(1);   /* opção inválida */
+                break;
+        }
+    } while (op_data != '3');
+    
+    return data;
 }
 
 char *string_upper(char *str)
@@ -606,18 +825,46 @@ char *string_upper(char *str)
     return str;
 }
 
-void error_msg(void)
+void alert(int cod)
 {
-    if (err_cod == 0) printf("\n");
-    else if (err_cod == 1) printf(TXT_red"\nInsira uma opcao valida!"TXT_reset);
-    else if (err_cod == 2) printf(TXT_red"\nCadastro falhou!"TXT_reset);
-    else if (err_cod == 3) printf(TXT_red"\nNao ha clientes cadastrados no sistema."TXT_reset);
-    else if (err_cod == 4) printf(TXT_red"\nProcesso Cancelado!"TXT_reset);
-    else if (err_cod == 5) printf(TXT_red"\nERRO! Cliente nao encontrado."TXT_reset);
-    else if (err_cod == 6) printf(TXT_red"\n"TXT_reset);
-    else if (err_cod == 7) printf(TXT_red"\nNao foi possivel concluir o cadastro"TXT_reset);
+    alert_cod = cod;
+}
 
-    err_cod = 0;    /* reseta marcador */
+void alert_msg(void)
+{
+    // mensagem limpa, sem erro:
+    if (alert_cod == 0) printf("\n\n");
+    
+    // alerta de formato: 
+    else if (alert_cod == 1) printf(TXT_yellow"\nInsira uma opcao valida!\n"TXT_reset);
+    else if (alert_cod == 2) printf(TXT_red"\nFormato invalido!\n"TXT_reset);
+    else if (alert_cod == 3) printf(TXT_red"\nErro! Tamanho maximo excedido.\n"TXT_reset);
+    else if (alert_cod == 4) printf(TXT_yellow"\nTamanho invalido! O CPF deve conter 11 digitos.\n"TXT_reset);
+    else if (alert_cod == 5) printf(TXT_yellow"\nO CPF deve conter apenas numeros.\n"TXT_reset);
+    else if (alert_cod == 6) printf(TXT_yellow"\nTamanho invalido! O telefone deve conter 11 digitos.\n"TXT_reset);
+    else if (alert_cod == 7) printf(TXT_yellow"\nO telefone deve conter apenas numeros.\n"TXT_reset);
+    else if (alert_cod == 8) printf(TXT_red"\nNao e possivel selecionar uma data anterior.\n"TXT_reset);
+    // alerta de processo:
+    else if (alert_cod == -1) printf(TXT_green"\nData atualizada!\n"TXT_reset);
+    else if (alert_cod == -2) printf(TXT_red"\nO cliente possui um aluguel ativo!\n"TXT_reset);
+    else if (alert_cod == -3) printf(TXT_red"\nCadastro cancelado!\n"TXT_reset);
+    else if (alert_cod == -4) printf(TXT_green"\nCadastro apagado!\n"TXT_reset);
+    else if (alert_cod == -5) printf(TXT_red"\nNao ha clientes cadastrados no sistema.\n"TXT_reset);
+    else if (alert_cod == -6) printf(TXT_red"\nERRO! Cliente nao encontrado.\n"TXT_reset);
+    else if (alert_cod == -7) printf(TXT_red"\nArquivo nao encontrado!\n"TXT_reset);
+    else if (alert_cod == -8) printf(TXT_red"\nNao foi possivel concluir o cadastro\n"TXT_reset);
+    else if (alert_cod == -9) printf(TXT_red"\nData Invalida!\n"TXT_reset);
+    else if (alert_cod == -10) printf(TXT_red"\nNao ha alugueis no historico.\n"TXT_reset);
+    else if (alert_cod == -11) printf(TXT_green"\nAluguel criado!\n"TXT_reset);
+    else if (alert_cod == -12) printf(TXT_red"\nAluguel cancelado!\n"TXT_reset);
+    else if (alert_cod == -13) printf(TXT_green"\nDado(s) Atualizado(s)!\n"TXT_reset);
+    else if (alert_cod == -14) printf(TXT_green"\nCarro retirado do sistema com sucesso!\n"TXT_reset);
+    else if (alert_cod == -15) printf(TXT_red"\nNao ha carros cadastrados no sistema.\n"TXT_reset);
+    else if (alert_cod == -16) printf(TXT_red"\nCarro Indisponivel!\n"TXT_reset);
+    else if (alert_cod == -17) printf(TXT_red"\nERRO! Carro nao encotrado.\n"TXT_reset);
+    else if (alert_cod == -18) printf(TXT_red"\nConflito de Data!\n"TXT_reset);
+
+    alert(0);    /* reseta marcador */
 }
 
 void delay(double milissegundos)
@@ -628,3 +875,131 @@ void delay(double milissegundos)
     // looping till required time is not achieved
     while (milissegundos > clock() - tempo_inicial);
 }
+
+void registro(/*char *data, */Cliente *cli)
+{
+    FILE *fl = fopen("registro.txt", "wt");
+    // verifica se o arquivo foi aberto corretamente:
+    if (fl == NULL) 
+    {
+        printf("\nArquivo nao encontrado!\n");
+        return; // erro ao acessar o arquivo
+    }
+
+    // ==================================================
+    // armazena o dia final da execução:
+    fprintf(fl, "%s\n", data_hoje);
+
+    // escreve cabeçalho:
+    fprintf(fl, "%s\t%s\t%s\n", "NOME", "CPF", "STATUS");
+
+    // ==================================================
+    // escreve os dados dos clientes:
+    Cliente *cliente_aux;
+    for (cliente_aux = cli; cliente_aux != NULL; cliente_aux = cliente_aux->prox_cliente)
+    {
+        fprintf(fl, "%s\t%s\t%d\n", cliente_aux->nome, cliente_aux->documento, cliente_aux->status);
+    }
+    fclose(fl);
+}
+
+void registro_leia(Cliente **cli, Carro **carro)
+{
+    int i, id;
+    char nome[41], doc[15], status[15], data[11];
+
+    FILE *fl = fopen("registro.txt", "rt");
+    // verifica se o arquivo foi aberto corretamente:
+    if (fl == NULL) 
+    {
+        printf("\nArquivo nao encontrado!\n");
+        return; // erro ao acessar o arquivo
+    }
+    // ==================================================
+    // move o cursor do arquivo para o fim
+    // e verifica se o arquivo está vazio:
+    fseek(fl, 0, SEEK_END);
+    if (ftell(fl) != 0) {
+        // retorna o cursor ao início do arquivo:
+        rewind(fl);
+
+        fscanf(fl, "%[^\n]\n", data);
+        
+        strcpy(data_hoje, data);
+
+        /* Recuperando informações dos carros */
+        printf("Carregando dados dos Carros...\n");
+        delay(ATRASO);     /* atraso para verificar resposta */
+        if((*carro = carro_leia(*carro)) != NULL)
+        {
+            printf("Dados recuperados com sucesso\n");
+            delay(ATRASO);     /* atraso para verificar resposta */
+        }
+
+        /* Recuperando dados salvos do cliente */
+        printf("Carregando dados dos Clientes...\n");
+        delay(ATRASO);     /* atraso para verificar resposta */
+        
+        // pula a linha do cabeçalho:
+        char pula[100];
+        fgets(pula, 100, fl);
+        // printf("Dados registro:\n");
+        while (!feof(fl))
+        {   
+            fscanf(fl, "%[^\t]\t%[^\t]\t%[^\n]\n", nome, doc, status);
+            *cli = cliente_recupera_historico(*cli, *carro, doc);
+        }
+
+        if(*cli  != NULL)
+        {
+            cliente_atualiza_aluguel(*cli, data_hoje);
+            // cliente_atualiza_historico(1, cli);
+            printf("Dados recuperados com sucesso\n");
+        }
+
+        delay(ATRASO);     /* atraso para verificar resposta */
+
+    }
+
+    fclose(fl);
+}
+
+void menu_consulta_carro(Carro *carro)
+{
+    Carro *carro_encontrado;
+    char placa[10];
+
+    while (1)
+    {
+        cabecalho("BUSCANDO CARRO\t\t", "PLACA\t");
+        alert_msg();
+
+        printf("\nPlaca do carro (ou deixe em branco para voltar): ");
+        int i = 0;
+        while ((placa[i] = getchar()) != '\n') i++;
+        placa[i] = '\0';
+        //scanf(" %[^\n]", placa);
+
+        if (strlen(placa) > 0)                 /* verifica se está vazio */
+        {
+            carro_encontrado = carro_busca(carro, placa, 1);
+            if (carro_encontrado != NULL)
+            {
+                // system(clear());
+                if (carro_consulta(carro, carro_encontrado) == 0) return;
+            }
+            else
+            {
+                alert(-17);
+            }
+
+        }
+        else
+        {
+            alert(0);   /* voltando para o menu (sem mensagem de erro) */
+            break;
+        }
+    }
+    
+}
+
