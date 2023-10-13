@@ -548,30 +548,36 @@ Cliente *cliente_exclui(Cliente *cli, char *dado)
     if (cliente_excluido == NULL)
         return cli;
 
-    // ==================================================
-    // retira elemento do encadeamento:
-    if (cliente_excluido == cli) /* teste se é o primeiro elemento */
-        cli = cliente_excluido->prox_cliente;
-    else
-        cliente_excluido->ant_cliente->prox_cliente = cliente_excluido->prox_cliente;
+    if(cli->status == 0)
+    {
+        // ==================================================
+        // retira elemento do encadeamento:
+        if (cliente_excluido == cli) /* teste se é o primeiro elemento */
+            cli = cliente_excluido->prox_cliente;
+        else
+            cliente_excluido->ant_cliente->prox_cliente = cliente_excluido->prox_cliente;
 
-    if (cliente_excluido->prox_cliente != NULL)    /* teste se é o último elemento */
-        cliente_excluido->prox_cliente->ant_cliente = cliente_excluido->ant_cliente;
+        if (cliente_excluido->prox_cliente != NULL)    /* teste se é o último elemento */
+            cliente_excluido->prox_cliente->ant_cliente = cliente_excluido->ant_cliente;
 
-    // ==================================================
-    // apaga o arquivo de histórico de aluguel:
-    cliente_apaga_historico(cliente_excluido);
+        // ==================================================
+        // apaga o arquivo de histórico de aluguel:
+        cliente_apaga_historico(cliente_excluido);
 
-    // ==================================================
-    // libera o espaço de memória:
-    free(cliente_excluido->nome);
-    free(cliente_excluido->documento);
-    free(cliente_excluido->telefone);
-    aluguel_libera(cliente_excluido->ultimo_aluguel);
-    free(cliente_excluido);
-    
-    registro(cli);
-    alert(-4);      /* cadastro excluido */
+        // ==================================================
+        // libera o espaço de memória:
+        free(cliente_excluido->nome);
+        free(cliente_excluido->documento);
+        free(cliente_excluido->telefone);
+        aluguel_libera(cliente_excluido->ultimo_aluguel);
+        free(cliente_excluido);
+        
+        registro(cli);
+        alert(-4);      /* cadastro excluido */
+    }else
+    {
+        alert(-2);
+    }
 
     return cli;
 }

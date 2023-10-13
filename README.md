@@ -17,7 +17,7 @@ As maiores vantagens apresentadas pelo uso de Listas duplamente encadeadas é:
 - Possibilidade de percorrer a lista em qualquer direção;
 
 <p align="center">
- <img src="lista-dupla-encadeada.jpg"/>
+ <img src="./aluguel_de_carros/lista-dupla-encadeada.jpg"/>
 </p>
 
 - Flexibilidade;
