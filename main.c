@@ -7,8 +7,6 @@
 // #include "carro.h" // pensei em nao ser possivel modificar nada do carro, ento so o cliente.c ja seria suficiente 
 // #include "cliente.c"
 
-int opcao_cliente(void);
-int opcao_carro(void);
 
 int main(void) {
 
@@ -17,41 +15,23 @@ int main(void) {
     int op1 = 0, op2 = 0, op3 = 0;
     
     /* Recuperando dados salvos */
-    printf("Carregando dados dos Carros...\n");
-    delay(ATRASO);     /* atraso para verificar resposta */
-    if((carros = carro_leia(carros)) != NULL)
-        printf("Dados recuperados com sucesso\n");
-    
-    delay(ATRASO);     /* atraso para verificar resposta */
-
-    printf("Carregando dados dos Clientes...\n");
-    delay(ATRASO);     /* atraso para verificar resposta */
-    if((clientes = cliente_leia(clientes, carros)) != NULL)
-        printf("Dados recuperados com sucesso\n");
-
+    registro_leia(&clientes, &carros);
     delay(ATRASO);     /* atraso para verificar resposta */
 
     // Menu principal:
     do {
-        op1 = menu_principal();
-        
+        op1 = menu_principal(clientes);
         if (op1 == '1')
             clientes = menu_cliente(clientes, carros);
         else if (op1 == '2')
-            carros = menu_carro(carros);
+            carros = menu_carro(clientes, carros);
         
     } while (op1 != '3');
     
     cliente_libera(clientes);
     carro_libera(carros);
-    // carro_libera(carros);
+    
     printf("\ntchau");
 
     return 0;
 }
-
-
-// void realoca_string(char* str)
-// {
-//    realloc(str, strlen(str)*sizeof(char));
-// }
