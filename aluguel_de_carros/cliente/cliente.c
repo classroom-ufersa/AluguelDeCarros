@@ -725,7 +725,7 @@ Cliente *cliente_atualiza_aluguel(Cliente *cli, char *data_hoje)
 void cliente_cria_historico(Cliente *cli, char* doc)
 {
     // cria o arquivo de histórico:
-    char nome_arquivo[51] = "./cliente/historico/cliente";
+    char nome_arquivo[51] = "./aluguel_de_carros/cliente/historico/cliente";
 
     strcat(nome_arquivo, doc);
     strcat(nome_arquivo, ".txt");
@@ -753,7 +753,7 @@ void cliente_cria_historico(Cliente *cli, char* doc)
 void cliente_atualiza_historico(int tag, Cliente *cli)
 {
     // cria o arquivo de histórico:
-    char nome_arquivo[51] = "./cliente/historico/cliente";
+    char nome_arquivo[51] = "./aluguel_de_carros/cliente/historico/cliente";
 
     strcat(nome_arquivo, cli->documento);
     strcat(nome_arquivo, ".txt");
@@ -807,7 +807,7 @@ Cliente *cliente_recupera_historico(Cliente *cli, Carro *carro, char *doc)
     float preco;
 
     // abre histórico do cliente:
-    char nome_arquivo[51] = "./cliente/historico/cliente";
+    char nome_arquivo[51] = "./aluguel_de_carros/cliente/historico/cliente";
 
     strcat(nome_arquivo, doc);
     strcat(nome_arquivo, ".txt");
@@ -882,7 +882,7 @@ Cliente *cliente_recupera_historico(Cliente *cli, Carro *carro, char *doc)
 void cliente_apaga_historico(Cliente *cli)
 {
     // busca o arquivo de histórico do cliente:
-    char nome_arquivo[51] = "./cliente/historico/cliente";
+    char nome_arquivo[51] = "./aluguel_de_carros/cliente/historico/cliente";
 
     strcat(nome_arquivo, cli->documento);
     strcat(nome_arquivo, ".txt");
@@ -913,41 +913,4 @@ Cliente *cliente_ordena(Cliente *cli, char *nome)
 	}
 	
 	return ref; /* retorna o endereço de referência para o novo cadastro */
-}
-
-Cliente *cliente_leia(Cliente *cli, Carro *carro)
-{
-    FILE *fl = fopen("registro.txt", "rt");
-    // verifica se o arquivo foi aberto corretamente:
-    if (fl == NULL) 
-    {
-        printf("\nArquivo nao encontrado!\n");
-        return 0; // erro ao acessar o arquivo
-    }
-
-    // ==================================================
-    // move o cursor do arquivo para o fim
-    // e verifica se o arquivo está vazio:
-    fseek(fl, 0, SEEK_END);
-    if (ftell(fl) != 0) {
-        // retorna o cursor ao início do arquivo:
-        rewind(fl);
-
-        int i, id;
-        char nome[41], doc[15], status[15];
-        
-        // pula a linha do cabeçalho:
-        char pula[100];
-        fgets(pula, 100, fl);
-        // printf("Dados registro:\n");
-        while (!feof(fl))
-        {   
-            fscanf(fl, "%[^\t]\t%[^\t]\t%[^\n]\n", nome, doc, status);
-            cli = cliente_recupera_historico(cli, carro, doc);
-            // printf(":)\n"); delay(500);
-        }
-    }
-
-    fclose(fl);
-    return cli;
 }

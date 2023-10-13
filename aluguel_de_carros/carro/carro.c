@@ -29,8 +29,6 @@ Carro *carro_cadastra(Carro *carro, char *modelo, char *placa, float preco)
     Carro *carro_aux;
     FILE *arquivo_carros;
 
-    alert_msg();
-
     novo->placa = (char*)malloc(41*sizeof(char)); 
     novo->modelo = (char*)malloc(15*sizeof(char)); 
     // ==================================================
@@ -71,7 +69,7 @@ Carro *carro_cadastra(Carro *carro, char *modelo, char *placa, float preco)
         ref->prox_carro = novo;
     }
 
-    arquivo_carros = fopen("./carro/galeria.txt", "wt");
+    arquivo_carros = fopen("./aluguel_de_carros/carro/galeria.txt", "wt");
     if(arquivo_carros == NULL)
     {
         alert(-7);
@@ -279,7 +277,7 @@ Carro *carro_ordena(Carro *carro, char *modelo)
 
 Carro *carro_leia(Carro *carro)
 {
-    FILE *fl = fopen("./carro/galeria.txt", "rt");
+    FILE *fl = fopen("./aluguel_de_carros/carro/galeria.txt", "rt");
     // verifica se o arquivo foi aberto corretamente:
     
     if (fl == NULL) 
@@ -432,7 +430,7 @@ int carro_consulta(Carro *carro, Carro *carro_consultado)
 
 void carro_atualiza_galeria(Carro *carro)
 {
-    char nome_arquivo[60] = "./carro/galeria.txt";
+    char nome_arquivo[60] = "./aluguel_de_carros/carro/galeria.txt";
     Carro *carro_aux;
 
     FILE *galeria = fopen(nome_arquivo, "wt");

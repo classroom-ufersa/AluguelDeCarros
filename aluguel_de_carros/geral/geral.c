@@ -876,9 +876,9 @@ void delay(double milissegundos)
     while (milissegundos > clock() - tempo_inicial);
 }
 
-void registro(/*char *data, */Cliente *cli)
+void registro(Cliente *cli)
 {
-    FILE *fl = fopen("registro.txt", "wt");
+    FILE *fl = fopen("./aluguel_de_carros/rizixtru.txt", "wt");
     // verifica se o arquivo foi aberto corretamente:
     if (fl == NULL) 
     {
@@ -908,7 +908,7 @@ void registro_leia(Cliente **cli, Carro **carro)
     int i, id;
     char nome[41], doc[15], status[15], data[11];
 
-    FILE *fl = fopen("registro.txt", "rt");
+    FILE *fl = fopen("./aluguel_de_carros/rizixtru.txt", "rt");
     // verifica se o arquivo foi aberto corretamente:
     if (fl == NULL) 
     {

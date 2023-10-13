@@ -111,8 +111,3 @@ void cliente_apaga_historico(Cliente *cli);
     na ordem alfabética
 */
 Cliente *cliente_ordena(Cliente *cli, char *nome);
-
-/* Função cliente_leia
-    lê o registro dos clientes, e recupera os históricos
-*/
-Cliente *cliente_leia(Cliente *cli, Carro *carro);
