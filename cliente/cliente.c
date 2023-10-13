@@ -3,7 +3,6 @@
 #include <string.h>
 #include <ctype.h>
 #include "../aluguel/aluguel.c"
-// #include "../carro/carro.h"
 #include "../geral/geral.h"
 #include "cliente.h"
 

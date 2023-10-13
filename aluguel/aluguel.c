@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include "../carro/carro.c"
 #include "aluguel.h"
-// #include "../cliente/cliente.h"
 
 struct aluguel
 {

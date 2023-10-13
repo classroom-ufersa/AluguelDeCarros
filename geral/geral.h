@@ -2,7 +2,7 @@
 
 /* Dependência de módulo */
 #include "../cliente/cliente.h"
-// #include "../carro/carro.h"
+#include "../carro/carro.h"
 
 /* Funções Exportadas */
 

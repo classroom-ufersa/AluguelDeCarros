@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-// #include "../cliente/cliente.h"
 #include "../geral/geral.h"
 #include "carro.h"
 

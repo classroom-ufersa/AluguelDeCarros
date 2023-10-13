@@ -2,7 +2,6 @@
 
 /* Dependência de módulo */
 #include <stdio.h>
-// #include "../cliente/cliente.h"
 
 /* Tipo exportado */
 typedef struct carro Carro;
