@@ -23,7 +23,7 @@ struct carro
     Carro *prox_carro;
 };
 
-Carro *carro_cadastra(Carro *carro, char *modelo, char *placa, float preco)
+Carro *carro_cadastra(Carro *carro, char *modelo, char *placa, float preco, int disponibilidade)
 {
     Carro *novo = (Carro*)malloc(sizeof(Carro));
     Carro *carro_aux;
@@ -40,7 +40,7 @@ Carro *carro_cadastra(Carro *carro, char *modelo, char *placa, float preco)
     novo->modelo = realoca_string(novo->modelo);
     strcpy(novo->placa, string_upper(placa));
     novo->placa = realoca_string(novo->placa);
-    novo->disponibilidade = 1;
+    novo->disponibilidade = disponibilidade;
     novo->preco = preco;
 
     // ==================================================
@@ -117,30 +117,6 @@ void carro_imprime(Carro *carro)
     printf("%-15s\t%-10s\tR$%-10.2f\t", carro->modelo, carro->placa, carro->preco);
 }
 
-// void carro_imprime_lista(Carro *carro, int *qtd_carro){
-//     int id_carro = 0;
-// 
-//     // ==================================================
-//     // exibe cabeçalho:
-//     cabecalho("LISTA DE CARROS\t", "\t\t");
-//  
-//     printf("==========================================================================================\n");
-//     printf("%-3s\t%-15s\t%-10s\t%-10s\t%-10s\n", "ID", "MODELO", "PLACA", "PRECO", "STATUS");
-//     printf("==========================================================================================\n");
-//    
-//     // ==================================================
-//     // exibe as informações do carro:
-//     Carro *carro_aux;
-//     for (carro_aux = carro ; carro_aux != NULL ; carro_aux=carro_aux->prox_carro)
-//     {
-//         printf("%d\t", id_carro);
-//         carro_imprime(carro_aux);
-//         printf("%-10s\n", carro_aux->disponibilidade ? "Disponivel" : "Indisponivel");
-//         id_carro++;
-//     }
-//     *qtd_carro = id_carro;
-// }
-
 Carro *carro_lista(Carro *carro)
 {
     Carro *carro_escolha = NULL, *carro_aux = NULL;
@@ -208,18 +184,6 @@ Carro *carro_lista(Carro *carro)
     return NULL;
 }
 
-// void carro_disponivel(Carro *carro)
-// {
-//     Carro *auxiliar;
-//     printf("CARROS DISPONIVEIS:\n");
-//     printf("%s\t%s\t%s", "MODELO", "PLACA", "PRECO");
-//     for(auxiliar = carro; auxiliar != NULL; auxiliar=auxiliar->prox_carro){
-//         if(auxiliar->disponibilidade != 0){
-//             printf("%s\t%s\tR$%.2f\n", auxiliar->modelo, auxiliar->placa, auxiliar->preco);
-//         }   
-//     }
-// }
-
 void carro_disponivel(Carro *carro)
 {
     carro->disponibilidade = 1;
@@ -277,6 +241,10 @@ Carro *carro_ordena(Carro *carro, char *modelo)
 
 Carro *carro_leia(Carro *carro)
 {
+    int i = 0, disponivel;
+    char modelo[41], placa[15];
+    float preco;
+    
     FILE *fl = fopen("./aluguel_de_carros/carro/galeria.txt", "rt");
     // verifica se o arquivo foi aberto corretamente:
     
@@ -294,9 +262,6 @@ Carro *carro_leia(Carro *carro)
         // retorna o cursor ao início do arquivo:
         rewind(fl);
 
-        int i = 0;
-        char modelo[41], placa[15];
-        float preco;
         
         // pula a linha do cabeçalho:
         char pula[100];
@@ -304,9 +269,9 @@ Carro *carro_leia(Carro *carro)
         // printf("Dados registro:\n");
         while (!feof(fl))
         {
-            fscanf(fl, "%[^\t]\t%[^\t]\t%f\t%[^\n]\n", modelo, placa, &preco, pula);
+            fscanf(fl, "%[^\t]\t%[^\t]\t%f\t%d\n", modelo, placa, &preco, &disponivel);
             
-            carro = carro_cadastra(carro, modelo, placa, preco);
+            carro = carro_cadastra(carro, modelo, placa, preco, disponivel);
         }
     }
     // delay(1000);            /* atraso para verificar resposta */
@@ -320,10 +285,9 @@ void carro_edita(Carro *carro, Carro *carro_consultado)
     int i;
     char novo_preco[10];
 
-    system(clear());
+    cabecalho("CONSULTA CARRO\t\t", "EDITANDO DADOS\t");
 
-    printf("Deixe em branco para manter o dado salvo:\n");
-    printf("==================================================\n");
+    printf(TXT_yellow"\nDeixe em branco para manter o dado salvo:\n\n"TXT_reset);
 
     printf("Digite o novo nome:\n");
     printf("Antigo: R$%.2f\n", carro_consultado->preco);
@@ -372,17 +336,15 @@ int carro_consulta(Carro *carro, Carro *carro_consultado)
 
     while(1)
     {
-        cabecalho("CONSULTA CARRO\t","\t\t");
+        cabecalho("CONSULTA CARRO\t\t","\t\t");
 
         printf("==========================================================================================\n");
         printf("DADOS DO CARRO:\n");
         printf("==========================================================================================\n");
         printf("%-30s\t%-10s\t%-10s\t%-10s\n", "MODELO", "PLACA", "PRECO", "STATUS");
         printf("%-30s\t%-10s\tR$%-10.2f\t%-10s\n", carro_consultado->modelo, carro_consultado->placa, carro_consultado->preco, carro_consultado->disponibilidade ? "Disponivel" : "Indisponivel");
-        printf("\n==========================================================================================\n");
         
-
-        printf("\n>>> [1] Editar\n");
+        printf("\n\n>>> [1] Editar\n");
         printf(">>> [2] Excluir\n");
         printf(">>> [3] Voltar\n");
         printf(">>> [4] Voltar ao Menu\n");
@@ -402,7 +364,8 @@ int carro_consulta(Carro *carro, Carro *carro_consultado)
             case '2':
                 while(1)
                 {
-                    system(clear());
+                    cabecalho("EXCLUINDO CARRO\t\t", "\t\t");
+
 
                     alert_msg();
                     printf("\nO cadastro sera apagado. Deseja Continuar [S/N]?\n");

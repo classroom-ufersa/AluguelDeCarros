@@ -435,7 +435,7 @@ Carro *menu_carro(Cliente *cli, Carro *carro)
                 scanf("%f", &preco);
                 while (getchar() != '\n');
 
-                carro = carro_cadastra(carro, modelo, placa, preco);
+                carro = carro_cadastra(carro, modelo, placa, preco, 1);
 
                 break;
             
@@ -447,7 +447,7 @@ Carro *menu_carro(Cliente *cli, Carro *carro)
                 {
                     // Listando os carros da galeria
                     //============================================
-                    cabecalho("LISTA DE CARROS\t", "\t\t");
+                    cabecalho("LISTA DE CARROS\t\t", "\t\t");
 
                     carro_aux = carro_lista(carro);
                     if (carro_aux != NULL)
@@ -589,7 +589,7 @@ int compara(char *str, char *str_busca)
 
 char *realoca_string(char *dado)
 {
-    dado = (char*)realloc(dado, strlen(dado)*sizeof(char));
+    dado = (char*)realloc(dado, (strlen(dado)+1)*sizeof(char));
     return dado;
 }
 
@@ -949,18 +949,19 @@ void registro_leia(Cliente **cli, Carro **carro)
             *cli = cliente_recupera_historico(*cli, *carro, doc);
         }
 
-        if(*cli != NULL)
-        {
-            cliente_atualiza_aluguel(*cli, data_hoje);
-            // cliente_atualiza_historico(1, cli);
-            printf("Dados recuperados com sucesso\n");
-        }
-
-        delay(ATRASO);     /* atraso para verificar resposta */
 
     }
-
     fclose(fl);
+
+    if(*cli != NULL)
+    {
+        cliente_atualiza_aluguel(*cli, data_hoje);
+        carro_atualiza_galeria(*carro);
+        // cliente_atualiza_historico(1, cli);
+        printf("Dados recuperados com sucesso\n");
+    }
+
+    delay(ATRASO);     /* atraso para verificar resposta */
 }
 
 void menu_consulta_carro(Carro *carro)
