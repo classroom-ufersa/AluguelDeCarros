@@ -118,7 +118,7 @@ void alert_msg(void);
 */
 void delay(double milissegundos);
 
-/* Função registra
+/* Função registro
     armazena um resumo dos dados do sistema,
     para recuperar histórico na re-execução do código
 */

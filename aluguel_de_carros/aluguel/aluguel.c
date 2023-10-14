@@ -140,11 +140,6 @@ Aluguel *aluguel_ordena(Aluguel *aluguel, char *data_inicio)
 	return ref; /* retorna o endereço de referência para o novo cadastro */
 }
 
-char *aluguel_data_inicio(Aluguel *aluguel)
-{
-    return aluguel->data_aluguel;
-}
-
 char *aluguel_data_fim(Aluguel *aluguel)
 {
     int data_inicio = data_para_num(aluguel->data_aluguel);

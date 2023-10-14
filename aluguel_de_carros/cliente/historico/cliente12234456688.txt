@@ -29,11 +29,3 @@ MODELO:	AIRCROSS
 PLACA:	STU6V78
 PRECO:	92.00
 ==================================================
-STATUS:	0
-PRAZO ALUGUEL:
--> DE:	01/01/2023
--> ATE:	03/01/2023
-MODELO:	AIRCROSS
-PLACA:	STU6V78
-PRECO:	92.00
-==================================================
