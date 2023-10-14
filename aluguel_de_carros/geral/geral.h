@@ -133,3 +133,23 @@ void registro_leia(Cliente **cli, Carro **carro);
 
 */
 void menu_consulta_carro(Carro *carro);
+
+/* Função teste_formato_placa
+
+*/
+int teste_formato_placa(char *placa);
+
+/* Funcão menu_falso_placa
+
+*/
+void menu_falso_placa(char *modelo);
+
+/* Função teste_formato_preco
+
+*/
+int teste_formato_preco(char *str);
+
+/* Funçao menu_falso2
+
+*/
+void menu_falso_preco(char* modelo, char *placa);

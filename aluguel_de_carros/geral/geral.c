@@ -377,10 +377,13 @@ Cliente *menu_cliente(Cliente *cli, Carro *carro)
 
 Carro *menu_carro(Cliente *cli, Carro *carro)
 {
-    int op3;
+    int op3, teste_placa = 1, menu_falso = 0, menu_falso2 = 0;
+    int teste_preco = 1, i, j;
     Carro *carro_aux;
-    char modelo[20], placa[10];
-    float preco;
+    char *modelo = (char*) calloc(20,sizeof(char));
+    char *placa = (char*) calloc(8,sizeof(char));
+    char *preco = (char*) calloc(10,sizeof(char));
+    float preco_final;
 
     do {
         system(clear());
@@ -421,22 +424,60 @@ Carro *menu_carro(Cliente *cli, Carro *carro)
                     alert(3);
                     break;
                 }
-
-                printf("\nDigite a placa do carro: ");
-                scanf(" %9[^\n]", placa);
-                while (getchar() != '\n');
-                if(strlen(placa) > 8)
+                while(teste_placa)
                 {
-                    alert(3);
-                    break;
+                    if(menu_falso)
+                    {
+                        menu_falso_placa(modelo);
+                    }
+                    printf("\nDigite a placa do carro: ");
+                    scanf(" %[^\n]", placa);
+                    while (getchar() != '\n');
+                    if (strlen(placa) > 8)
+                    {
+                        alert(3);
+                        break;
+                    }
+                    teste_placa = teste_formato_placa(placa);
+                    menu_falso = 1;
+                }
+            
+                while(teste_preco)
+                {
+                    if(menu_falso2)
+                    {
+                        menu_falso_preco(modelo, placa);
+                    }
+                    printf("\nDigite o preco do carro: ");
+                    scanf(" %[^\n]", preco);
+                    while (getchar() != '\n');
+                    teste_preco = (teste_formato_preco(preco));
+                    if(teste_preco < 0)
+                    {
+                        teste_preco = 1;
+                    }
+                    menu_falso2 = 1;
                 }
 
-                printf("\nDigite o preco do carro: ");
-                scanf("%f", &preco);
-                while (getchar() != '\n');
+                // for (i = 0; placa[i] != '\0'; i++){
+                //     if (placa[i] == '.')
+                //     {
+                //         for(j = i; j < strlen(placa); j++)
+                //         {
+                //             placa[j] = placa[j + 1];
+                //         }
+                //         break;
+                //     }
+                // }
 
-                carro = carro_cadastra(carro, modelo, placa, preco, 1);
+                preco_final = atof(preco);
+                carro = carro_cadastra(carro, modelo, placa, preco_final, 1);
 
+                free(modelo);
+                free(placa);
+                free(preco);
+                teste_placa = teste_preco = 1;
+                menu_falso = menu_falso2 = 0;
                 break;
             
             case '2':
@@ -637,7 +678,7 @@ int teste_formato(char *str)
     }
     if (negativo == 1)
     {
-        printf("oi\n");
+        // printf("oi\n");
         return -1;          /* é número negativo */
     }
 
@@ -861,6 +902,9 @@ void alert_msg(void)
     else if (alert_cod == -15) printf(TXT_red"\nNao ha carros cadastrados no sistema.\n"TXT_reset);
     else if (alert_cod == -16) printf(TXT_red"\nCarro Indisponivel!\n"TXT_reset);
     else if (alert_cod == -17) printf(TXT_red"\nERRO! Carro nao encotrado.\n"TXT_reset);
+    else if (alert_cod == -18) printf(TXT_yellow"\nFormato invalido da placa\n"TXT_reset);
+    else if (alert_cod == -19) printf(TXT_yellow"\nFormato invalido do preco\n"TXT_reset);
+    else if (alert_cod == -20) printf(TXT_yellow"\nValor negativo! Por favor, informe o preco novamente.\n"TXT_reset);
 
     alert(0);    /* reseta marcador */
 }
@@ -1000,4 +1044,75 @@ void menu_consulta_carro(Carro *carro)
         }
     }
     
+}
+
+int teste_formato_placa(char *placa_aux)
+{
+    int i = 0;
+
+    for(i; i < 3;)
+    {
+        if(isalpha(placa_aux[i]))
+        {
+            i++;
+        }else{
+            alert(-18);
+            return 1;
+        }
+    }
+    if(isdigit(placa_aux[3]) && isalpha(placa_aux[4])){
+        
+        for(i = 5; i < 7;)
+        {
+            if(isdigit(placa_aux[i])){
+                i++;
+            }else{
+                alert(-18);
+                return 1;
+            }
+        }
+    }else{
+        alert(-18);
+        return 1;
+    }
+    
+    return 0;
+}
+
+void menu_falso_placa(char *modelo)
+{
+    cabecalho("SISTEMA DE CADASTRO\t", "NOVO CADASTRO\t");
+    printf("\nDigite o modelo do carro: %s\n", modelo);
+    alert_msg();
+}
+
+int teste_formato_preco(char *str)
+{
+    int i, j;
+    int negativo = 0;
+ 
+    for (i = 0; str[i] != '\0'; i++)    /* verifica cada caracter */
+    {
+        if(str[i] != '.')
+        {
+            if (i == 0 && str[i] == '-')
+            {
+                alert(-20);
+                return -1;          /* é número negativo */
+            } 
+            if (!(str[i] >= '0' && str[i] <= '9')){
+                alert(-19);
+                return 1;   /* é string */  
+            }       
+        }
+    }
+    return 0;               /* é número positivo */
+}
+
+void menu_falso_preco(char *modelo, char *placa)
+{
+    cabecalho("SISTEMA DE CADASTRO\t", "NOVO CADASTRO\t");
+    printf("\nDigite o modelo do carro: %s\n", modelo);
+    printf("\nDigite a placa do carro: %s\n", placa);
+    alert_msg();
 }
