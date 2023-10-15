@@ -125,7 +125,7 @@ void delay(double milissegundos);
 void registro(Cliente *cli);
 
 /* Função registro_leia
-    Lê o registro do sistema, e recupera os históricos de carros e clientes.
+    Lê o registro do sistema e recupera os históricos de carros e clientes.
 */
 void registro_leia(Cliente **cli, Carro **carro);
 

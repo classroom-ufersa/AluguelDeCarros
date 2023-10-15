@@ -29,12 +29,12 @@ char *carro_modelo(Carro *carro);
 int carro_disponibilidade(Carro *carro);
 
 /* Função carro_imprime
-    Imprimi as características do carro (modelo, placa, preço).
+    Imprime as características do carro (modelo, placa, preço).
 */
 void carro_imprime(Carro *carro);
 
 /* Função carro_lista
-    Lista todos as carros e permiti escolher um deles.
+    Lista todos as carros e permite escolher um deles.
 */
 Carro *carro_lista(Carro *carro);
 
@@ -44,7 +44,7 @@ Carro *carro_lista(Carro *carro);
 void carro_disponivel(Carro *carro);
 
 /* Função carro_alugado
-    Coloca o carro em específica com indisponível.
+    Coloca o carro em específico como indisponível.
 */
 void carro_alugado(Carro *carro);
 
@@ -72,7 +72,7 @@ Carro *carro_leia(Carro *carro);
 void carro_edita(Carro  *carro, Carro *carro_consultado);
 
 /* Função carro_exclui
-    Retira o carro do sistema e lipera o espaço da mémoria onde
+    Retira o carro do sistema e libera o espaço da mémoria onde
     ele estava alocado.
 */
 void carro_exclui(Carro *carro, Carro *carro_consultado);
@@ -86,6 +86,6 @@ int carro_consulta(Carro *carro, Carro *carro_consultado);
 
 /* Função carro_atualiza_galeria
     Função que atualiza a galeria (arquivo .txt onde está os dados dos carros) 
-    após alguma mudaça durante a execução do programa.
+    após alguma mudança durante a execução do programa.
 */
 void carro_atualiza_galeria(Carro *carro);
