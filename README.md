@@ -30,6 +30,8 @@ As maiores desvantagens apresentadas pelo seu uso é:
 
 - Complexidade de implementação;
 
+
+
 ### **Funções em Cliente** 
 
 ### Função cliente_cadastra
@@ -38,6 +40,14 @@ As maiores desvantagens apresentadas pelo seu uso é:
 
 ```c
 Cliente *cliente_cadastra(int tag, Cliente *cli, char *nome, char *doc, char *tel);
+```
+
+### Função cliente_libera
+
+- **Descrição:**
+
+```c
+
 ```
 
 ### Função cliente_exclui
@@ -72,6 +82,8 @@ void cliente_edita(Cliente *cli);
 int cliente_total(Cliente *cli);
 ```
 
+
+
 ### **Funções em Carro** 
 
 ### Função carro_lista
@@ -90,4 +102,46 @@ Carro *carro_lista(Carro *carro);
 void carro_disponivel(Carro *carro);
 ```
 
+
+
 ### **Funções em Aluguel** 
+
+(adicionar as funções essenciais)
+
+### **Funções Gerais** 
+
+### Função clear
+
+- **Descrição:** Limpa o terminal de acordo com o SO do usuário.
+
+```c
+char *clear(void);
+```
+
+### Função menus
+
+- **Descrição:** Exibição dos menus principal, cliente e carro
+
+```c
+int menu_principal(Cliente *cli);
+```
+
+```c
+Cliente *menu_cliente(Cliente *cli, Carro *carro);
+```
+
+```c
+Carro *menu_carro(Cliente *cli, Carro *carro);
+```
+
+### Função registro 
+
+- **Descrição:** Armazena um resumo dos dados para recuperar histórico na re-execução do código.
+
+```c
+void registro(Cliente *cli);
+```
+
+```c
+void registro_leia(Cliente **cli, Carro **carro);
+```

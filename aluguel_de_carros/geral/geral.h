@@ -7,42 +7,42 @@
 /* Funções Exportadas */
 
 /* Função clear
-    limpa o terminal de acordo com o SO do usuário
+    Limpa o terminal de acordo com o SO do usuário.
 */
 char *clear(void);
 
 /* Função cabecalho
-    Adiciona o cabeçalho do menu atual
+    Adiciona o cabeçalho do menu atual.
 */
 void cabecalho(char *pagina, char *titulo);
 
 /* Função menu_principal 
-    Exibe o menu principal
+    Exibe o menu principal.
 */
 int menu_principal(Cliente *cli);
 
 /* Função menu_cliente
-    Exibe o menu cliente
+    Exibe o menu cliente.
 */
 Cliente *menu_cliente(Cliente *cli, Carro *carro);
 
 /* Função menu_carro
-    Exibe o menu carro
+    Exibe o menu carro.
 */
 Carro *menu_carro(Cliente *cli, Carro *carro);
 
 /* Função data_para_num
-    Converte uma string de data em seu correspondente numérico
+    Converte uma string de data em seu correspondente numérico.
 */
 long long data_para_num(char *data);
 
 /* Função num_para_data
-    Converte um valor numérico em uma string de data
+    Converte um valor numérico em uma string de data.
 */
 char *num_para_data(long long data);
 
 /* Função data_valida
-    Verifica se a data inseria é válida
+    Verifica se a data inserida é válida.
 */
 int data_valida(char *data);
 
@@ -54,7 +54,7 @@ int data_valida(char *data);
 int compara_data(char *data1, char *data2);
 
 /* Função calcula_tempo
-    Calcula a data final do prazo estipulado
+    Calcula a data final do prazo estipulado.
 */
 char *prazo(char *data, long long duracao);
 
@@ -72,60 +72,60 @@ int compara(char *nome, char *nome_busca);
 char *realoca_string(char *dado);
 
 /* Função mascara
-    rescreve uma string dentro do formato definido em "formato[]"
+    Reescreve uma string dentro do formato definido em "formato[]".
 */
 void mascara(char *dado, char *dado_convertido, char formato[]);
 
 /* Função teste_formato
-    retorna 0 para caso de ser string, 1 se for inteiro positivo e -1 se for negativo.
+    Retorna 0 para caso de ser string, 1 se for inteiro positivo e -1 se for negativo.
 */
 int teste_formato(char *str);
 
 /* Função teste_input
-    Verifica se o valor é uma string, número positivo ou negativo
+    Verifica se o valor é uma string, número positivo ou negativo.
 */
 int teste_input(void);
 
 /* Função input_data
-    Solicita o dia, mês e ano e retorna uma data
+    Solicita o dia, mês e ano e retorna uma data.
 */
 char *input_data(char *data);
 
 /* Função passa_tempo
     Muda a data atual definida pelo programa, 
-    para simular a passagem de tempo
+    para simular a passagem de tempo.
 */
 char *passa_tempo(char *data);
 
 /* Função string_upper
     Converte os caracteres de uma string para 
-    o seu correspondente maiúsculo
+    o seu correspondente maiúsculo.
 */
 char *string_upper(char *str);
 
 /* Função alert
-    Modifica o código de erro atual do sistema
+    Modifica o código de erro atual do sistema.
 */
 void alert(int cod);
 
 /* Função alert_msg
-    Exibe uma mensagem de erro referente ao código de erro salvo no sistema
+    Exibe uma mensagem de erro referente ao código de erro salvo no sistema.
 */
 void alert_msg(void);
 
 /* Função delay
-    Gera um atraso, em milissegundos, na resposta do programa
+    Gera um atraso, em milissegundos, na resposta do programa.
 */
 void delay(double milissegundos);
 
 /* Função registro
-    armazena um resumo dos dados do sistema,
-    para recuperar histórico na re-execução do código
+    Armazena um resumo dos dados do sistema,
+    para recuperar histórico na re-execução do código.
 */
 void registro(Cliente *cli);
 
 /* Função registro_leia
-    lê o registro do sistema, e recupera os históricos de carros e clientes
+    Lê o registro do sistema, e recupera os históricos de carros e clientes.
 */
 void registro_leia(Cliente **cli, Carro **carro);
 
