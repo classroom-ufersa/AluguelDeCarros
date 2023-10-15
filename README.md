@@ -17,7 +17,7 @@ As maiores vantagens apresentadas pelo uso de Listas duplamente encadeadas é:
 - Possibilidade de percorrer a lista em qualquer direção;
 
 <p align="center">
- <img src="lista-dupla-encadeada.jpg"/>
+ <img src="./aluguel_de_carros/lista-dupla-encadeada.jpg"/>
 </p>
 
 - Flexibilidade;
@@ -44,10 +44,10 @@ Cliente *cliente_cadastra(int tag, Cliente *cli, char *nome, char *doc, char *te
 
 ### Função cliente_libera
 
-- **Descrição:**
+- **Descrição:** Libera memória alocada para a lista de clientes.
 
 ```c
-
+void cliente_libera(Cliente *cli);
 ```
 
 ### Função cliente_exclui
@@ -58,12 +58,45 @@ Cliente *cliente_cadastra(int tag, Cliente *cli, char *nome, char *doc, char *te
 Cliente *cliente_exclui(Cliente *cli, char *dado);
 ```
 
-### Função cliente_busca
+### Função cliente_consulta
 
-- **Descrição:** Busca os clientes.
+- **Descrição:** Verifica os detalhes de registro do cliente.
 
 ```c
-Cliente *cliente_busca(Cliente *cli, char* dado_busca);
+int cliente_consulta(Cliente *cli, Cliente *consultado);
+```
+### Função cliente_aluga
+
+- **Descrição:** Inicia o processo de aluguel de carro.
+
+```c
+void cliente_aluga(Cliente *cli, char *doc, Carro* carro, char *data_hoje);
+```
+
+### Função cliente_lista
+
+- **Descrição:** Imprime a lista dos clientes cadastrados.
+
+```c
+Cliente *cliente_lista(Cliente *cli);
+```
+
+### Função cliente_busca_filtro
+
+- **Descrição:** A partir de um dado de busca, retorna lista de
+    elementos que o contenham parcialmente ou por completo.
+
+```c
+Cliente *cliente_filtra_busca(Cliente *cli, char* dado_busca);
+```
+
+### Função cliente_ordena
+
+- **Descrição:** Retorna a posição ordenada de um novo cliente,
+    na ordem alfabética.
+
+```c
+Cliente *cliente_ordena(Cliente *cli, char *nome);
 ```
 
 ### Função cliente_edita
@@ -86,12 +119,68 @@ int cliente_total(Cliente *cli);
 
 ### **Funções em Carro** 
 
+### Função carro_cadastra
+
+- **Descrição:** Cadastra um novo carro no sistema, adicionando suas características.
+
+```c
+Carro *carro_cadastra(Carro *carro, char *modelo, char *placa, float preco, int disponibilidade);
+```
+
+### Função carro_libera
+
+- **Descrição:** Libera a mémoria que foi alocada para os carros.
+
+```c
+void carro_libera(Carro *carro);
+```
+
 ### Função carro_lista
 
 - **Descrição:** Lista os carros.
 
 ```c
 Carro *carro_lista(Carro *carro);
+```
+
+### Função carro_ordena
+
+- **Descrição:** Ordena os carros em ordem alfabética.
+
+```c
+Carro *carro_ordena(Carro *carro, char *modelo);
+```
+
+### Função carro_leia
+
+- **Descrição:** Função que lê os dados dos carros que estão em um arquivo .txt e os aloca na struct.
+
+```c
+Carro *carro_leia(Carro *carro);
+```
+
+### Função carro_edita
+
+- **Descrição:** Possibilita a edição do preço dos carros.
+
+```c
+void carro_edita(Carro  *carro, Carro *carro_consultado);
+```
+
+### Função carro_exclui
+
+- **Descrição:** Retira o carro do sistema e libera o espaço da mémoria onde ele estava alocado.
+
+```c
+void carro_exclui(Carro *carro, Carro *carro_consultado);
+```
+
+### Função carro_consulta
+
+- **Descrição:** Abre um menu exclusivo para um carro específico que foi selecionado pelo usuário. 
+
+```c
+int carro_consulta(Carro *carro, Carro *carro_consultado);
 ```
 
 ### Função carro_disponivel
@@ -102,11 +191,53 @@ Carro *carro_lista(Carro *carro);
 void carro_disponivel(Carro *carro);
 ```
 
+### Função carro_busca
+
+- **Descrição:** Busca um carro em específico pela placa ou modelo,
+    usando tipo = 0 para buscar pelo modelo e tipo = 1 para buscar 
+    pela placa.
+
+```c
+Carro *carro_busca(Carro *carro, char *modelo, int tipo);
+```
+
+### Função carro_atualiza_galeria
+
+- **Descrição:** Função que atualiza a galeria (arquivo .txt onde está os dados dos carros) após alguma mudança durante a execução do programa.
+
+```c
+void carro_atualiza_galeria(Carro *carro);
+```
+
 
 
 ### **Funções em Aluguel** 
 
-(adicionar as funções essenciais)
+### Função aluguel_cria
+
+- **Descrição:** Cria um novo elemento na lista de aluguel, inserindo-o de forma ordenada.
+
+```c
+Aluguel *aluguel_cria(Aluguel* aluguel, Carro* carro, char *data, int duracao, int status);
+```
+
+### Função aluguel_libera
+
+- **Descrição:** Libera a memória alocada para a lista de aluguel
+
+```c
+void aluguel_libera(Aluguel *aluguel);
+```
+
+### Função aluguel_ordena
+
+- **Descrição:** Retorna a posição ordenada do novo aluguel, na ordem cronológica.
+
+```c
+Aluguel *aluguel_ordena(Aluguel *aluguel, char *data_inicio);
+```
+
+
 
 ### **Funções Gerais** 
 

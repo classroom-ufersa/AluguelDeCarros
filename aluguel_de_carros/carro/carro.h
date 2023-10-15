@@ -9,7 +9,7 @@ typedef struct carro Carro;
 /* Funções Exportadas */
 
 /* Função carro_cadastra
-    Cadastra um novo carro no sistema, adicionando suas características
+    Cadastra um novo carro no sistema, adicionando suas características.
 */
 Carro *carro_cadastra(Carro *carro, char *modelo, char *placa, float preco, int disponibilidade);
 
