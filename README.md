@@ -20,7 +20,7 @@ As maiores vantagens apresentadas pelo uso de Listas duplamente encadeadas é:
  <img src="./aluguel_de_carros/lista-dupla-encadeada.jpg"/>
 </p>
 
-- Flexibilidade;
+- Flexibilidade.
 
 ### **Desvantagens**
 
@@ -223,9 +223,7 @@ void carro_disponivel(Carro *carro);
 
 ### Função carro_busca
 
-- **Descrição:** Busca um carro em específico pela placa ou modelo,
-    usando tipo = 0 para buscar pelo modelo e tipo = 1 para buscar 
-    pela placa.
+- **Descrição:** Busca um carro em específico pela placa ou modelo, usando tipo = 0 para buscar pelo modelo e tipo = 1 para buscar pela placa.
 
 ```c
 Carro *carro_busca(Carro *carro, char *modelo, int tipo);
@@ -253,7 +251,7 @@ Aluguel *aluguel_cria(Aluguel* aluguel, Carro* carro, char *data, int duracao, i
 
 ### Função aluguel_libera
 
-- **Descrição:** Libera a memória alocada para a lista de aluguel
+- **Descrição:** Libera a memória alocada para a lista de aluguel.
 
 ```c
 void aluguel_libera(Aluguel *aluguel);
@@ -279,9 +277,9 @@ Aluguel *aluguel_ordena(Aluguel *aluguel, char *data_inicio);
 char *clear(void);
 ```
 
-### Função menus
+### Funções dos menus
 
-- **Descrição:** Exibição dos menus principal, cliente e carro
+- **Descrição:** Exibição dos menus principal, cliente e carro.
 
 ```c
 int menu_principal(Cliente *cli);
@@ -295,7 +293,7 @@ Cliente *menu_cliente(Cliente *cli, Carro *carro);
 Carro *menu_carro(Cliente *cli, Carro *carro);
 ```
 
-### Função registro 
+### Funções do registro 
 
 - **Descrição:** Armazena um resumo dos dados para recuperar histórico na re-execução do código.
 
