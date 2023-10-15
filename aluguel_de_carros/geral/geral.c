@@ -124,108 +124,117 @@ Cliente *menu_cliente(Cliente *cli, Carro *carro)
                 break;
 
             case '1':
-                printf("\nIniciando Cadastro de Aluguel...\n");
-                delay(ATRASO);
-                while (1)
+                if (carro_consulta_disponivel(carro) != 0)
                 {
-                    cabecalho("SISTEMA DE ALUGUEL\t", "\t\t");
-
-                    printf(">>> [1] Novo Cadastro\n");      /* Cria um novo cadastro antes de iniciar o aluguel */
-                    printf(">>> [2] Cliente Existente\n");  /* Cliente já está cadastrado no sistema */
-                    printf(">>> [3] Voltar\n");
-                    
-                    alert_msg();
-                    printf("\nEscolha uma opcao: ");
-
-                    op_i = teste_input();
-
-                    if (op_i == '1')          /* criar cadastro */
-                    {      
-                        printf("\nCriando Cadastro...\n");
-                        delay(ATRASO);
-                        
-                        cabecalho("SISTEMA DE ALUGUEL\t", "NOVO CADASTRO\t");
-
-                        total_anterior = cliente_total(cli);    /* total de clientes antes do cadastro */
-
-                        printf("Digite o Nome Completo: ");
-                        scanf(" %31[^\n]", nome);
-                        while (getchar() != '\n');
-                        if (strlen(nome) > 30)                  /* verifica se o nome é válido */
-                        {
-                            alert(3);
-                            break;
-                        }
-
-                        printf("Informe o numeros do CPF: ");
-                        scanf(" %12[^\n]", doc);
-                        while (getchar() != '\n');
-                        if (teste_formato(doc))                 /* verifica se o CPF é válido */
-                        {
-                            if (strlen(doc) != 11) 
-                            {
-                                alert(4);
-                                break;
-                            }
-                        }
-                        else
-                        {
-                            alert(5);
-                            break;
-                        }
-
-                        printf("Informe os numeros de um telefone para contato: ");
-                        scanf(" %12[^\n]", tel);
-                        while (getchar() != '\n');
-                        if (teste_formato(tel))                 /* verifica se o telefone é válido */
-                        {
-                            if (strlen(tel) != 11)
-                            {
-                                alert(6);
-                                break;
-                            }
-                        } else {
-                            alert(7);
-                            break;
-                        }
-
-                        // ponteiro auxiliar endereça para lista com novo cadastro:
-                        cli = cliente_cadastra(1, cli, nome, doc, tel, 0);
-
-                        total_atual = cliente_total(cli);   /* total de clientes após o cadastro */
-
-                        // ==================================================
-                        // caso o cadastro tenho sido realizado com sucesso,
-                        // procura novo cliente dentro da nova lista:
-                        if (total_atual != total_anterior)
-                        {
-                            cliente_aux = cliente_busca(cli, doc);
-                            cliente_escolhido = 1;
-                        }
-                        else
-                            alert(-3);      /* Cadastro falhou */
-                        break;
-
-                    }
-                    else if (op_i == '2')   /* busca cliente cadastrado no sistema */
+                    printf("\nIniciando Cadastro de Aluguel...\n");
+                    delay(ATRASO);
+                
+                    while (1)
                     {
-                        if (cli != NULL)    /* Verifica se a lista está vazia */
-                        {
-                            cabecalho("SISTEMA DE ALUGUEL\t", "BUSCA CLIENTE\t");
-                            cliente_aux = cliente_lista(cli);
-                            cliente_escolhido = 1;
+                        cabecalho("SISTEMA DE ALUGUEL\t", "\t\t");
+
+                        printf(">>> [1] Novo Cadastro\n");      /* Cria um novo cadastro antes de iniciar o aluguel */
+                        printf(">>> [2] Cliente Existente\n");  /* Cliente já está cadastrado no sistema */
+                        printf(">>> [3] Voltar\n");
+                        
+                        alert_msg();
+                        printf("\nEscolha uma opcao: ");
+
+                        op_i = teste_input();
+
+                        if (op_i == '1')          /* criar cadastro */
+                        {      
+                            printf("\nCriando Cadastro...\n");
+                            delay(ATRASO);
+                            
+                            cabecalho("SISTEMA DE ALUGUEL\t", "NOVO CADASTRO\t");
+
+                            total_anterior = cliente_total(cli);    /* total de clientes antes do cadastro */
+
+                            printf("Digite o Nome Completo: ");
+                            scanf(" %31[^\n]", nome);
+                            while (getchar() != '\n');
+                            if (strlen(nome) > 30)                  /* verifica se o nome é válido */
+                            {
+                                alert(3);
+                                break;
+                            }
+
+                            printf("Informe o numeros do CPF: ");
+                            scanf(" %12[^\n]", doc);
+                            while (getchar() != '\n');
+                            if (teste_formato(doc))                 /* verifica se o CPF é válido */
+                            {
+                                if (strlen(doc) != 11) 
+                                {
+                                    alert(4);
+                                    break;
+                                }
+                            }
+                            else
+                            {
+                                alert(5);
+                                break;
+                            }
+
+                            printf("Informe os numeros de um telefone para contato: ");
+                            scanf(" %12[^\n]", tel);
+                            while (getchar() != '\n');
+                            if (teste_formato(tel))                 /* verifica se o telefone é válido */
+                            {
+                                if (strlen(tel) != 11)
+                                {
+                                    alert(6);
+                                    break;
+                                }
+                            } else {
+                                alert(7);
+                                break;
+                            }
+
+                            // ponteiro auxiliar endereça para lista com novo cadastro:
+                            cli = cliente_cadastra(1, cli, nome, doc, tel, 0);
+
+                            total_atual = cliente_total(cli);   /* total de clientes após o cadastro */
+
+                            // ==================================================
+                            // caso o cadastro tenho sido realizado com sucesso,
+                            // procura novo cliente dentro da nova lista:
+                            if (total_atual != total_anterior)
+                            {
+                                cliente_aux = cliente_busca(cli, doc);
+                                cliente_escolhido = 1;
+                            }
+                            else
+                                alert(-3);      /* Cadastro falhou */
                             break;
+
                         }
+                        else if (op_i == '2')   /* busca cliente cadastrado no sistema */
+                        {
+                            if (cli != NULL)    /* Verifica se a lista está vazia */
+                            {
+                                cabecalho("SISTEMA DE ALUGUEL\t", "BUSCA CLIENTE\t");
+                                cliente_aux = cliente_lista(cli);
+                                cliente_escolhido = 1;
+                                break;
+                            }
+                            else
+                            {
+                                alert(-5);      /* Nao ha cadastros no sistema */
+                                break;
+                            }
+                        }
+                        else if (op_i == '3')
+                            break;
                         else
-                        {
-                            alert(-5);      /* Nao ha cadastros no sistema */
-                            break;
-                        }
+                            alert(1);
                     }
-                    else if (op_i == '3')
-                        break;
-                    else
-                        alert(1);
+                }
+                else
+                {
+                    alert(-21); /* carros indisponíveis */
+                    break;
                 }
 
                 if (cliente_escolhido == 1 && op_i != 3)
@@ -894,6 +903,7 @@ void alert_msg(void)
     else if (alert_cod == -18) printf(TXT_yellow"\nFormato invalido da placa\n"TXT_reset);
     else if (alert_cod == -19) printf(TXT_yellow"\nFormato invalido do preco\n"TXT_reset);
     else if (alert_cod == -20) printf(TXT_yellow"\nValor negativo! Por favor, informe o preco novamente.\n"TXT_reset);
+    else if (alert_cod == -21) printf(TXT_yellow"\nTodos os carros estao sendo alugados no momento.\n"TXT_reset);
 
     alert(0);    /* reseta marcador */
 }
@@ -990,7 +1000,6 @@ void registro_leia(Cliente **cli, Carro **carro)
     {
         cliente_atualiza_aluguel(*cli, data_hoje);
         carro_atualiza_galeria(*carro);
-        // cliente_atualiza_historico(1, cli);
         printf("Dados recuperados com sucesso\n");
     }
 
