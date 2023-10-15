@@ -83,8 +83,7 @@ Cliente *cliente_lista(Cliente *cli);
 
 ### Função cliente_busca_filtro
 
-- **Descrição:** A partir de um dado de busca, retorna lista de
-    elementos que o contenham parcialmente ou por completo.
+- **Descrição:** A partir de um dado de busca, retorna lista de elementos que o contenham parcialmente ou por completo.
 
 ```c
 Cliente *cliente_filtra_busca(Cliente *cli, char* dado_busca);
@@ -115,6 +114,37 @@ void cliente_edita(Cliente *cli);
 int cliente_total(Cliente *cli);
 ```
 
+### Função cliente_cria_historico
+
+- **Descrição:** Cria um arquivo de histórico para o cliente.
+
+```c
+void cliente_cria_historico(Cliente *cli, char *doc);
+```
+
+### Função cliente_atualiza_historico
+
+- **Descrição:**  Atualiza as informações do cliente no histórico.
+
+```c
+void cliente_atualiza_historico(int tag, Cliente *cli);
+```
+
+### Função cliente_recupera_historico
+
+- **Descrição:** Recarrega a lista de clientes no início da execução do programa.
+
+```c
+Cliente *cliente_recupera_historico(Cliente *cli, Carro *carro, char *doc);
+```
+
+### Função cliente_apaga_historico
+
+- **Descrição:** Apaga histórico de um cliente (que foi removido da lista de cadastrados).
+
+```c
+void cliente_apaga_historico(Cliente *cli);
+```
 
 
 ### **Funções em Carro** 
