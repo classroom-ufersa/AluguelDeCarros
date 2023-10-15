@@ -58,3 +58,4 @@ void aluguel_inicia(Aluguel *aluguel);
     e do carro
 */
 void aluguel_finaliza(Aluguel *aluguel);
+

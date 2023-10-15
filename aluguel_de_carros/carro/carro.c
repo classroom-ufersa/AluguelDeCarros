@@ -289,7 +289,7 @@ void carro_edita(Carro *carro, Carro *carro_consultado)
 
     printf(TXT_yellow"\nDeixe em branco para manter o dado salvo:\n\n"TXT_reset);
 
-    printf("Digite o novo nome:\n");
+    printf("Digite o novo preco:\n");
     printf("Antigo: R$%.2f\n", carro_consultado->preco);
     printf("Novo: ");
 

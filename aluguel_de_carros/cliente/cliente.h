@@ -111,3 +111,4 @@ void cliente_apaga_historico(Cliente *cli);
     na ordem alfabética
 */
 Cliente *cliente_ordena(Cliente *cli, char *nome);
+

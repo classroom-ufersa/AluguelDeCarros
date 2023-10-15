@@ -120,36 +120,40 @@ void delay(double milissegundos);
 
 /* Função registro
     armazena um resumo dos dados do sistema,
-    para recuperar histórico na re-execução do código
+    para recuperar histórico na re-execução do código.
 */
 void registro(Cliente *cli);
 
 /* Função registro_leia
-    lê o registro do sistema, e recupera os históricos de carros e clientes
+    lê o registro do sistema, e recupera os históricos de carros e clientes.
 */
 void registro_leia(Cliente **cli, Carro **carro);
 
 /* Função menu_consulta_carro
-
+    Função que abre um menu onde será buscado o carro pela placa.
 */
 void menu_consulta_carro(Carro *carro);
 
 /* Função teste_formato_placa
-
+    Função que faz a verificação da placa dentro do modelo predefinido (SSSNSNN). 
+    S -> string
+    N -> número
 */
 int teste_formato_placa(char *placa);
 
 /* Funcão menu_falso_placa
-
+    Menu para melhorar a interface do código.
 */
 void menu_falso_placa(char *modelo);
 
 /* Função teste_formato_preco
-
+    Função que faz a verificação do preço que foi cadastrado,
+    retornando -1 caso o preço seja negativo, 0 caso seja uma 
+    string e 1 caso estaja no formato correto.
 */
 int teste_formato_preco(char *str);
 
 /* Funçao menu_falso2
-
+    Menu para melhorar a interface do código.
 */
 void menu_falso_preco(char* modelo, char *placa);
