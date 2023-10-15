@@ -869,6 +869,7 @@ void string_copy(char *dest, char *src)
     {
         dest[i] = src[i];
     }
+    dest[i] = '\0';
 }
 
 void alert(int cod)
@@ -989,14 +990,14 @@ void registro_leia(Cliente **cli, Carro **carro)
 
         printf("Carregando dados dos Clientes...\n");
         delay(ATRASO);     /* atraso para verificar resposta */
-        
+
         // pula a linha do cabeçalho:
         char pula[100];
         fgets(pula, 100, fl);
         // printf("Dados registro:\n");
         while (!feof(fl))
         {   
-            // printf("oi\n"); delay(500);
+            printf("oi\n"); delay(500);
             fscanf(fl, "%[^\t]\t%[^\t]\t%[^\n]\n", nome, doc, status);
             *cli = cliente_recupera_historico(*cli, *carro, doc);
         }
