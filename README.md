@@ -30,7 +30,9 @@ As maiores desvantagens apresentadas pelo seu uso é:
 
 - Complexidade de implementação;
 
-### **Funções Importantes** 
+
+
+### **Funções em Cliente** 
 
 ### Função cliente_cadastra
 
@@ -40,20 +42,20 @@ As maiores desvantagens apresentadas pelo seu uso é:
 Cliente *cliente_cadastra(int tag, Cliente *cli, char *nome, char *doc, char *tel);
 ```
 
+### Função cliente_libera
+
+- **Descrição:**
+
+```c
+
+```
+
 ### Função cliente_exclui
 
 - **Descrição:** Exclui o cadastro do cliente.
 
 ```c
 Cliente *cliente_exclui(Cliente *cli, char *dado);
-```
-
-### Função carro_lista
-
-- **Descrição:** Lista os carros.
-
-```c
-Carro *carro_lista(Carro *carro);
 ```
 
 ### Função cliente_busca
@@ -72,14 +74,6 @@ Cliente *cliente_busca(Cliente *cli, char* dado_busca);
 void cliente_edita(Cliente *cli);
 ```
 
-### Função carro_disponivel
-
-- **Descrição:** Consulta os carros disponíveis.
-
-```c
-void carro_disponivel(Carro *carro);
-```
-
 ### Função cliente_total 
 
 - **Descrição:** Calcula o total de clientes cadastrados.
@@ -88,5 +82,66 @@ void carro_disponivel(Carro *carro);
 int cliente_total(Cliente *cli);
 ```
 
-### **Funções Extras** 
 
+
+### **Funções em Carro** 
+
+### Função carro_lista
+
+- **Descrição:** Lista os carros.
+
+```c
+Carro *carro_lista(Carro *carro);
+```
+
+### Função carro_disponivel
+
+- **Descrição:** Consulta os carros disponíveis.
+
+```c
+void carro_disponivel(Carro *carro);
+```
+
+
+
+### **Funções em Aluguel** 
+
+(adicionar as funções essenciais)
+
+### **Funções Gerais** 
+
+### Função clear
+
+- **Descrição:** Limpa o terminal de acordo com o SO do usuário.
+
+```c
+char *clear(void);
+```
+
+### Função menus
+
+- **Descrição:** Exibição dos menus principal, cliente e carro
+
+```c
+int menu_principal(Cliente *cli);
+```
+
+```c
+Cliente *menu_cliente(Cliente *cli, Carro *carro);
+```
+
+```c
+Carro *menu_carro(Cliente *cli, Carro *carro);
+```
+
+### Função registro 
+
+- **Descrição:** Armazena um resumo dos dados para recuperar histórico na re-execução do código.
+
+```c
+void registro(Cliente *cli);
+```
+
+```c
+void registro_leia(Cliente **cli, Carro **carro);
+```
