@@ -55,7 +55,7 @@ int menu_principal(Cliente* cli)
 
     switch (op1) {
         case '0':
-            strcpy(data_hoje, passa_tempo(data_hoje));
+            string_copy(data_hoje, passa_tempo(data_hoje));
             cliente_atualiza_aluguel(cli, data_hoje);
             registro(cli);
 
@@ -117,7 +117,7 @@ Cliente *menu_cliente(Cliente *cli, Carro *carro)
         switch (op2)
         {
             case '0':
-                strcpy(data_hoje, passa_tempo(data_hoje));
+                string_copy(data_hoje, passa_tempo(data_hoje));
                 cliente_atualiza_aluguel(cli, data_hoje);
                 registro(cli);
 
@@ -404,7 +404,7 @@ Carro *menu_carro(Cliente *cli, Carro *carro)
 
         switch (op3) {
             case '0':
-                strcpy(data_hoje, passa_tempo(data_hoje));
+                string_copy(data_hoje, passa_tempo(data_hoje));
                 cliente_atualiza_aluguel(cli, data_hoje);
                 registro(cli);
                 break;
@@ -626,7 +626,7 @@ char *realoca_string(char *dado)
 void mascara(char *dado, char *dado_convertido, char formato[])
 {
     char dado_base[100];
-    strcpy(dado_base, dado);        /* recebe o valor de entrada */
+    string_copy(dado_base, dado);        /* recebe o valor de entrada */
     char *aux = (char*)malloc(100*sizeof(char));    /* string auxiliar para montar a máscara */
 
     int i = 0;      /* índice geral */
@@ -647,7 +647,7 @@ void mascara(char *dado, char *dado_convertido, char formato[])
         }
     }
     aux[i] = '\0';      /* fecha a string */
-    strcpy(dado_convertido, aux);   /* copia resultado no parâmetro "dado_convertido" */
+    string_copy(dado_convertido, aux);   /* copia resultado no parâmetro "dado_convertido" */
     free(aux);      /* libera memória da variável auxiliar */
 }
 
@@ -721,7 +721,7 @@ char *input_data(char *data)
                 // verifica se a data é válida:
                 if (data_valida(data_input) == 1)
                 {
-                    strcpy(data, data_input);
+                    string_copy(data, data_input);
                     return data;
                 }
 
@@ -780,7 +780,7 @@ char *passa_tempo(char *data)
                         if (compara_data(data, data_nova) >= 0)
                         {
                             alert(-1);   /* data atualizada */
-                            strcpy(data, data_nova);    /* copia nova data para "data" */
+                            string_copy(data, data_nova);    /* copia nova data para "data" */
                             free(data_nova);            /* libera data_nova */
                             return data;
                         }
@@ -811,7 +811,7 @@ char *passa_tempo(char *data)
                     if (compara_data(data, data_nova) >= 0)
                     {
                         alert(-1);   /* data atualizada */
-                        strcpy(data, data_nova);
+                        string_copy(data, data_nova);
                         free(data_nova);            /* libera data_nova */
                         data_nova = NULL;
                         
@@ -851,6 +851,15 @@ char *string_upper(char *str)
     }
 
     return str;
+}
+
+void string_copy(char *dest, char *src)
+{
+    int i;
+    for (i = 0; src[i] != '\0'; i++)
+    {
+        dest[i] = src[i];
+    }
 }
 
 void alert(int cod)
@@ -966,10 +975,9 @@ void registro_leia(Cliente **cli, Carro **carro)
 
         fscanf(fl, "%[^\n]\n", data);
         
-        strcpy(data_hoje, data);
+        string_copy(data_hoje, data);
 
         printf("Carregando dados dos Clientes...\n");
-        printf(":)");
         delay(ATRASO);     /* atraso para verificar resposta */
         
         // pula a linha do cabeçalho:
@@ -987,7 +995,6 @@ void registro_leia(Cliente **cli, Carro **carro)
     }
     fclose(fl);
 
-    
     if(*cli != NULL)
     {
         cliente_atualiza_aluguel(*cli, data_hoje);

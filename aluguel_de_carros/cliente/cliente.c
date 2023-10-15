@@ -36,11 +36,11 @@ Cliente *cliente_cadastra(int tag, Cliente *cli, char *nome, char *doc, char *te
 
     // ==================================================
     // insere os dados do cliente:
-    strcpy(novo_cliente->nome, string_upper(nome));
+    string_copy(novo_cliente->nome, string_upper(nome));
     novo_cliente->nome = realoca_string(novo_cliente->nome);
-    strcpy(novo_cliente->documento, doc);
+    string_copy(novo_cliente->documento, doc);
     novo_cliente->documento = realoca_string(novo_cliente->documento);
-    strcpy(novo_cliente->telefone, tel);
+    string_copy(novo_cliente->telefone, tel);
     novo_cliente->telefone = realoca_string(novo_cliente->telefone);
     novo_cliente->status = status;   /* cadastra sem aluguel ativo */
 
@@ -459,7 +459,7 @@ void cliente_edita(Cliente *cli, Cliente *editado)
                     alert(3);           /* tamanho máximo excedido */
                     break;
                 }
-                strcpy(editado->nome, string_upper(nome));
+                string_copy(editado->nome, string_upper(nome));
             }
             break;
 
@@ -489,7 +489,7 @@ void cliente_edita(Cliente *cli, Cliente *editado)
                         strcat(nome_novo, ".txt");
                         rename(nome_antigo, nome_novo);
                         // muda o nome do cliente:
-                        strcpy(editado->documento, doc);
+                        string_copy(editado->documento, doc);
                     }
                     alert(4);           /* Tamanho de CPF inválido */
                     break;
@@ -526,7 +526,7 @@ void cliente_edita(Cliente *cli, Cliente *editado)
                     alert(7);               /* Formato de telefone inválido */
                     break;
                 }
-                strcpy(editado->telefone, tel);
+                string_copy(editado->telefone, tel);
             }
             break;
         

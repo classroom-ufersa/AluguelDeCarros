@@ -36,9 +36,9 @@ Carro *carro_cadastra(Carro *carro, char *modelo, char *placa, float preco, int 
     
     // ==================================================
     // insere os dados do cliente:
-    strcpy(novo->modelo, string_upper(modelo));
+    string_copy(novo->modelo, string_upper(modelo));
     novo->modelo = realoca_string(novo->modelo);
-    strcpy(novo->placa, string_upper(placa));
+    string_copy(novo->placa, string_upper(placa));
     novo->placa = realoca_string(novo->placa);
     novo->disponibilidade = disponibilidade;
     novo->preco = preco;

@@ -28,7 +28,7 @@ Aluguel *aluguel_cria(Aluguel* aluguel, Carro* carro, char *data, int duracao, i
 
     // ==================================================
     // insere os dados do cliente:
-    strcpy(novo_aluguel->data_aluguel, data);
+    string_copy(novo_aluguel->data_aluguel, data);
     novo_aluguel->data_aluguel = realoca_string(novo_aluguel->data_aluguel);
     novo_aluguel->duracao = duracao;
     novo_aluguel->status_aluguel = status;
