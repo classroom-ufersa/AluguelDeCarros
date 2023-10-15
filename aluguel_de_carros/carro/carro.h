@@ -48,6 +48,11 @@ void carro_disponivel(Carro *carro);
 */
 void carro_alugado(Carro *carro);
 
+/* Função carro_consulta_disponivel
+    
+*/
+int carro_consulta_disponivel(Carro *carro);
+
 /* Função carro_busca
     Busca um carro em específico pela placa ou modelo,
     usando tipo = 0 para buscar pelo modelo e tipo = 1 

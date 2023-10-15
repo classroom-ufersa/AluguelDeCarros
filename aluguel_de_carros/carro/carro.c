@@ -194,6 +194,19 @@ void carro_alugado(Carro *carro)
     carro->disponibilidade = 0;
 }
 
+int carro_consulta_disponivel(Carro *carro)
+{
+    int count_carro = 0;
+    Carro *carro_aux;
+    for (carro_aux = carro; carro_aux != NULL; carro_aux = carro_aux->prox_carro)
+    {
+        if (carro_aux->disponibilidade == 1)
+            count_carro++;
+    }
+
+    return count_carro;
+}
+
 Carro *carro_busca(Carro *carro, char *dado_busca, int tipo)
 {
     Carro *carro_aux;
@@ -250,7 +263,7 @@ Carro *carro_leia(Carro *carro)
     
     if (fl == NULL) 
     {
-        printf("\nArquivo nao encontrado!\n");
+        alert(-7);  /* Arquivo não encontrado */
         return 0; // erro ao acessar o arquivo
     }
 
@@ -271,7 +284,7 @@ Carro *carro_leia(Carro *carro)
         {
             fscanf(fl, "%[^\t]\t%[^\t]\t%f\t%d\n", modelo, placa, &preco, &disponivel);
             
-            carro = carro_cadastra(carro, modelo, placa, preco, disponivel);
+            carro = carro_cadastra(carro, modelo, placa, preco, 1);
         }
     }
     // delay(1000);            /* atraso para verificar resposta */
