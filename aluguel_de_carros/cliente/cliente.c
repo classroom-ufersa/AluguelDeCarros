@@ -459,7 +459,7 @@ void cliente_edita(Cliente *cli, Cliente *editado)
                     alert(3);           /* tamanho máximo excedido */
                     break;
                 }
-                strcpy(editado->nome, strupr(nome));
+                strcpy(editado->nome, string_upper(nome));
             }
             break;
 

@@ -969,6 +969,7 @@ void registro_leia(Cliente **cli, Carro **carro)
         strcpy(data_hoje, data);
 
         printf("Carregando dados dos Clientes...\n");
+        printf(":)");
         delay(ATRASO);     /* atraso para verificar resposta */
         
         // pula a linha do cabeçalho:
@@ -986,6 +987,7 @@ void registro_leia(Cliente **cli, Carro **carro)
     }
     fclose(fl);
 
+    
     if(*cli != NULL)
     {
         cliente_atualiza_aluguel(*cli, data_hoje);
