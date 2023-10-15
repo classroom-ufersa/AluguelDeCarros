@@ -342,7 +342,7 @@ Cliente *menu_cliente(Cliente *cli, Carro *carro)
                                 if (op_i == 'S')
                                 {
                                     cliente_exclui(cli, cliente_aux->documento);
-                                    alert(0);       /* volta ao menu iniciar, sem mensagem */
+                                    break;
                                 } 
                                 else if (op_i == 'N')
                                     break;
@@ -381,7 +381,7 @@ Carro *menu_carro(Cliente *cli, Carro *carro)
     int teste_preco = 1, i, j;
     Carro *carro_aux;
     char *modelo = (char*) calloc(20,sizeof(char));
-    char *placa = (char*) calloc(8,sizeof(char));
+    char *placa = (char*) calloc(10,sizeof(char));
     char *preco = (char*) calloc(10,sizeof(char));
     float preco_final;
 
@@ -431,14 +431,14 @@ Carro *menu_carro(Cliente *cli, Carro *carro)
                         menu_falso_placa(modelo);
                     }
                     printf("\nDigite a placa do carro: ");
-                    scanf(" %[^\n]", placa);
+                    scanf(" %8[^\n]", placa);
                     while (getchar() != '\n');
-                    if (strlen(placa) > 8)
+                    if (strlen(placa) > 7)
                     {
                         alert(3);
-                        break;
+                    }else{
+                        teste_placa = teste_formato_placa(placa);
                     }
-                    teste_placa = teste_formato_placa(placa);
                     menu_falso = 1;
                 }
             
@@ -458,17 +458,6 @@ Carro *menu_carro(Cliente *cli, Carro *carro)
                     }
                     menu_falso2 = 1;
                 }
-
-                // for (i = 0; placa[i] != '\0'; i++){
-                //     if (placa[i] == '.')
-                //     {
-                //         for(j = i; j < strlen(placa); j++)
-                //         {
-                //             placa[j] = placa[j + 1];
-                //         }
-                //         break;
-                //     }
-                // }
 
                 preco_final = atof(preco);
                 carro = carro_cadastra(carro, modelo, placa, preco_final, 1);

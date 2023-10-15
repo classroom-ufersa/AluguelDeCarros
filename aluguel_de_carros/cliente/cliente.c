@@ -166,6 +166,7 @@ void cliente_aluga(Cliente *cli, char *doc, Carro* carro, char *data_hoje)
         printf("==========================================================================================\n");
         printf(" -> CLIENTE:\t%-30s\n", cliente_aux->nome);
         printf(" -> CARRO:\t%-15s\n", carro_modelo(carro));
+        printf(" -> PRECO:\t%-10.2f\n", carro->preco);
         printf("==========================================================================================\n");
 
         alert_msg();

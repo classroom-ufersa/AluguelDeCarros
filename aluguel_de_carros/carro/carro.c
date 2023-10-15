@@ -306,6 +306,8 @@ void carro_edita(Carro *carro, Carro *carro_consultado)
 
 void carro_exclui(Carro *carro, Carro *carro_consultado)
 {
+    cabecalho("EXCLUINDO CARRO\t","\t\t");
+
     Carro *carro_aux;
     
     if (carro_consultado->disponibilidade == 1)
