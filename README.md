@@ -30,7 +30,7 @@ As maiores desvantagens apresentadas pelo seu uso é:
 
 - Complexidade de implementação;
 
-### **Funções Importantes** 
+### **Funções em Cliente** 
 
 ### Função cliente_cadastra
 
@@ -46,14 +46,6 @@ Cliente *cliente_cadastra(int tag, Cliente *cli, char *nome, char *doc, char *te
 
 ```c
 Cliente *cliente_exclui(Cliente *cli, char *dado);
-```
-
-### Função carro_lista
-
-- **Descrição:** Lista os carros.
-
-```c
-Carro *carro_lista(Carro *carro);
 ```
 
 ### Função cliente_busca
@@ -72,14 +64,6 @@ Cliente *cliente_busca(Cliente *cli, char* dado_busca);
 void cliente_edita(Cliente *cli);
 ```
 
-### Função carro_disponivel
-
-- **Descrição:** Consulta os carros disponíveis.
-
-```c
-void carro_disponivel(Carro *carro);
-```
-
 ### Função cliente_total 
 
 - **Descrição:** Calcula o total de clientes cadastrados.
@@ -88,5 +72,22 @@ void carro_disponivel(Carro *carro);
 int cliente_total(Cliente *cli);
 ```
 
-### **Funções Extras** 
+### **Funções em Carro** 
 
+### Função carro_lista
+
+- **Descrição:** Lista os carros.
+
+```c
+Carro *carro_lista(Carro *carro);
+```
+
+### Função carro_disponivel
+
+- **Descrição:** Consulta os carros disponíveis.
+
+```c
+void carro_disponivel(Carro *carro);
+```
+
+### **Funções em Aluguel** 
