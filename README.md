@@ -269,6 +269,14 @@ Aluguel *aluguel_ordena(Aluguel *aluguel, char *data_inicio);
 
 ### **Funções Gerais** 
 
+### Função delay
+
+- **Descrição:** Gera um atraso, em milissegundos, na resposta do programa.
+
+```c
+void delay(double milissegundos);
+```
+
 ### Função clear
 
 - **Descrição:** Limpa o terminal de acordo com o SO do usuário.
