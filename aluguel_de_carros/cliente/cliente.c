@@ -186,7 +186,7 @@ void cliente_aluga(Cliente *cli, char *doc, Carro* carro, char *data_hoje)
                     if (cliente_resumo_aluguel(cliente_aux, carro, data_hoje, duracao) == 1)
                     {
                         cliente_aux->ultimo_aluguel = aluguel_cria(cliente_aux->ultimo_aluguel, carro, data_hoje, duracao, 0);
-                        cliente_atualiza_aluguel(cli, data_hoje);
+                        cli = cliente_atualiza_aluguel(cli, data_hoje);
                         cliente_atualiza_historico(1, cli);
                         alert(-11); /* Aluguel criado */
                     }
@@ -698,6 +698,7 @@ int cliente_consulta(Cliente *cli, Cliente *consultado)
 
 Cliente *cliente_atualiza_aluguel(Cliente *cli, char *data_hoje)
 {
+    printf(":x");
     Cliente *cliente_aux;
     Aluguel *aluguel_aux;
     char *data_inicio, *data_final;
@@ -722,6 +723,7 @@ Cliente *cliente_atualiza_aluguel(Cliente *cli, char *data_hoje)
             }
         }
     }
+    return cli;
 }
 
 void cliente_cria_historico(Cliente *cli, char* doc)

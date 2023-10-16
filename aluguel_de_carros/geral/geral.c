@@ -56,7 +56,7 @@ int menu_principal(Cliente* cli)
     switch (op1) {
         case '0':
             string_copy(data_hoje, passa_tempo(data_hoje));
-            cliente_atualiza_aluguel(cli, data_hoje);
+            cli = cliente_atualiza_aluguel(cli, data_hoje);
             registro(cli);
 
             break;
@@ -118,7 +118,7 @@ Cliente *menu_cliente(Cliente *cli, Carro *carro)
         {
             case '0':
                 string_copy(data_hoje, passa_tempo(data_hoje));
-                cliente_atualiza_aluguel(cli, data_hoje);
+                cli = cliente_atualiza_aluguel(cli, data_hoje);
                 registro(cli);
 
                 break;
@@ -414,7 +414,7 @@ Carro *menu_carro(Cliente *cli, Carro *carro)
         switch (op3) {
             case '0':
                 string_copy(data_hoje, passa_tempo(data_hoje));
-                cliente_atualiza_aluguel(cli, data_hoje);
+                cli = cliente_atualiza_aluguel(cli, data_hoje);
                 registro(cli);
                 break;
 
@@ -997,7 +997,7 @@ void registro_leia(Cliente **cli, Carro **carro)
         // printf("Dados registro:\n");
         while (!feof(fl))
         {   
-            printf("oi\n"); delay(500);
+            // printf("oi\n"); delay(500);
             fscanf(fl, "%[^\t]\t%[^\t]\t%[^\n]\n", nome, doc, status);
             *cli = cliente_recupera_historico(*cli, *carro, doc);
         }
@@ -1008,7 +1008,8 @@ void registro_leia(Cliente **cli, Carro **carro)
 
     if(*cli != NULL)
     {
-        cliente_atualiza_aluguel(*cli, data_hoje);
+        printf(":)\n");
+        *cli = cliente_atualiza_aluguel(*cli, data_hoje);
         carro_atualiza_galeria(*carro);
         printf("Dados recuperados com sucesso\n");
     }
