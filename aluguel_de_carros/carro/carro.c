@@ -247,7 +247,6 @@ Carro *carro_ordena(Carro *carro, char *modelo)
 		ref = carro_aux;		        /* "ref" aponta para o valor atual de "P" */
 		carro_aux = carro_aux->prox_carro;	    /* "carro_aux" passa a apontar para o próximo valor */
 	}
-    // printf("oi\n");
 	
 	return ref; /* retorna o endereço de referência para o novo cadastro */
 }

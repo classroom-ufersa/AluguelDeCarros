@@ -20,7 +20,6 @@ Aluguel *aluguel_cria(Aluguel* aluguel, Carro* carro, char *data, int duracao, i
     if (novo_aluguel == NULL)
     {
         alert(-12);
-        // printf("\nNao foi possivel criar o registro de aluguel\n");
         return NULL;
     }
 

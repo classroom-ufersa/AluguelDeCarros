@@ -698,7 +698,6 @@ int cliente_consulta(Cliente *cli, Cliente *consultado)
 
 Cliente *cliente_atualiza_aluguel(Cliente *cli, char *data_hoje)
 {
-    printf(":x");
     Cliente *cliente_aux;
     Aluguel *aluguel_aux;
     char *data_inicio, *data_final;
@@ -790,7 +789,6 @@ void cliente_atualiza_historico(int tag, Cliente *cli)
         fprintf(hist, "\n===== HISTORICO DE ALUGUEL =====");
         Aluguel *aluguel_aux = cli->ultimo_aluguel;
         aluguel_atualiza_historico(aluguel_aux, hist);  
-        // printf("oi\n"); delay(1000);
     }
 
     fclose(hist);
