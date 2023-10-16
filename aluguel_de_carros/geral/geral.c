@@ -1006,7 +1006,7 @@ void registro_leia(Cliente **cli, Carro **carro)
 
     if(*cli != NULL)
     {
-        *cli = clientee_atualiza_aluguel(*cli, data_hoje);
+        *cli = cliente_atualiza_aluguel(*cli, data_hoje);
         carro_atualiza_galeria(*carro);
         printf("Dados recuperados com sucesso\n");
     }
