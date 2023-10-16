@@ -1,14 +1,22 @@
-### **Resumo**
+# **Sistema de Aluguel de Carro**
 
-O projeto trata-se de um sistema para gerenciamento de aluguéis de carros, fazendo o uso dos assuntos respectivos às três unidades ministradas, em sala de aula.
+## **Introdução**
+Um sistema de aluguel de carros é desenvolvido para facilitar a gestão dos processos necessários para a locação de carros por um período de tempo, bem como no manuseio das informações de carros e clientes cadastrados no sistema. Isso traz maior eficiência ao sistema e aprimora a experiência do aluguel, tanto para o cliente quanto para empresa.
 
-### **Descrição**
+## **Problemática**
+O projeto trata-se de um sistema para gerenciamento de aluguéis de carros, feito em linguagem C. Este sistema tem como objetivo auxiliar locadoras de veículos na manipulação de funções como adicionar, excluir, buscar e editar clientes, listar, consultar carros e entre outras funções essenciais para este sistema.
+
+## **Descrição**
 
 O sistema de gerenciamento conta com três TADs e um módulo. Sendo estas para o carro, aluguel e cliente, e no módulo estão contidos as funções gerais. 
 
 O sistema foi criado para ser capaz de adicionar um cliente ou veículo, alugar e fazer a verificação dos veículos disponíveis, ou seja, contará com a listagem dos carros, bem como dos clientes. Além disso, permitirá a busca dentro dos dados existentes, permitindo a edição, mas este último apenas no menu Cliente. Entre outras funções dispostas em ambos os menus, como consultar, remover e exibir histórico. 
 
-Além disso, o projeto faz uso de listas duplamente encadeadas, que permitem a possibilidade de percorrer a lista nos dois sentidos, tanto do início para o fim, como do fim para o início. 
+
+
+## **Listas Duplamente Encadeadas**
+
+Nesse projeto, o sistema de aluguel foi estruturado a partir do uso de listas duplamente encadeadas, que permitem a possibilidade de percorrer a lista nos dois sentidos, tanto do início para o fim, como do fim para o início.
 
 ### **Vantagens**
 
@@ -21,6 +29,8 @@ As maiores vantagens apresentadas pelo uso de Listas duplamente encadeadas é:
 </p>
 
 - Flexibilidade.
+  
+- Inserção e remoção eficiente em comparação à estruturas de dados como vetores.
 
 ### **Desvantagens**
 
@@ -29,10 +39,12 @@ As maiores desvantagens apresentadas pelo seu uso é:
 - Consome mais memória;
 
 - Complexidade de implementação;
+  
+- Acesso sequencial.
 
 
 
-### **Funções em Cliente** 
+## **Funções em Cliente** 
 
 ### Função cliente_cadastra
 
@@ -58,6 +70,14 @@ void cliente_libera(Cliente *cli);
 Cliente *cliente_exclui(Cliente *cli, char *dado);
 ```
 
+### Função cliente_edita
+
+- **Descrição:** Abre a sessão de edição, para modificar os dados do cliente.
+
+```c
+void cliente_edita(Cliente *cli);
+```
+
 ### Função cliente_consulta
 
 - **Descrição:** Verifica os detalhes de registro do cliente.
@@ -65,6 +85,7 @@ Cliente *cliente_exclui(Cliente *cli, char *dado);
 ```c
 int cliente_consulta(Cliente *cli, Cliente *consultado);
 ```
+
 ### Função cliente_aluga
 
 - **Descrição:** Inicia o processo de aluguel de carro.
@@ -79,6 +100,14 @@ void cliente_aluga(Cliente *cli, char *doc, Carro* carro, char *data_hoje);
 
 ```c
 Cliente *cliente_lista(Cliente *cli);
+```
+
+### Função cliente_total 
+
+- **Descrição:** Calcula o total de clientes cadastrados.
+
+```c
+int cliente_total(Cliente *cli);
 ```
 
 ### Função cliente_filtra_busca
@@ -96,22 +125,6 @@ Cliente *cliente_filtra_busca(Cliente *cli, char* dado_busca);
 
 ```c
 Cliente *cliente_ordena(Cliente *cli, char *nome);
-```
-
-### Função cliente_edita
-
-- **Descrição:** Abre a sessão de edição, para modificar os dados do cliente.
-
-```c
-void cliente_edita(Cliente *cli);
-```
-
-### Função cliente_total 
-
-- **Descrição:** Calcula o total de clientes cadastrados.
-
-```c
-int cliente_total(Cliente *cli);
 ```
 
 ### Função cliente_cria_historico
@@ -147,7 +160,7 @@ void cliente_apaga_historico(Cliente *cli);
 ```
 
 
-### **Funções em Carro** 
+## **Funções em Carro** 
 
 ### Função carro_cadastra
 
@@ -239,7 +252,7 @@ void carro_atualiza_galeria(Carro *carro);
 
 
 
-### **Funções em Aluguel** 
+## **Funções em Aluguel** 
 
 ### Função aluguel_cria
 
@@ -265,9 +278,7 @@ void aluguel_libera(Aluguel *aluguel);
 Aluguel *aluguel_ordena(Aluguel *aluguel, char *data_inicio);
 ```
 
-
-
-### **Funções Gerais** 
+## **Funções Gerais** 
 
 ### Função delay
 
