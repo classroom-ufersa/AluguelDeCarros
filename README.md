@@ -323,3 +323,15 @@ void registro(Cliente *cli);
 ```c
 void registro_leia(Cliente **cli, Carro **carro);
 ```
+
+### Funções de alerta
+
+- **Descrição:** Responsável por emitir notificações de alerta durante a execução do sistema.
+
+```c
+void alert(int cod);
+```
+
+```c
+void alert_msg(void);
+```

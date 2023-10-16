@@ -676,7 +676,6 @@ int teste_formato(char *str)
     }
     if (negativo == 1)
     {
-        // printf("oi\n");
         return -1;          /* é número negativo */
     }
 
@@ -997,7 +996,6 @@ void registro_leia(Cliente **cli, Carro **carro)
         // printf("Dados registro:\n");
         while (!feof(fl))
         {   
-            // printf("oi\n"); delay(500);
             fscanf(fl, "%[^\t]\t%[^\t]\t%[^\n]\n", nome, doc, status);
             *cli = cliente_recupera_historico(*cli, *carro, doc);
         }
@@ -1008,7 +1006,7 @@ void registro_leia(Cliente **cli, Carro **carro)
 
     if(*cli != NULL)
     {
-        *cli = cliente_atualiza_aluguel(*cli, data_hoje);
+        *cli = clientee_atualiza_aluguel(*cli, data_hoje);
         carro_atualiza_galeria(*carro);
         printf("Dados recuperados com sucesso\n");
     }
