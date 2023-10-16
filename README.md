@@ -52,7 +52,7 @@ void cliente_libera(Cliente *cli);
 
 ### Função cliente_exclui
 
-- **Descrição:** Exclui o cadastro do cliente.
+- **Descrição:** Exclui o cadastro e dados de registro de um cliente.
 
 ```c
 Cliente *cliente_exclui(Cliente *cli, char *dado);
@@ -81,7 +81,7 @@ void cliente_aluga(Cliente *cli, char *doc, Carro* carro, char *data_hoje);
 Cliente *cliente_lista(Cliente *cli);
 ```
 
-### Função cliente_busca_filtro
+### Função cliente_filtra_busca
 
 - **Descrição:** A partir de um dado de busca, retorna lista de elementos que o contenham parcialmente ou por completo.
 
@@ -91,8 +91,8 @@ Cliente *cliente_filtra_busca(Cliente *cli, char* dado_busca);
 
 ### Função cliente_ordena
 
-- **Descrição:** Retorna a posição ordenada de um novo cliente,
-    na ordem alfabética.
+- **Descrição:** Retorna a posição da lista para um novo cliente,
+    ordenando de forma alfabética.
 
 ```c
 Cliente *cliente_ordena(Cliente *cli, char *nome);
@@ -100,7 +100,7 @@ Cliente *cliente_ordena(Cliente *cli, char *nome);
 
 ### Função cliente_edita
 
-- **Descrição:** Abre a sessão de edição, para modificar.
+- **Descrição:** Abre a sessão de edição, para modificar os dados do cliente.
 
 ```c
 void cliente_edita(Cliente *cli);
@@ -116,7 +116,7 @@ int cliente_total(Cliente *cli);
 
 ### Função cliente_cria_historico
 
-- **Descrição:** Cria um arquivo de histórico para o cliente.
+- **Descrição:** Cria um arquivo de histórico para o cliente, contendo dados pessoais e alugueis realizados.
 
 ```c
 void cliente_cria_historico(Cliente *cli, char *doc);
@@ -124,7 +124,7 @@ void cliente_cria_historico(Cliente *cli, char *doc);
 
 ### Função cliente_atualiza_historico
 
-- **Descrição:**  Atualiza as informações do cliente no histórico.
+- **Descrição:**  Atualiza as informações do histórico do cliente.
 
 ```c
 void cliente_atualiza_historico(int tag, Cliente *cli);
@@ -132,7 +132,7 @@ void cliente_atualiza_historico(int tag, Cliente *cli);
 
 ### Função cliente_recupera_historico
 
-- **Descrição:** Recarrega a lista de clientes no início da execução do programa.
+- **Descrição:** Recupera os dados de cada cliente, recarregando a lista de clientes no início da execução do programa.
 
 ```c
 Cliente *cliente_recupera_historico(Cliente *cli, Carro *carro, char *doc);
@@ -165,9 +165,17 @@ Carro *carro_cadastra(Carro *carro, char *modelo, char *placa, float preco, int 
 void carro_libera(Carro *carro);
 ```
 
+### Função carro_exclui
+
+- **Descrição:** Retira o carro do sistema e libera o espaço da mémoria onde ele estava alocado.
+
+```c
+void carro_exclui(Carro *carro, Carro *carro_consultado);
+```
+
 ### Função carro_lista
 
-- **Descrição:** Lista os carros.
+- **Descrição:** Lista os carros dentro do sistema.
 
 ```c
 Carro *carro_lista(Carro *carro);
@@ -175,7 +183,7 @@ Carro *carro_lista(Carro *carro);
 
 ### Função carro_ordena
 
-- **Descrição:** Ordena os carros em ordem alfabética.
+- **Descrição:** Ordena os carros, a partir do nome do modelo, em ordem alfabética.
 
 ```c
 Carro *carro_ordena(Carro *carro, char *modelo);
@@ -183,7 +191,7 @@ Carro *carro_ordena(Carro *carro, char *modelo);
 
 ### Função carro_leia
 
-- **Descrição:** Função que lê os dados dos carros que estão em um arquivo .txt e os aloca na struct.
+- **Descrição:** Função que lê os dados dos carros que estão em um arquivo.txt e os aloca na struct.
 
 ```c
 Carro *carro_leia(Carro *carro);
@@ -197,14 +205,6 @@ Carro *carro_leia(Carro *carro);
 void carro_edita(Carro  *carro, Carro *carro_consultado);
 ```
 
-### Função carro_exclui
-
-- **Descrição:** Retira o carro do sistema e libera o espaço da mémoria onde ele estava alocado.
-
-```c
-void carro_exclui(Carro *carro, Carro *carro_consultado);
-```
-
 ### Função carro_consulta
 
 - **Descrição:** Abre um menu exclusivo para um carro específico que foi selecionado pelo usuário. 
@@ -213,12 +213,12 @@ void carro_exclui(Carro *carro, Carro *carro_consultado);
 int carro_consulta(Carro *carro, Carro *carro_consultado);
 ```
 
-### Função carro_disponivel
+### Função carro_consulta_disponivel
 
 - **Descrição:** Consulta os carros disponíveis.
 
 ```c
-void carro_disponivel(Carro *carro);
+int carro_consulta_disponivel(Carro *carro);
 ```
 
 ### Função carro_busca
@@ -268,6 +268,14 @@ Aluguel *aluguel_ordena(Aluguel *aluguel, char *data_inicio);
 
 
 ### **Funções Gerais** 
+
+### Função delay
+
+- **Descrição:** Gera um atraso, em milissegundos, na resposta do programa.
+
+```c
+void delay(double milissegundos);
+```
 
 ### Função clear
 

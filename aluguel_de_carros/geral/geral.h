@@ -103,6 +103,11 @@ char *passa_tempo(char *data);
 */
 char *string_upper(char *str);
 
+/* Função string_copy
+
+*/
+void string_copy(char *dest, char *src);
+
 /* Função alert
     Modifica o código de erro atual do sistema.
 */
